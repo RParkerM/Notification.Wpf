@@ -477,23 +477,6 @@ namespace Notification.Wpf.Sample
 
         #endregion
 
-        #region AreaMinHeight : double - 
-
-        /// <summary></summary>
-        public static readonly DependencyProperty AreaMinHeightProperty =
-            DependencyProperty.Register(
-                nameof(AreaMinHeight),
-                typeof(double),
-                typeof(MainWindow),
-                new PropertyMetadata(40D, (_, Args) =>
-                {
-                    NotificationConstants.MinHeight = (double)Args.NewValue;
-                }));
-
-        /// <summary></summary>
-        public double AreaMinHeight { get => (double)GetValue(AreaMinHeightProperty); set => SetValue(AreaMinHeightProperty, value); }
-
-        #endregion
         private int IconSelectedIndex => (int)(SelectedIcon ?? new SvgAwesome()).Icon;
 
         private readonly NotificationManager _notificationManager = new();

@@ -299,19 +299,6 @@
                                                 Increment="50"
                                                 ClipValueToMinMax="True"/>
                         </GroupBox>
-                        <GroupBox VerticalAlignment="Top" Header="MinHeight">
-                            <xctk:DoubleUpDown  Value="{Binding AreaMinHeight, RelativeSource={RelativeSource AncestorType={x:Type Window}},
-                                ValidatesOnDataErrors=False,
-                                NotifyOnValidationError=True,
-                                ValidatesOnNotifyDataErrors=False,
-                                UpdateSourceTrigger=PropertyChanged}"
-                                                Width="90" VerticalAlignment="Center"
-                                                UpdateValueOnEnterKey="True"  
-                                                Minimum="0"
-                                                Maximum="2000"
-                                                Increment="50"
-                                                ClipValueToMinMax="True"/>
-                        </GroupBox>
 
                     </StackPanel>
                 </StackPanel>

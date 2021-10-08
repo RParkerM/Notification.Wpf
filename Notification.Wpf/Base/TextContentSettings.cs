@@ -30,6 +30,8 @@ namespace Notification.Wpf.Base
 
         /// <inheritdoc />
         public FontWeight FontWeight { get; set; } = FontWeights.Normal;
+        /// <inheritdoc />
+        public double Opacity { get; set; } = 1;
 
         #endregion
     }

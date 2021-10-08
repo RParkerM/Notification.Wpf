@@ -143,6 +143,7 @@
                                         <Setter Property="VerticalAlignment" Value="{Binding TitleTextSettings.VerticalTextAlignment}"/>
                                         <Setter Property="FontStyle" Value="{Binding TitleTextSettings.FontStyle}"/>
                                         <Setter Property="FontWeight" Value="{Binding TitleTextSettings.FontWeight}"/>
+                                        <Setter Property="Opacity" Value="{Binding TitleTextSettings.Opacity}"/>
                                     </MultiDataTrigger>
                                     <DataTrigger Binding="{Binding TitleWhenCollapsed}" Value="false">
                                         <Setter Property="Text" Value="{Binding Message, UpdateSourceTrigger=PropertyChanged}"/>
@@ -159,6 +160,7 @@
                                         <Setter Property="VerticalAlignment" Value="{Binding MessageTextSettings.VerticalTextAlignment}"/>
                                         <Setter Property="FontStyle" Value="{Binding MessageTextSettings.FontStyle}"/>
                                         <Setter Property="FontWeight" Value="{Binding MessageTextSettings.FontWeight}"/>
+                                        <Setter Property="Opacity" Value="{Binding MessageTextSettings.Opacity}"/>
                                     </MultiDataTrigger>
 
                                 </Style.Triggers>
@@ -187,6 +189,7 @@
                                     <Setter Property="VerticalAlignment" Value="{Binding MessageTextSettings.VerticalTextAlignment}"/>
                                     <Setter Property="FontStyle" Value="{Binding MessageTextSettings.FontStyle}"/>
                                     <Setter Property="FontWeight" Value="{Binding MessageTextSettings.FontWeight}"/>
+                                    <Setter Property="Opacity" Value="{Binding MessageTextSettings.Opacity}"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -210,6 +213,7 @@
                                         <Setter Property="VerticalAlignment" Value="{Binding MessageTextSettings.VerticalTextAlignment}"/>
                                         <Setter Property="FontStyle" Value="{Binding MessageTextSettings.FontStyle}"/>
                                         <Setter Property="FontWeight" Value="{Binding MessageTextSettings.FontWeight}"/>
+                                        <Setter Property="Opacity" Value="{Binding MessageTextSettings.Opacity}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>

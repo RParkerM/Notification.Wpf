@@ -89,7 +89,6 @@
                             Minimum="0"
                             Maximum="1"
                             Increment=".2"
-                            ClipValueToMinMax="True"
-        />
+                            ClipValueToMinMax="True"/>
     </Grid>
 </UserControl>

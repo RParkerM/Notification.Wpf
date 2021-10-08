@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Notification.Wpf.Constants;
 using Notification.Wpf.View;
 using Notifications.Wpf.ViewModels;
 
@@ -72,11 +73,7 @@ namespace Notification.Wpf.Controls
         public async void Show(object content, TimeSpan expirationTime, Action onClick, Action onClose, bool CloseOnClick, bool ShowXbtn)
 #endif
         {
-            var notification = new Notification
-            {
-                Content = content,
-                XbtnVisibility = ShowXbtn ? Visibility.Visible : Visibility.Collapsed
-            };
+            var notification = new Notification(content, ShowXbtn);
 
             notification.MouseLeftButtonDown += (sender, _) =>
             {
@@ -103,16 +100,15 @@ namespace Notification.Wpf.Controls
         /// Отображает окно прогресса
         /// </summary>
         /// <param name="model">модель прогресс бара</param>
+        /// <param name="ShowXbtn">need to show X close button</param>
         public async void Show(object model, bool ShowXbtn)
         {
             var progress = (NotificationProgressViewModel)model;
+
             var content = new NotificationProgress { DataContext = progress };
             content.Cancel.Click += progress.CancelProgress;
-            var notification = new Notification
-            {
-                Content = content,
-                XbtnVisibility = ShowXbtn ? Visibility.Visible : Visibility.Collapsed
-            };
+
+            var notification = new Notification(content, ShowXbtn);
             notification.NotificationClosed += progress.CancelProgress;
             notification.NotificationClosed += OnNotificationClosed;
             progress.NotifierProgress.SetArea(notification);

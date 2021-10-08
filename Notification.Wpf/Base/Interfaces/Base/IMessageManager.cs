@@ -69,7 +69,7 @@ namespace Notification.Wpf.Base.Interfaces.Base
             string areaName = "",
             TimeSpan? expirationTime = null,
             NotificationTextTrimType trim = NotificationTextTrimType.NoTrim,
-            uint RowsCountWhenTrim = 2,
+            uint RowsCountWhenTrim = 1,
             bool CloseOnClick = true,
             TextContentSettings MessageSettings = null,
             bool ShowXbtn = true,

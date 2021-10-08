@@ -209,7 +209,7 @@
                                     <DataTrigger Binding="{Binding MessageTextSettings, Converter={wpf:IsNull}}" Value="false">
                                         <Setter Property="FontFamily" Value="{Binding MessageTextSettings.FontFamily}"/>
                                         <Setter Property="FontSize" Value="{Binding MessageTextSettings.FontSize}"/>
-                                        <Setter Property="HorizontalAlignment" Value="{Binding MessageTextSettings.HorizontalTextAlignment}"/>
+                                        <Setter Property="HorizontalAlignment" Value="{Binding MessageTextSettings.HorizontalAlignment}"/>
                                         <Setter Property="VerticalAlignment" Value="{Binding MessageTextSettings.VerticalTextAlignment}"/>
                                         <Setter Property="FontStyle" Value="{Binding MessageTextSettings.FontStyle}"/>
                                         <Setter Property="FontWeight" Value="{Binding MessageTextSettings.FontWeight}"/>

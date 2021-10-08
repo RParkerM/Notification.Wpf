@@ -97,7 +97,7 @@ namespace Notification.Wpf
         public void Show(
             string message, NotificationType type = NotificationType.None, 
             string areaName = "", TimeSpan? expirationTime = null,
-            NotificationTextTrimType trim = NotificationTextTrimType.NoTrim, uint RowsCountWhenTrim = 2,
+            NotificationTextTrimType trim = NotificationTextTrimType.NoTrim, uint RowsCountWhenTrim = 1,
             bool CloseOnClick = true,
             TextContentSettings MessageSettings = null,
             bool ShowXbtn = true,

@@ -440,6 +440,60 @@ namespace Notification.Wpf.Sample
         public bool ShowXBtn { get => (bool)GetValue(ShowXBtnProperty); set => SetValue(ShowXBtnProperty, value); }
 
         #endregion
+
+        #region AreaMaxWidth : double - 
+
+        /// <summary></summary>
+        public static readonly DependencyProperty AreaMaxWidthProperty =
+            DependencyProperty.Register(
+                nameof(AreaMaxWidth),
+                typeof(double),
+                typeof(MainWindow),
+                new PropertyMetadata(350D, (_, Args) =>
+                {
+                    NotificationConstants.MaxWidth = (double)Args.NewValue;
+                }));
+
+        /// <summary></summary>
+        public double AreaMaxWidth { get => (double)GetValue(AreaMaxWidthProperty); set => SetValue(AreaMaxWidthProperty, value); }
+
+        #endregion
+
+        #region AreaMinWidth : double - 
+
+        /// <summary></summary>
+        public static readonly DependencyProperty AreaMinWidthProperty =
+            DependencyProperty.Register(
+                nameof(AreaMinWidth),
+                typeof(double),
+                typeof(MainWindow),
+                new PropertyMetadata(350D, (_, Args) =>
+                {
+                    NotificationConstants.MinWidth = (double)Args.NewValue;
+                }));
+
+        /// <summary></summary>
+        public double AreaMinWidth { get => (double)GetValue(AreaMinWidthProperty); set => SetValue(AreaMinWidthProperty, value); }
+
+        #endregion
+
+        #region AreaMinHeight : double - 
+
+        /// <summary></summary>
+        public static readonly DependencyProperty AreaMinHeightProperty =
+            DependencyProperty.Register(
+                nameof(AreaMinHeight),
+                typeof(double),
+                typeof(MainWindow),
+                new PropertyMetadata(40D, (_, Args) =>
+                {
+                    NotificationConstants.MinHeight = (double)Args.NewValue;
+                }));
+
+        /// <summary></summary>
+        public double AreaMinHeight { get => (double)GetValue(AreaMinHeightProperty); set => SetValue(AreaMinHeightProperty, value); }
+
+        #endregion
         private int IconSelectedIndex => (int)(SelectedIcon ?? new SvgAwesome()).Icon;
 
         private readonly NotificationManager _notificationManager = new();

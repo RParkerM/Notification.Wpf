@@ -23,6 +23,8 @@ namespace Notification.Wpf.Sample
 {
     public partial class MainWindow
     {
+        #region Message settings
+
         #region Overlay window
 
         #region CollapseProgressIfMoreRows : bool - progress collapse auto
@@ -220,7 +222,6 @@ namespace Notification.Wpf.Sample
         }
 
         #endregion
-
 
         #region CloseOnClick : bool - Закрыть окно при клике
 
@@ -477,24 +478,7 @@ namespace Notification.Wpf.Sample
 
         #endregion
 
-        #region AreaMinHeight : double - 
-
-        /// <summary></summary>
-        public static readonly DependencyProperty AreaMinHeightProperty =
-            DependencyProperty.Register(
-                nameof(AreaMinHeight),
-                typeof(double),
-                typeof(MainWindow),
-                new PropertyMetadata(40D, (_, Args) =>
-                {
-                    NotificationConstants.MinHeight = (double)Args.NewValue;
-                }));
-
-        /// <summary></summary>
-        public double AreaMinHeight { get => (double)GetValue(AreaMinHeightProperty); set => SetValue(AreaMinHeightProperty, value); }
-
         #endregion
-        private int IconSelectedIndex => (int)(SelectedIcon ?? new SvgAwesome()).Icon;
 
         private readonly NotificationManager _notificationManager = new();
 
@@ -524,20 +508,6 @@ namespace Notification.Wpf.Sample
             else Timer.Stop();
         }
 
-        private object GetIcon()
-        {
-            var type = SelectedNotificationType;
-            var isNone = type == NotificationType.None;
-            object icon = ImageAsIcon ? Image :
-                isNone ? IconSelectedIndex == 0 ? null : new SvgAwesome()
-                {
-                    Icon = (EFontAwesomeIcon)(int)(SelectedIcon ?? new SvgAwesome()).Icon,
-                    Height = 25,
-                    Foreground = IconForeground
-                } :
-                null;
-            return icon;
-        }
         private void TestMessage(object sender, RoutedEventArgs e)
         {
             var type = SelectedNotificationType;
@@ -595,56 +565,13 @@ namespace Notification.Wpf.Sample
                 expirationTime: UseExpirationTime ? TimeSpan.FromSeconds(ExpirationTime) : TimeSpan.MaxValue,
                 onClick: CloseOnClick ? () =>
                     _notificationManager.Show(clickContent, ShowXbtn: ShowXBtn,
-                        onClick: () => _notificationManager.Show(
-                            "Again click",
-                            NotificationType.None,
-                            GetArea(),
-                            TimeSpan.FromSeconds(ExpirationTime),
-                            SelectedTrimType,
-                            RowCount,
-                            CloseOnClick,
-                            GetSettings(false),
-                            ShowXBtn,
-                            GetIcon()
-                            ))
+                        onClick: () => _notificationManager.Show(Image))
                     : null,
                 ShowXbtn: ShowXBtn);
         }
 
-        private void CustomizeMessage(ICustomizedNotification content)
-        {
-            content.TitleTextSettings = GetSettings(true);
-
-            content.MessageTextSettings = GetSettings(false);
-
-        }
-
-        private TextContentSettings GetSettings(TextSettingViewModel model) => model is null ? null :
-            new()
-            {
-                FontStyle = model.FontStyleSample,
-                FontFamily = model.FontFamilySample,
-                FontSize = model.FontSizeSample,
-                FontWeight = model.FontWeightSample,
-                TextAlignment = model.TextAlign,
-                HorizontalAlignment = model.HorAlign,
-                VerticalTextAlignment = model.VerAlign,
-                Opacity = model.OpacitySample,
-            };
-
-        private TextContentSettings GetSettings(bool forTitle)
-        {
-            return forTitle switch
-            {
-                true when UseTitleSettings && TitleSettings.DataContext is TextSettingViewModel title => GetSettings(title),
-                false when UseMessageSettings && MessageSettings.DataContext is TextSettingViewModel message => GetSettings(message),
-                _ => null
-            };
-        }
-
         private async void Progress_Click(object sender, RoutedEventArgs e)
         {
-            var iconN = SelectedIcon is null ? 0 : (int)SelectedIcon.Icon;
             var title = "Прогресс бар";
             var ShowX = ShowXBtn;
             //#region First sample
@@ -677,7 +604,7 @@ namespace Notification.Wpf.Sample
                 Background = ContentBackground,
                 Foreground = ContentForeground,
                 TrimType = SelectedTrimType,
-                Icon = GetIcon(),
+                Icon = GetIcon(true),
                 RowsCount = RowCount,
                 //TitleTextSettings = new TextContentSettings()
                 //    {
@@ -880,47 +807,11 @@ namespace Notification.Wpf.Sample
             ProgressColor = new SolidColorBrush(color);
         }
 
-        #region Icons : IEnumerabSvgAwesome> - Icons
-
-        /// <summary>Icons</summary>
-        public static readonly DependencyProperty IconsProperty =
-            DependencyProperty.Register(
-                nameof(Icons),
-                typeof(IEnumerable<SvgAwesome>),
-                typeof(MainWindow),
-                new PropertyMetadata(default(IEnumerable<SvgAwesome>)));
-
-        /// <summary>Icons</summary>
-        public IEnumerable<SvgAwesome> Icons { get => (IEnumerable<SvgAwesome>)GetValue(IconsProperty); set => SetValue(IconsProperty, value); }
-
-        private static IEnumerable<SvgAwesome> GetIcons() => Enum.GetValues<EFontAwesomeIcon>().Select(s => new SvgAwesome() { Icon = s, Height = 20 });
 
         #endregion
 
-        #region SelectedIcon : SvgAwesome - выбранная иконка
+        #region Image section
 
-        /// <summary>выбранная иконка</summary>
-        public static readonly DependencyProperty SelectedIconProperty =
-            DependencyProperty.Register(
-                nameof(SelectedIcon),
-                typeof(SvgAwesome),
-                typeof(MainWindow),
-                new PropertyMetadata(default(SvgAwesome)));
-
-        /// <summary>выбранная иконка</summary>
-        public SvgAwesome SelectedIcon { get => (SvgAwesome)GetValue(SelectedIconProperty); set => SetValue(SelectedIconProperty, value); }
-
-        #endregion
-
-        #endregion
-
-        private void NumericUpDownControl_OnValueChanged(object Sender, RoutedEventArgs E)
-        {
-            if (Sender is not NumericUpDownControl num)
-                return;
-            var value = num.Value;
-            NotificationConstants.NotificationsOverlayWindowMaxCount = (uint)value;
-        }
 
         private void OpenImage_Click(object Sender, RoutedEventArgs E)
         {
@@ -1005,6 +896,119 @@ namespace Notification.Wpf.Sample
                 //NotificationConstants.MessagePosition = value;
             }
         }
+
+        #endregion
+
+        #endregion
+
+        #region Icon section
+        private int IconSelectedIndex => (int)(SelectedIcon ?? new SvgAwesome()).Icon;
+
+        private object GetIcon(bool isProgress = false)
+        {
+            var type = SelectedNotificationType;
+            var isNone = type == NotificationType.None || isProgress;
+            var selected_icon = (EFontAwesomeIcon)(int)(SelectedIcon ?? new SvgAwesome()).Icon;
+
+            if(ImageAsIcon)
+                return Image;
+                    
+            if(isNone && IconSelectedIndex == 0)
+                return null;
+
+            if(IconSelectedIndex == 806)
+                return new SvgAwesome()
+                            {
+                                Icon = selected_icon,
+                                Height = 25,
+                                Foreground = IconForeground,
+                                Spin = true, SpinDuration = 1
+                            };
+            return new SvgAwesome()
+            {
+                Icon = selected_icon,
+                Height = 25,
+                Foreground = IconForeground
+            };
+        }
+
+        #region Icons : IEnumerabSvgAwesome> - Icons
+
+        /// <summary>Icons</summary>
+        public static readonly DependencyProperty IconsProperty =
+            DependencyProperty.Register(
+                nameof(Icons),
+                typeof(IEnumerable<SvgAwesome>),
+                typeof(MainWindow),
+                new PropertyMetadata(default(IEnumerable<SvgAwesome>)));
+
+        /// <summary>Icons</summary>
+        public IEnumerable<SvgAwesome> Icons { get => (IEnumerable<SvgAwesome>)GetValue(IconsProperty); set => SetValue(IconsProperty, value); }
+
+        private static IEnumerable<SvgAwesome> GetIcons()
+        {
+            var icons = Enum.GetValues<EFontAwesomeIcon>().Select(s => new SvgAwesome() { Icon = s, Height = 20 });
+            var progress_icon = NotificationConstants.DefaultProgressIcon;
+            progress_icon.Foreground = Brushes.Black;
+
+            var result = new List<SvgAwesome>(new[] { icons.First(), progress_icon });
+            result.AddRange(icons.Skip(1));
+            return result;
+        }
+
+        #endregion
+
+        #region SelectedIcon : SvgAwesome - выбранная иконка
+
+        /// <summary>выбранная иконка</summary>
+        public static readonly DependencyProperty SelectedIconProperty =
+            DependencyProperty.Register(
+                nameof(SelectedIcon),
+                typeof(SvgAwesome),
+                typeof(MainWindow),
+                new PropertyMetadata(default(SvgAwesome)));
+
+        /// <summary>выбранная иконка</summary>
+        public SvgAwesome SelectedIcon { get => (SvgAwesome)GetValue(SelectedIconProperty); set => SetValue(SelectedIconProperty, value); }
+
+        #endregion
+
+        #endregion
+
+        #region Text Settings section
+
+        private void CustomizeMessage(ICustomizedNotification content)
+        {
+            content.TitleTextSettings = GetSettings(true);
+
+            content.MessageTextSettings = GetSettings(false);
+
+        }
+
+        private static TextContentSettings GetSettings(TextSettingViewModel model) => model is null ? null :
+            new()
+            {
+                FontStyle = model.FontStyleSample,
+                FontFamily = model.FontFamilySample,
+                FontSize = model.FontSizeSample,
+                FontWeight = model.FontWeightSample,
+                TextAlignment = model.TextAlign,
+                HorizontalAlignment = model.HorAlign,
+                VerticalTextAlignment = model.VerAlign,
+                Opacity = model.OpacitySample,
+            };
+
+        private TextContentSettings GetSettings(bool forTitle)
+        {
+            return forTitle switch
+            {
+                true when UseTitleSettings && TitleSettings.DataContext is TextSettingViewModel title => GetSettings(title),
+                false when UseMessageSettings && MessageSettings.DataContext is TextSettingViewModel message => GetSettings(message),
+                _ => null
+            };
+        }
+
+
 
         #endregion
     }

@@ -157,6 +157,12 @@
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding}"/>
                 </Border>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type ImageSource}" x:Key="DefaultImageSourceTemplate">
+                <Border
+                    Background="{Binding RelativeSource={RelativeSource AncestorType=controls:Notification}, Path=Background}">
+                    <Image Source="{Binding}"/>
+                </Border>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type wpf:NotificationContent}" x:Key="DefaultNotificationTemplate">
                 <Border x:Name="Border" Padding="12">
                     <Grid>

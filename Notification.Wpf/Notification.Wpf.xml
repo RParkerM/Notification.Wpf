@@ -519,12 +519,6 @@
         <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaultProgressButtonContent">
             <summary> Cancel button content </summary>
         </member>
-        <member name="F:Notification.Wpf.Controls.Notification.XbtnVisibilityProperty">
-            <summary>X Button visibility</summary>
-        </member>
-        <member name="P:Notification.Wpf.Controls.Notification.XbtnVisibility">
-            <summary>X Button visibility</summary>
-        </member>
         <member name="F:Notification.Wpf.Controls.NotificationArea.CollapseProgressAutoProperty">
             <summary>Progress bar will automatically collapsed if items count more that max items</summary>
         </member>
@@ -536,6 +530,7 @@
             Отображает окно прогресса
             </summary>
             <param name="model">модель прогресс бара</param>
+            <param name="ShowXbtn">need to show X close button</param>
         </member>
         <member name="M:Notification.Wpf.Controls.NotificationArea.OnShowContent(Notification.Wpf.Controls.Notification,System.Nullable{System.TimeSpan})">
             <summary>
@@ -544,6 +539,12 @@
             <param name="notification">уведомление</param>
             <param name="expirationTime">время отображения</param>
             <returns></returns>
+        </member>
+        <member name="F:Notification.Wpf.Controls.Notification.XbtnVisibilityProperty">
+            <summary>X Button visibility</summary>
+        </member>
+        <member name="P:Notification.Wpf.Controls.Notification.XbtnVisibility">
+            <summary>X Button visibility</summary>
         </member>
         <member name="T:Notification.Wpf.Combine">
             <summary>Конвертер, последовательно комбинирующий действия двух других конвертеров</summary>

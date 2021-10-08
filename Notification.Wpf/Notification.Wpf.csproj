@@ -4,7 +4,7 @@
     <TargetFrameworks>net5.0-windows;netcoreapp3.1-windows;net4.6-windows;net4.6.1-windows;net4.7-windows;net4.8-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <LangVersion>latest</LangVersion>
-    <Version>5.6.0</Version>
+    <Version>5.6.1</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Notifications.Wpf.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
@@ -36,6 +36,7 @@
       ImageSource template for icon,
       X-Close button visible setting
       Add Notification Min and Max Setting
+      Add ImageSource template for Notification
     </PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>

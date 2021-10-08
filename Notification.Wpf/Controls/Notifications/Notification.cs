@@ -35,8 +35,6 @@ namespace Notification.Wpf.Controls
 
             MinWidth = max > min ? min : max;
             MaxWidth = max;
-            //if(content is not NotificationProgress)
-            //    MinHeight = NotificationConstants.MinHeight;
         }
         public override void OnApplyTemplate()
         {

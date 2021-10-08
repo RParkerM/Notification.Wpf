@@ -1,5 +1,13 @@
 ### Update list
 
+`v5.6.0`
+* Added overlay window position from constants,
+* ImageSource template for icon,
+* X-Close button visible setting
+* Add Notification Min and Max Setting
+
+`v5.5.0`
+* Added text style settings to content,
 `v5.4.0`
 * Added section for image
 * if icon is null - left column will collapse

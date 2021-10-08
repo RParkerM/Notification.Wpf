@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Notification.Wpf
 {
@@ -7,6 +8,7 @@ namespace Notification.Wpf
     {
         private DataTemplate _defaultStringTemplate;
         private DataTemplate _defaultNotificationTemplate;
+        private DataTemplate _defaultImageSourceTemplate;
 
         private void GetTemplatesFromResources(FrameworkElement container)
         {
@@ -14,6 +16,8 @@ namespace Notification.Wpf
                     container?.FindResource("DefaultStringTemplate") as DataTemplate;
             _defaultNotificationTemplate =
                     container?.FindResource("DefaultNotificationTemplate") as DataTemplate;
+            _defaultImageSourceTemplate =
+                    container?.FindResource("DefaultImageSourceTemplate") as DataTemplate;
         }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
@@ -26,6 +30,7 @@ namespace Notification.Wpf
             return item switch
             {
                 string => _defaultStringTemplate,
+                ImageSource => _defaultImageSourceTemplate,
                 NotificationContent => _defaultNotificationTemplate,
                 _ => base.SelectTemplate(item, container)
             };

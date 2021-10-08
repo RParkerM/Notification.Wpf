@@ -507,10 +507,10 @@ namespace Notification.Wpf.Sample
             else Timer.Stop();
         }
 
-        private object GetIcon()
+        private object GetIcon(bool isProgress = false)
         {
             var type = SelectedNotificationType;
-            var isNone = type == NotificationType.None;
+            var isNone = type == NotificationType.None||isProgress;
             object icon = ImageAsIcon ? Image :
                 isNone ? IconSelectedIndex == 0 ? null : new SvgAwesome()
                 {
@@ -578,18 +578,7 @@ namespace Notification.Wpf.Sample
                 expirationTime: UseExpirationTime ? TimeSpan.FromSeconds(ExpirationTime) : TimeSpan.MaxValue,
                 onClick: CloseOnClick ? () =>
                     _notificationManager.Show(clickContent, ShowXbtn: ShowXBtn,
-                        onClick: () => _notificationManager.Show(
-                            "Again click",
-                            NotificationType.None,
-                            GetArea(),
-                            TimeSpan.FromSeconds(ExpirationTime),
-                            SelectedTrimType,
-                            RowCount,
-                            CloseOnClick,
-                            GetSettings(false),
-                            ShowXBtn,
-                            GetIcon()
-                            ))
+                        onClick: () => _notificationManager.Show(Image))
                     : null,
                 ShowXbtn: ShowXBtn);
         }
@@ -627,7 +616,6 @@ namespace Notification.Wpf.Sample
 
         private async void Progress_Click(object sender, RoutedEventArgs e)
         {
-            var iconN = SelectedIcon is null ? 0 : (int)SelectedIcon.Icon;
             var title = "Прогресс бар";
             var ShowX = ShowXBtn;
             //#region First sample
@@ -660,7 +648,7 @@ namespace Notification.Wpf.Sample
                 Background = ContentBackground,
                 Foreground = ContentForeground,
                 TrimType = SelectedTrimType,
-                Icon = GetIcon(),
+                Icon = GetIcon(true),
                 RowsCount = RowCount,
                 //TitleTextSettings = new TextContentSettings()
                 //    {

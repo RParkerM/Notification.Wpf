@@ -5,7 +5,7 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:sample="clr-namespace:Notification.Wpf.Sample"
              ShutdownMode="OnMainWindowClose"
-             StartupUri="MainWindow.xaml">
+             StartupUri="Views\SampleWindow.xaml">
     <Application.Resources>
 
         <sample:CustomTemplateSelector x:Key="CustomTemplateSelector" />

@@ -103,8 +103,9 @@ namespace Notification.Wpf.Constants
         #endregion
 
         #region Area
-
+        /// <summary> Notification MinWidth (if MaxWidth less than MinWidth = MaxWidth) </summary>
         public static double MinWidth { get; set; } = 350D;
+        /// <summary> Notification MaxWidth</summary>
         public static double MaxWidth { get; set; } = 350D;
 
         #endregion

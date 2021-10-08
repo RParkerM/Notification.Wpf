@@ -440,6 +440,62 @@ namespace Notification.Wpf.Sample
         public bool ShowXBtn { get => (bool)GetValue(ShowXBtnProperty); set => SetValue(ShowXBtnProperty, value); }
 
         #endregion
+
+        #region AreaMaxWidth : double - 
+
+        /// <summary></summary>
+        public static readonly DependencyProperty AreaMaxWidthProperty =
+            DependencyProperty.Register(
+                nameof(AreaMaxWidth),
+                typeof(double),
+                typeof(MainWindow),
+                new PropertyMetadata(350D, (_, Args) =>
+                {
+                    NotificationConstants.MaxWidth = (double)Args.NewValue;
+                }));
+
+        /// <summary></summary>
+        public double AreaMaxWidth { get => (double)GetValue(AreaMaxWidthProperty); set => SetValue(AreaMaxWidthProperty, value); }
+
+        #endregion
+
+        #region AreaMinWidth : double - 
+
+        /// <summary></summary>
+        public static readonly DependencyProperty AreaMinWidthProperty =
+            DependencyProperty.Register(
+                nameof(AreaMinWidth),
+                typeof(double),
+                typeof(MainWindow),
+                new PropertyMetadata(350D, (_, Args) =>
+                {
+                    NotificationConstants.MinWidth = (double)Args.NewValue;
+                }));
+
+        /// <summary></summary>
+        public double AreaMinWidth { get => (double)GetValue(AreaMinWidthProperty); set => SetValue(AreaMinWidthProperty, value); }
+
+        #endregion
+
+        #region AreaMinHeight : double - 
+
+        /// <summary></summary>
+        public static readonly DependencyProperty AreaMinHeightProperty =
+            DependencyProperty.Register(
+                nameof(AreaMinHeight),
+                typeof(double),
+                typeof(MainWindow),
+                new PropertyMetadata(40D, (_, Args) =>
+                {
+                    NotificationConstants.MinHeight = (double)Args.NewValue;
+                }));
+
+        /// <summary></summary>
+        public double AreaMinHeight { get => (double)GetValue(AreaMinHeightProperty); set => SetValue(AreaMinHeightProperty, value); }
+
+        #endregion
+        private int IconSelectedIndex => (int)(SelectedIcon ?? new SvgAwesome()).Icon;
+
         private readonly NotificationManager _notificationManager = new();
 
         Action ButtonClick(string button) => () => _notificationManager.Show($"{button} button click");
@@ -468,10 +524,25 @@ namespace Notification.Wpf.Sample
             else Timer.Stop();
         }
 
+        private object GetIcon()
+        {
+            var type = SelectedNotificationType;
+            var isNone = type == NotificationType.None;
+            object icon = ImageAsIcon ? Image :
+                isNone ? IconSelectedIndex == 0 ? null : new SvgAwesome()
+                {
+                    Icon = (EFontAwesomeIcon)(int)(SelectedIcon ?? new SvgAwesome()).Icon,
+                    Height = 25,
+                    Foreground = IconForeground
+                } :
+                null;
+            return icon;
+        }
         private void TestMessage(object sender, RoutedEventArgs e)
         {
             var type = SelectedNotificationType;
             var isNone = type == NotificationType.None;
+
             var clickContent = new NotificationContent
             {
                 Title = "Clicked!",
@@ -494,13 +565,7 @@ namespace Notification.Wpf.Sample
                 RowsCount = RowCount,
                 TrimType = SelectedTrimType,
                 CloseOnClick = CloseOnClick,
-                Icon = ImageAsIcon ? Image : isNone ? new SvgAwesome()
-                {
-                    Icon = (EFontAwesomeIcon)(int)(SelectedIcon ?? new SvgAwesome()).Icon,
-                    Height = 25,
-                    Foreground = IconForeground
-                } :
-                    null,
+                Icon = GetIcon(),
                 Image = new NotificationImage() { Source = Image, Position = SelectedImgPosition },
                 //TitleTextSettings = new TextContentSettings()
                 //{
@@ -528,35 +593,55 @@ namespace Notification.Wpf.Sample
             _notificationManager.Show(content,
                 areaName: GetArea(),
                 expirationTime: UseExpirationTime ? TimeSpan.FromSeconds(ExpirationTime) : TimeSpan.MaxValue,
-                onClick: CloseOnClick ? () => _notificationManager.Show(clickContent, ShowXbtn: ShowXBtn) : null,
+                onClick: CloseOnClick ? () =>
+                    _notificationManager.Show(clickContent, ShowXbtn: ShowXBtn,
+                        onClick: () => _notificationManager.Show(
+                            "Again click",
+                            NotificationType.None,
+                            GetArea(),
+                            TimeSpan.FromSeconds(ExpirationTime),
+                            SelectedTrimType,
+                            RowCount,
+                            CloseOnClick,
+                            GetSettings(false),
+                            ShowXBtn,
+                            GetIcon()
+                            ))
+                    : null,
                 ShowXbtn: ShowXBtn);
         }
 
         private void CustomizeMessage(ICustomizedNotification content)
         {
-            if (UseTitleSettings)
-            {
-                content.TitleTextSettings.FontStyle = TitleSettings.FontStyle;
-                content.TitleTextSettings.FontFamily = TitleSettings.FontFamily;
-                content.TitleTextSettings.FontSize = TitleSettings.FontSize;
-                content.TitleTextSettings.FontWeight = TitleSettings.FontWeight;
-                content.TitleTextSettings.TextAlignment = TitleSettings.TextAlign;
-                content.TitleTextSettings.HorizontalAlignment = TitleSettings.HorizontalAlignment;
-                content.TitleTextSettings.VerticalTextAlignment = TitleSettings.VerticalAlignment;
-            }
+            content.TitleTextSettings = GetSettings(true);
 
-            if (UseMessageSettings)
-            {
-                content.MessageTextSettings.FontStyle = MessageSettings.FontStyle;
-                content.MessageTextSettings.FontFamily = MessageSettings.FontFamily;
-                content.MessageTextSettings.FontSize = MessageSettings.FontSize;
-                content.MessageTextSettings.FontWeight = MessageSettings.FontWeight;
-                content.MessageTextSettings.TextAlignment = MessageSettings.TextAlign;
-                content.MessageTextSettings.HorizontalAlignment = MessageSettings.HorizontalAlignment;
-                content.MessageTextSettings.VerticalTextAlignment = MessageSettings.VerticalAlignment;
-            }
+            content.MessageTextSettings = GetSettings(false);
 
         }
+
+        private TextContentSettings GetSettings(TextSettingViewModel model) => model is null ? null :
+            new()
+            {
+                FontStyle = model.FontStyleSample,
+                FontFamily = model.FontFamilySample,
+                FontSize = model.FontSizeSample,
+                FontWeight = model.FontWeightSample,
+                TextAlignment = model.TextAlign,
+                HorizontalAlignment = model.HorAlign,
+                VerticalTextAlignment = model.VerAlign,
+                Opacity = model.OpacitySample,
+            };
+
+        private TextContentSettings GetSettings(bool forTitle)
+        {
+            return forTitle switch
+            {
+                true when UseTitleSettings && TitleSettings.DataContext is TextSettingViewModel title => GetSettings(title),
+                false when UseMessageSettings && MessageSettings.DataContext is TextSettingViewModel message => GetSettings(message),
+                _ => null
+            };
+        }
+
         private async void Progress_Click(object sender, RoutedEventArgs e)
         {
             var iconN = SelectedIcon is null ? 0 : (int)SelectedIcon.Icon;
@@ -592,12 +677,7 @@ namespace Notification.Wpf.Sample
                 Background = ContentBackground,
                 Foreground = ContentForeground,
                 TrimType = SelectedTrimType,
-                Icon = ImageAsIcon ? Image : iconN == 0 ? null : new SvgAwesome()
-                {
-                    Icon = (EFontAwesomeIcon)iconN,
-                    Height = 25,
-                    Foreground = IconForeground
-                },
+                Icon = GetIcon(),
                 RowsCount = RowCount,
                 //TitleTextSettings = new TextContentSettings()
                 //    {

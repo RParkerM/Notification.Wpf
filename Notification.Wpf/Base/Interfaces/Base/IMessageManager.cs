@@ -13,7 +13,13 @@ namespace Notification.Wpf.Base.Interfaces.Base
         /// <param name="onClose">what should happen when window closing</param>
         /// <param name="CloseOnClick">close window after clicking</param>
         /// <param name="ShowXbtn">Show X (close) btn</param>
-        void Show(object content, string areaName = "", TimeSpan? expirationTime = null, Action onClick = null, Action onClose = null, bool CloseOnClick = true, bool ShowXbtn = true);
+        void Show(
+            object content,
+            string areaName = "",
+            TimeSpan? expirationTime = null,
+            Action onClick = null, Action onClose = null,
+            bool CloseOnClick = true,
+            bool ShowXbtn = true);
 
         /// <summary> Show message </summary>
         /// <param name="title">window title</param>
@@ -33,12 +39,41 @@ namespace Notification.Wpf.Base.Interfaces.Base
         /// <param name="TitleSettings">Настройки отображения Title</param>
         /// <param name="MessageSettings">Настройки отображения сообщения</param>
         /// <param name="ShowXbtn">Show X (close) btn</param>
-        void Show(string title, string message, NotificationType type, string areaName = "", TimeSpan? expirationTime = null, Action onClick = null,
-            Action onClose = null, Action LeftButton = null, string LeftButtonText = null, Action RightButton = null, string RightButtonText = null,
-            NotificationTextTrimType trim = NotificationTextTrimType.NoTrim,
-            uint RowsCountWhenTrim = 2,
+        /// <param name="icon">Message icon</param>
+        void Show(
+            string title, string message, NotificationType type = NotificationType.None,
+            string areaName = "",
+            TimeSpan? expirationTime = null,
+            Action onClick = null, Action onClose = null,
+            Action LeftButton = null, string LeftButtonText = null,
+            Action RightButton = null, string RightButtonText = null,
+            NotificationTextTrimType trim = NotificationTextTrimType.NoTrim, uint RowsCountWhenTrim = 2,
             bool CloseOnClick = true,
-            TextContentSettings TitleSettings = null, TextContentSettings MessageSettings = null, bool ShowXbtn = true);
-
+            TextContentSettings TitleSettings = null, TextContentSettings MessageSettings = null,
+            bool ShowXbtn = true,
+            object icon = null
+        );
+        /// <summary> Show no titled message  </summary>
+        /// <param name="message">Message in window</param>
+        /// <param name="type">Window type</param>
+        /// <param name="areaName">window are where show notification</param>
+        /// <param name="expirationTime">time after which the window will disappear</param>
+        /// <param name="trim">trim text if it is longer than the number of visible lines</param>
+        /// <param name="RowsCountWhenTrim">Base number of rows when trims</param>
+        /// <param name="CloseOnClick">close window after clicking</param>
+        /// <param name="MessageSettings">Настройки отображения сообщения</param>
+        /// <param name="ShowXbtn">Show X (close) btn</param>
+        /// <param name="icon">Message icon</param>
+        void Show(
+            string message, NotificationType type = NotificationType.None,
+            string areaName = "",
+            TimeSpan? expirationTime = null,
+            NotificationTextTrimType trim = NotificationTextTrimType.NoTrim,
+            uint RowsCountWhenTrim = 1,
+            bool CloseOnClick = true,
+            TextContentSettings MessageSettings = null,
+            bool ShowXbtn = true,
+            object icon = null
+        );
     }
 }

@@ -101,5 +101,12 @@ namespace Notification.Wpf.Constants
         public static object DefaultProgressButtonContent { get; set; } = "Cancel";
 
         #endregion
+
+        #region Area
+
+        public static double MinWidth { get; set; } = 350D;
+        public static double MaxWidth { get; set; } = 350D;
+
+        #endregion
     }
 }

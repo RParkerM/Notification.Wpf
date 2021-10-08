@@ -30,6 +30,9 @@ namespace Notification.Wpf
             _dispatcher = dispatcher;
         }
 
+        #region Messages
+
+
         /// <inheritdoc />
         public void Show(object content, string areaName = "", TimeSpan? expirationTime = null, Action onClick = null,
             Action onClose = null, bool CloseOnClick = true, bool ShowXbtn = true)
@@ -45,7 +48,7 @@ namespace Notification.Wpf
         }
 
         /// <inheritdoc />
-        public void Show(string title, string message, NotificationType type, string areaName = "", TimeSpan? expirationTime = null,
+        public void Show(string title, string message, NotificationType type = NotificationType.None, string areaName = "", TimeSpan? expirationTime = null,
             Action onClick = null,
             Action onClose = null,
             Action LeftButton = null,
@@ -53,7 +56,7 @@ namespace Notification.Wpf
             Action RightButton = null,
             string RightButtonText = null,
             NotificationTextTrimType trim = NotificationTextTrimType.NoTrim, uint RowsCountWhenTrim = 2, bool CloseOnClick = true,
-            TextContentSettings TitleSettings = null, TextContentSettings MessageSettings = null, bool ShowXbtn = true)
+            TextContentSettings TitleSettings = null, TextContentSettings MessageSettings = null, bool ShowXbtn = true, object icon = null)
         {
             var content = new NotificationContent
             {
@@ -68,35 +71,67 @@ namespace Notification.Wpf
                 Title = title,
                 CloseOnClick = CloseOnClick,
                 MessageTextSettings = MessageSettings,
-                TitleTextSettings = TitleSettings
+                TitleTextSettings = TitleSettings,
+                Icon = icon
             };
             if (!_dispatcher.CheckAccess())
             {
                 _dispatcher.BeginInvoke(
                     new Action(
                         () => Show(
-                            title,
-                            message,
-                            type,
+                            title, message, type,
                             areaName,
                             expirationTime,
-                            onClick,
-                            onClose,
-                            LeftButton,
-                            LeftButtonText,
-                            RightButton,
-                            RightButtonText,
-                            trim,
-                            RowsCountWhenTrim,
+                            onClick, onClose,
+                            LeftButton, LeftButtonText,
+                            RightButton, RightButtonText,
+                            trim, RowsCountWhenTrim,
                             CloseOnClick,
-                            MessageSettings,
-                            TitleSettings,
-                            ShowXbtn)));
+                            TitleSettings, MessageSettings,
+                            ShowXbtn, icon)));
                 return;
             }
             ShowContent(content, expirationTime, areaName, onClick, onClose, CloseOnClick, ShowXbtn);
         }
+        /// <inheritdoc />
+        public void Show(
+            string message, NotificationType type = NotificationType.None, 
+            string areaName = "", TimeSpan? expirationTime = null,
+            NotificationTextTrimType trim = NotificationTextTrimType.NoTrim, uint RowsCountWhenTrim = 1,
+            bool CloseOnClick = true,
+            TextContentSettings MessageSettings = null,
+            bool ShowXbtn = true,
+            object icon = null)
+        {
+            var content = new NotificationContent
+            {
+                Type = type,
+                TrimType = trim,
+                RowsCount = RowsCountWhenTrim,
+                Message = message,
+                CloseOnClick = CloseOnClick,
+                MessageTextSettings = MessageSettings,
+                Icon = icon
+            };
+            if (!_dispatcher.CheckAccess())
+            {
+                _dispatcher.BeginInvoke(
+                    new Action(
+                        () => Show(
+                            message, type,
+                            areaName,
+                            expirationTime,
+                            trim, RowsCountWhenTrim,
+                            CloseOnClick,
+                            MessageSettings,
+                            ShowXbtn,
+                            icon)));
+                return;
+            }
+            ShowContent(content, expirationTime, areaName, null,null, CloseOnClick, ShowXbtn);
+        }
 
+        #endregion
         #region Progress
 
 
@@ -117,7 +152,8 @@ namespace Notification.Wpf
                 TrimText, DefaultRowsCount,
                 BaseWaitingMessage,
                 IsCollapse, TitleWhenCollapsed,
-                background, foreground, progressColor, icon, TitleSettings, MessageSettings);
+                background, foreground, progressColor, icon,
+                TitleSettings, MessageSettings);
 
             if (Title != null) model.Title = Title;
 
@@ -131,7 +167,10 @@ namespace Notification.Wpf
                         TrimText, DefaultRowsCount,
                         BaseWaitingMessage,
                         IsCollapse, TitleWhenCollapsed,
-                        background, foreground, progressColor, icon, TitleSettings, MessageSettings,ShowXbtn));
+                        background, foreground, progressColor, 
+                        icon,
+                        TitleSettings, MessageSettings,
+                        ShowXbtn));
             }
 
             ShowContent(model, areaName: areaName, ShowXbtn:ShowXbtn);
@@ -145,7 +184,8 @@ namespace Notification.Wpf
             string BaseWaitingMessage = "Calculation time",
             bool IsCollapse = false,
             bool TitleWhenCollapsed = true,
-            Brush progressColor = null, bool ShowXbtn = true)
+            Brush progressColor = null,
+            bool ShowXbtn = true)
         {
             var model = new NotificationProgressViewModel(content,
                 ShowCancelButton,
@@ -162,13 +202,13 @@ namespace Notification.Wpf
                 return _dispatcher.Invoke(
                     () => ShowProgressBar(
                         content,
-                        ShowCancelButton,
-                        ShowProgress,
+                        ShowCancelButton, ShowProgress,
                         areaName,
                         BaseWaitingMessage,
                         IsCollapse,
                         TitleWhenCollapsed,
-                        progressColor,ShowXbtn));
+                        progressColor,
+                        ShowXbtn));
             }
 
             ShowContent(model, areaName: areaName,ShowXbtn:ShowXbtn);

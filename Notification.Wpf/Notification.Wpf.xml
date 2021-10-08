@@ -47,7 +47,7 @@
             <param name="CloseOnClick">close window after clicking</param>
             <param name="ShowXbtn">Show X (close) btn</param>
         </member>
-        <member name="M:Notification.Wpf.Base.Interfaces.Base.IMessageManager.Show(System.String,System.String,Notification.Wpf.NotificationType,System.String,System.Nullable{System.TimeSpan},System.Action,System.Action,System.Action,System.String,System.Action,System.String,Notification.Wpf.NotificationTextTrimType,System.UInt32,System.Boolean,Notification.Wpf.Base.TextContentSettings,Notification.Wpf.Base.TextContentSettings,System.Boolean)">
+        <member name="M:Notification.Wpf.Base.Interfaces.Base.IMessageManager.Show(System.String,System.String,Notification.Wpf.NotificationType,System.String,System.Nullable{System.TimeSpan},System.Action,System.Action,System.Action,System.String,System.Action,System.String,Notification.Wpf.NotificationTextTrimType,System.UInt32,System.Boolean,Notification.Wpf.Base.TextContentSettings,Notification.Wpf.Base.TextContentSettings,System.Boolean,System.Object)">
             <summary> Show message </summary>
             <param name="title">window title</param>
             <param name="message">Message in window</param>
@@ -66,6 +66,20 @@
             <param name="TitleSettings">Настройки отображения Title</param>
             <param name="MessageSettings">Настройки отображения сообщения</param>
             <param name="ShowXbtn">Show X (close) btn</param>
+            <param name="icon">Message icon</param>
+        </member>
+        <member name="M:Notification.Wpf.Base.Interfaces.Base.IMessageManager.Show(System.String,Notification.Wpf.NotificationType,System.String,System.Nullable{System.TimeSpan},Notification.Wpf.NotificationTextTrimType,System.UInt32,System.Boolean,Notification.Wpf.Base.TextContentSettings,System.Boolean,System.Object)">
+            <summary> Show no titled message  </summary>
+            <param name="message">Message in window</param>
+            <param name="type">Window type</param>
+            <param name="areaName">window are where show notification</param>
+            <param name="expirationTime">time after which the window will disappear</param>
+            <param name="trim">trim text if it is longer than the number of visible lines</param>
+            <param name="RowsCountWhenTrim">Base number of rows when trims</param>
+            <param name="CloseOnClick">close window after clicking</param>
+            <param name="MessageSettings">Настройки отображения сообщения</param>
+            <param name="ShowXbtn">Show X (close) btn</param>
+            <param name="icon">Message icon</param>
         </member>
         <member name="T:Notification.Wpf.Base.Interfaces.Base.IProgressManager">
             <summary> Progress message manager </summary>
@@ -110,6 +124,12 @@
         <member name="P:Notification.Wpf.Base.Interfaces.ITextContentSettings.FontSize">
             <summary> font size </summary>
         </member>
+        <member name="P:Notification.Wpf.Base.Interfaces.ITextContentSettings.FontStyle">
+            <summary> Font style </summary>
+        </member>
+        <member name="P:Notification.Wpf.Base.Interfaces.ITextContentSettings.FontWeight">
+            <summary> Font Weight </summary>
+        </member>
         <member name="P:Notification.Wpf.Base.Interfaces.ITextContentSettings.TextAlignment">
             <summary> horizontal text alignment </summary>
         </member>
@@ -119,11 +139,8 @@
         <member name="P:Notification.Wpf.Base.Interfaces.ITextContentSettings.VerticalTextAlignment">
             <summary> vertical text alignment </summary>
         </member>
-        <member name="P:Notification.Wpf.Base.Interfaces.ITextContentSettings.FontStyle">
-            <summary> Font style </summary>
-        </member>
-        <member name="P:Notification.Wpf.Base.Interfaces.ITextContentSettings.FontWeight">
-            <summary> Font Weight </summary>
+        <member name="P:Notification.Wpf.Base.Interfaces.ITextContentSettings.Opacity">
+            <summary> Text opacity </summary>
         </member>
         <member name="T:Notification.Wpf.Base.TextContentSettings">
             <summary> Text content settings </summary>
@@ -147,6 +164,9 @@
             <inheritdoc />
         </member>
         <member name="P:Notification.Wpf.Base.TextContentSettings.FontWeight">
+            <inheritdoc />
+        </member>
+        <member name="P:Notification.Wpf.Base.TextContentSettings.Opacity">
             <inheritdoc />
         </member>
         <member name="T:Notification.Wpf.ICustomizedNotification">
@@ -259,7 +279,10 @@
         <member name="M:Notification.Wpf.NotificationManager.Show(System.Object,System.String,System.Nullable{System.TimeSpan},System.Action,System.Action,System.Boolean,System.Boolean)">
             <inheritdoc />
         </member>
-        <member name="M:Notification.Wpf.NotificationManager.Show(System.String,System.String,Notification.Wpf.NotificationType,System.String,System.Nullable{System.TimeSpan},System.Action,System.Action,System.Action,System.String,System.Action,System.String,Notification.Wpf.NotificationTextTrimType,System.UInt32,System.Boolean,Notification.Wpf.Base.TextContentSettings,Notification.Wpf.Base.TextContentSettings,System.Boolean)">
+        <member name="M:Notification.Wpf.NotificationManager.Show(System.String,System.String,Notification.Wpf.NotificationType,System.String,System.Nullable{System.TimeSpan},System.Action,System.Action,System.Action,System.String,System.Action,System.String,Notification.Wpf.NotificationTextTrimType,System.UInt32,System.Boolean,Notification.Wpf.Base.TextContentSettings,Notification.Wpf.Base.TextContentSettings,System.Boolean,System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Notification.Wpf.NotificationManager.Show(System.String,Notification.Wpf.NotificationType,System.String,System.Nullable{System.TimeSpan},Notification.Wpf.NotificationTextTrimType,System.UInt32,System.Boolean,Notification.Wpf.Base.TextContentSettings,System.Boolean,System.Object)">
             <inheritdoc />
         </member>
         <member name="M:Notification.Wpf.NotificationManager.ShowProgressBar(System.String,System.Boolean,System.Boolean,System.String,System.Boolean,System.UInt32,System.String,System.Boolean,System.Boolean,System.Windows.Media.Brush,System.Windows.Media.Brush,System.Windows.Media.Brush,System.Object,Notification.Wpf.Base.TextContentSettings,Notification.Wpf.Base.TextContentSettings,System.Boolean)">

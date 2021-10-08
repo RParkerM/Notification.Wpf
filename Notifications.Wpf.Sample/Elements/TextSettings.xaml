@@ -6,9 +6,12 @@
              xmlns:local="clr-namespace:Notification.Wpf.Sample.Elements"
              xmlns:helpers="clr-namespace:Notification.Wpf.Sample.Helpers"
              xmlns:drawing="clr-namespace:System.Drawing;assembly=System.Drawing.Common"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             Width="300">
+             Width="300"
+             d:DataContext="{local:TextSettingViewModel}"
+             DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged}">
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120"/>
@@ -22,39 +25,70 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="FontFamily"/>
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding FontFamily, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
-            <TextBlock Grid.Row="1" Grid.Column="0"  Text="FontSize"/>
-            <local:NumericUpDownControl  Grid.Row="1" Grid.Column="1"   HorizontalAlignment="Left" Width="100" 
-                                         Value="{Binding FontSize,
-                            RelativeSource={RelativeSource AncestorType={x:Type UserControl}},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                         Minimum="10" Maximum="30" Height="25" />
 
-            <!--<TextBlock Grid.Row="1" Grid.Column="1"  Text="{Binding FontSize, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>-->
-            <TextBlock Grid.Row="2" Grid.Column="0"  Text="FontStyle"/>
-            <ComboBox Grid.Row="2" Grid.Column="1"  x:Name="StyleBox" SelectedItem="{Binding FontStyle, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, UpdateSourceTrigger= PropertyChanged}"
-                      Width="100" VerticalAlignment="Center"/>
-                <!--<TextBlock Text="{Binding FontStyle, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>-->
-            <TextBlock Grid.Row="3" Grid.Column="0"  Text="FontWeight"/>
-            <ComboBox Grid.Row="3" Grid.Column="1"  x:Name="WeightBox"
-                      SelectedItem="{Binding FontWeight, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, UpdateSourceTrigger= PropertyChanged}"
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Sample" MinHeight="60"
+                   FontFamily="{Binding FontFamilySample,UpdateSourceTrigger=PropertyChanged}"
+                   FontSize="{Binding FontSizeSample,UpdateSourceTrigger=PropertyChanged}"
+                   FontStyle="{Binding FontStyleSample,UpdateSourceTrigger=PropertyChanged}"
+                   FontWeight="{Binding FontWeightSample,UpdateSourceTrigger=PropertyChanged}"
+                   TextAlignment="{Binding TextAlign,UpdateSourceTrigger=PropertyChanged}"
+                   HorizontalAlignment="{Binding HorAlign,UpdateSourceTrigger=PropertyChanged}"
+                   VerticalAlignment="{Binding VerAlign,UpdateSourceTrigger=PropertyChanged}"
+                   Opacity="{Binding OpacitySample,UpdateSourceTrigger=PropertyChanged}"
+                   />
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="FontFamily"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FontFamilySample, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Grid.Row="2" Grid.Column="0"  Text="FontSize"/>
+        <!--<local:NumericUpDownControl  Grid.Row="2" Grid.Column="1"   HorizontalAlignment="Left" Width="100" 
+                                         Value="{Binding FontSizeSample ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                         Minimum="10" Maximum="30" Height="25" />-->
+        <xctk:DoubleUpDown   Grid.Row="2" Grid.Column="1"  Value="{Binding FontSizeSample ,
+            ValidatesOnDataErrors=False,
+            NotifyOnValidationError=True, 
+            ValidatesOnNotifyDataErrors=False}"
+                             Width="90"  UpdateValueOnEnterKey="True"
+                             Minimum="10"
+                             Maximum="40"
+                             Increment="2"
+                             ClipValueToMinMax="True" VerticalAlignment="Center"
+        />
+
+        <TextBlock Grid.Row="3" Grid.Column="0"  Text="FontStyle"/>
+        <ComboBox Grid.Row="3" Grid.Column="1"  ItemsSource="{Binding Styles, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding FontStyleSample, UpdateSourceTrigger= PropertyChanged}"
+                          Width="100" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="4" Grid.Column="0"  Text="FontWeight"/>
+        <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Weights, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding FontWeightSample, UpdateSourceTrigger= PropertyChanged}"
                       Width="100" VerticalAlignment="Center"/>
 
-                <!--<TextBlock Text="{Binding FontWeight, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>-->
-            <TextBlock Grid.Row="4" Grid.Column="0"  Text="TextAlignment"/>
-            <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{helpers:EnumValues {x:Type TextAlignment}}"
-                      SelectedItem="{Binding TextAlign, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, UpdateSourceTrigger= PropertyChanged}"
+        <TextBlock Grid.Row="5" Grid.Column="0"  Text="TextAlignment"/>
+        <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{helpers:EnumValues {x:Type TextAlignment}}"
+                      SelectedItem="{Binding TextAlign, UpdateSourceTrigger= PropertyChanged}"
                       Width="100" VerticalAlignment="Center"/>
-            <TextBlock Grid.Row="5" Grid.Column="0"  Text="HorizontalAlignment"/>
-            <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{helpers:EnumValues {x:Type HorizontalAlignment}}"
-                      SelectedItem="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, UpdateSourceTrigger= PropertyChanged}"
+        <TextBlock Grid.Row="6" Grid.Column="0"  Text="HorizontalAlignment"/>
+        <ComboBox Grid.Row="6" Grid.Column="1" ItemsSource="{helpers:EnumValues {x:Type HorizontalAlignment}}"
+                      SelectedItem="{Binding HorAlign, UpdateSourceTrigger= PropertyChanged}"
                       Width="100" VerticalAlignment="Center"/>
-                <!--<TextBlock Text="{Binding HorizontalAlignment, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>-->
-            <TextBlock Grid.Row="6" Grid.Column="0"  Text="VerticalAlignment"/>
-            <ComboBox Grid.Row="6" Grid.Column="1" ItemsSource="{helpers:EnumValues {x:Type VerticalAlignment}}"
-                      SelectedItem="{Binding VerticalAlignment, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, UpdateSourceTrigger= PropertyChanged}"
+        <TextBlock Grid.Row="7" Grid.Column="0"  Text="VerticalAlignment"/>
+        <ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{helpers:EnumValues {x:Type VerticalAlignment}}"
+                      SelectedItem="{Binding VerAlign, UpdateSourceTrigger= PropertyChanged}"
                       Width="100" VerticalAlignment="Center"/>
-            <!--<TextBlock Text="{Binding VerticalAlignment, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>-->
+        <TextBlock Grid.Row="8" Grid.Column="0"  Text="Opacity"/>
+        <!--<local:NumericUpDownControl  Grid.Row="8" Grid.Column="1"   HorizontalAlignment="Left" Width="100" 
+                                     Value="{Binding OpacitySample ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                     Minimum="0" Maximum="10" Height="25"/>-->
+        <xctk:DoubleUpDown  Grid.Row="8" Grid.Column="1"  Value="{Binding OpacitySample
+                                            , ValidatesOnDataErrors=False
+                                            , NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=False, UpdateSourceTrigger=PropertyChanged}"
+                            Width="90" VerticalAlignment="Center"
+                            UpdateValueOnEnterKey="True"  
+                            Minimum="0"
+                            Maximum="1"
+                            Increment=".2"
+                            ClipValueToMinMax="True"/>
     </Grid>
 </UserControl>

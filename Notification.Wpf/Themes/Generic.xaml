@@ -45,25 +45,25 @@
     <fa5:ImageAwesome x:Key="AttachIcon" Icon="Solid_Paperclip"  Foreground="{StaticResource WhiteBrush}" Height="25" x:Shared="False">
         <fa5:ImageAwesome.Triggers>
             <EventTrigger RoutedEvent="fa5:ImageAwesome.Loaded">
-            <EventTrigger.Actions>
-                <BeginStoryboard>
-                    <Storyboard>
-                        <ColorAnimationUsingKeyFrames
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimationUsingKeyFrames
                             Storyboard.TargetProperty
                             ="(fa5:ImageAwesome.Foreground).(SolidColorBrush.Color)"
                             RepeatBehavior="10x"
                             AutoReverse="True">
-                            <LinearColorKeyFrame
+                                <LinearColorKeyFrame
                                 KeyTime="0:0:0"
                                 Value="{StaticResource WhiteColor}"/>
-                            <LinearColorKeyFrame
+                                <LinearColorKeyFrame
                                 KeyTime="0:0:1"
                                 Value="{StaticResource BlackColor}"/>
-                        </ColorAnimationUsingKeyFrames>
-                    </Storyboard>
-                </BeginStoryboard>
-            </EventTrigger.Actions>
-        </EventTrigger>
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
         </fa5:ImageAwesome.Triggers>
     </fa5:ImageAwesome>
 
@@ -153,13 +153,12 @@
         <ControlTemplate.Resources>
             <DataTemplate DataType="{x:Type system:String}" x:Key="DefaultStringTemplate">
                 <Border
-                    Background="{Binding RelativeSource={RelativeSource AncestorType=controls:Notification}, Path=Background}"
-                    MinHeight="80">
+                    Background="{Binding RelativeSource={RelativeSource AncestorType=controls:Notification}, Path=Background}">
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding}"/>
                 </Border>
             </DataTemplate>
             <DataTemplate DataType="{x:Type wpf:NotificationContent}" x:Key="DefaultNotificationTemplate">
-                <Border x:Name="Border" Padding="12" MinHeight="80">
+                <Border x:Name="Border" Padding="12">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -179,11 +178,12 @@
                                Source="{Binding Image.Source}"
                                Margin="{Binding Image.Position , Converter={converters:ImagePositionMarginConverter}}"/>
 
-                        <ContentControl Grid.Row="1" Grid.Column="0" Margin="0,0,12,0" Width="25" VerticalAlignment="Stretch"
-                                        Visibility="{Binding ElementName=LeftPanel,
-                            Converter={wpf:Combine
-                            First={wpf:HasVisibleContent},
-                            Then={converters:BoolToVisibility Collapse=True}}}">
+
+                        <!--Visibility="{Binding ElementName=LeftPanel,
+                        Converter={wpf:Combine
+                        First={wpf:HasVisibleContent},
+                        Then={converters:BoolToVisibility Collapse=True}}}"-->
+                        <ContentControl Grid.Row="1" Grid.Column="0" Margin="0,0,12,0" Width="25" VerticalAlignment="Stretch">
                             <DockPanel x:Name="LeftPanel">
 
                                 <ContentControl DockPanel.Dock="Top" x:Name="Icon" HorizontalAlignment="Center" VerticalAlignment="Top">
@@ -194,7 +194,7 @@
                                     </ContentControl.Resources>
                                 </ContentControl>
 
-                                    <Button x:Name="Attach" DockPanel.Dock="Bottom"
+                                <Button x:Name="Attach" DockPanel.Dock="Bottom"
                                         HorizontalAlignment="Center" VerticalAlignment="Bottom"
                                         Style="{StaticResource OverButton}"
                                          Visibility="Visible"
@@ -203,16 +203,35 @@
                                     <ContentControl x:Name="AttachIcon" DockPanel.Dock="Bottom" HorizontalAlignment="Center"  VerticalAlignment="Center" Content="{StaticResource AttachIcon}"/>
                                 </Button>
                             </DockPanel>
+                            <ContentControl.Style>
+                                <Style TargetType="{x:Type ContentControl}">
+                                    <Style.Triggers>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding Icon, Converter={wpf:IsNull}}" Value="true"/>
+                                                <Condition Binding="{Binding Type}" Value="None"/>
+                                                <Condition Binding="{Binding Visibility, ElementName=Attach}" Value="Collapsed"/>
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ContentControl.Style>
+
                         </ContentControl>
 
-                        <DockPanel Grid.Column="1" Grid.Row="1">
+                        <DockPanel Grid.Column="1" Grid.Row="1" >
                             <TextBlock x:Name="TitleTxt" DockPanel.Dock="Top"
-
                                        Text="{Binding Title}"
                                        TextTrimming="CharacterEllipsis"
-                                       Margin="0,0,20,0"/>
+                                       Margin="0,0,20,0"
+                                       Visibility="{Binding Title,
+                                         Converter={wpf:Combine
+                                         First={wpf:StringIsNullOrWhiteSpace},
+                                         Then={converters:BoolToVisibility Inverse=True, Collapse=True}}}"/>
 
                             <DockPanel LastChildFill="False" DockPanel.Dock="Bottom" Margin="0,8,0,0">
+
                                 <Button x:Name="RightButton" Style="{StaticResource NotifyButton}" Command="{Binding RightButtonAction, Converter={wpf:ActionToCommandConverter}}"
                                         Content="{Binding RightButtonContent}" DockPanel.Dock="Right" controls:Notification.CloseOnClick="True"
                                         Visibility="{Binding RightButtonAction, Converter={wpf:Combine First={wpf:IsNull}, Then={converters:BoolToVisibility Collapse=True, Inverse=True}}}"/>
@@ -221,11 +240,14 @@
                                         Visibility="{Binding LeftButtonAction, Converter={wpf:Combine First={wpf:IsNull}, Then={converters:BoolToVisibility Collapse=True, Inverse=True}}}"/>
                             </DockPanel>
 
-                            <TextBlock x:Name="MessageBox" 
+                            <TextBlock x:Name="MessageBox"
                                        Text="{Binding Message}"
                                        TextWrapping="Wrap"
                                        Opacity=".8"
-                                       Margin="0,0,12,0"/>
+                                       Margin="0,0,12,0" Visibility="{Binding Message,
+                                         Converter={wpf:Combine
+                                         First={wpf:StringIsNullOrWhiteSpace},
+                                         Then={converters:BoolToVisibility Inverse=True, Collapse=True}}}"/>
 
                         </DockPanel>
                     </Grid>
@@ -290,6 +312,7 @@
                         <Setter TargetName="TitleTxt" Property="VerticalAlignment" Value="{Binding TitleTextSettings.VerticalTextAlignment}"/>
                         <Setter TargetName="TitleTxt" Property="FontStyle" Value="{Binding TitleTextSettings.FontStyle}"/>
                         <Setter TargetName="TitleTxt" Property="FontWeight" Value="{Binding TitleTextSettings.FontWeight}"/>
+                        <Setter TargetName="TitleTxt" Property="Opacity" Value="{Binding TitleTextSettings.Opacity}"/>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding MessageTextSettings, Converter={wpf:IsNull}}" Value="false">
                         <Setter TargetName="MessageBox" Property="FontFamily" Value="{Binding MessageTextSettings.FontFamily}"/>
@@ -299,6 +322,7 @@
                         <Setter TargetName="MessageBox" Property="VerticalAlignment" Value="{Binding MessageTextSettings.VerticalTextAlignment}"/>
                         <Setter TargetName="MessageBox" Property="FontStyle" Value="{Binding MessageTextSettings.FontStyle}"/>
                         <Setter TargetName="MessageBox" Property="FontWeight" Value="{Binding MessageTextSettings.FontWeight}"/>
+                        <Setter TargetName="MessageBox" Property="Opacity" Value="{Binding MessageTextSettings.Opacity}"/>
                     </DataTrigger>
 
                 </DataTemplate.Triggers>
@@ -338,12 +362,12 @@
             </EventTrigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    
+
     <Style TargetType="{x:Type controls:Notification}">
         <!--<Setter Property="Height" Value="100"/>-->
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="Width" Value="350"/>
+        <!--<Setter Property="Width" Value="350"/>-->
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Background" Value="#444444"/>
         <Setter Property="Foreground" Value="White"/>
@@ -360,7 +384,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="{x:Type controls:NotificationArea}">
         <Setter Property="Margin" Value="0,0,8,8"/>
         <Setter Property="Template">
@@ -400,5 +424,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>

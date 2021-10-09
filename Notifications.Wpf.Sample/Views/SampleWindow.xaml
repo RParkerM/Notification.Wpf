@@ -28,7 +28,6 @@
         </Style>
     </Window.Resources>
     <DockPanel>
-        <controls:Notification DockPanel.Dock="Bottom" />
         <controls:NotificationArea x:Name="WindowArea" DockPanel.Dock="Bottom"
                                    Position="{Binding MessagePosition}"
                                    MaxItems="{Binding MaxItems}"
@@ -171,71 +170,42 @@
                 </GroupBox>
 
             </StackPanel>
-            <StackPanel Grid.Row="0" Grid.Column="3">
-                <StackPanel Orientation="Horizontal">
-                    <GroupBox Header="Image settings">
-                        <StackPanel Orientation="Horizontal">
-                            <Button Content="Select image" Click="OpenImage_Click" Height="20" Width="100" Margin="5,0"/>
-                            <Image Margin="5,0"
-                                       Width="50"
-                                       Height="50"
-                                       VerticalAlignment="Center"
-                                       Source="{Binding Image,UpdateSourceTrigger=PropertyChanged}" />
-                            <GroupBox Header="Image position" >
-                                <ComboBox ItemsSource="{helpers:EnumValues {x:Type wpf:ImagePosition}}"
-                                              SelectedItem="{Binding ImagePosition, UpdateSourceTrigger= PropertyChanged}"
-                                              Width="100" VerticalAlignment="Center"/>
-                            </GroupBox>
-                        </StackPanel>
-                    </GroupBox>
-                </StackPanel>
+            <GroupBox Header="Icon section" Grid.Row="0" Grid.Column="3">
+                <GroupBox.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Width" Value="100"/>
+                        <Setter Property="Margin" Value="5"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Style>
+                </GroupBox.Resources>
 
-                <StackPanel Orientation="Horizontal">
-                </StackPanel>
-                <GroupBox Header="Color section">
-                    <GroupBox.Resources>
-                        <Style TargetType="Button">
-                            <Setter Property="Width" Value="100"/>
-                            <Setter Property="Margin" Value="5"/>
-                            <Setter Property="VerticalAlignment" Value="Center"/>
-                        </Style>
-                    </GroupBox.Resources>
-
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Button Content="Background" Click="BackgroundColorSelect_Click"
-                                        Background="{Binding ContentBackground,UpdateSourceTrigger=PropertyChanged}" />
-                            <Button Content="Foreground" Click="ForegroundColorSelect_Click"
-                                        Background="{Binding ContentForeground,UpdateSourceTrigger=PropertyChanged}" />
-                            <Button Content="Icon color" Click="IconColorSelect_Click"
-                                        Background="{Binding IconForeground,UpdateSourceTrigger=PropertyChanged}" />
-                            <CheckBox
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox
                                 IsChecked="{Binding ImageAsIcon}"
                                 Content="Use image as icon" 
                                 VerticalAlignment="Center"/>
-                            <fa5:SvgAwesome
+                        <fa5:SvgAwesome
                                     Icon="{Binding SelectedIcon,
                                 Converter={helpers:IconConverter}}"
                                     Height="20" Width="20"
                                     Foreground="{Binding IconForeground}" />
 
-                        </StackPanel>
-                        <ListView x:Name="ListIcons" Height="220"
+                    </StackPanel>
+                    <ListView x:Name="ListIcons" Height="220"
                                       ItemsSource="{Binding Icons}"
                                       SelectedItem="{Binding SelectedIcon}"
                                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                       ScrollViewer.PanningMode="VerticalOnly">
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel />
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-                        </ListView>
-                    </StackPanel>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                    </ListView>
+                </StackPanel>
 
-                </GroupBox>
-
-            </StackPanel>
+            </GroupBox>
 
             <GroupBox Header="Notification" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Top">
                 <DockPanel>
@@ -327,17 +297,51 @@
                             <Setter Property="VerticalAlignment" Value="Center"/>
                         </Style>
                     </WrapPanel.Resources>
-                    <Button Content="Test message" Click="TestMessage" VerticalAlignment="Center" Height="20" Width="100" Margin="5,0"/>
-                    <Button Content="Timer message" Click="Button_Timer"/>
-                    <Button Content="Show content" Click="Show_Any_content" />
-                    <Button Content="Show Progress" Click="Progress_Click" />
+                    <Button Content="Test message" Command="{Binding ShowTestMessageCommand}" VerticalAlignment="Center" Height="20" Width="100" Margin="5,0"/>
+                    <Button Content="Timer message" Command="{Binding ShowTimerMessageCommand}"/>
+                    <Button Content="Show content" Command="{Binding ShowContentCommand}"/>
+                    <Button Content="Show Progress" Command="{Binding ShowProgressMessageCommand}"/>
                 </WrapPanel>
 
             </GroupBox>
+            <DockPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+                <GroupBox Header="Color section" DockPanel.Dock="Left">
+                    <StackPanel Orientation="Horizontal">
+                        <!--<xctk:ColorPicker />-->
+                        <!--<xctk:ColorSpectrumSlider/>-->
 
-            <GroupBox Header="Test" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left">
-                <Button Content="Test message" Click="TestMessage" VerticalAlignment="Center" Height="20" Width="100" Margin="5,0"/>
-            </GroupBox>
+                        <GroupBox Header="Background">
+                            <xctk:ColorCanvas SelectedColor="{Binding ContentBackground}"/>
+                        </GroupBox>
+                        <GroupBox Header="Foreground">
+                            <xctk:ColorCanvas SelectedColor="{Binding ContentForeground}"/>
+                        </GroupBox>
+                        <GroupBox Header="Progress line color">
+                            <xctk:ColorCanvas SelectedColor="{Binding ProgressColor}"/>
+                        </GroupBox>
+                        <GroupBox Header="Icon foreground">
+                            <xctk:ColorCanvas SelectedColor="{Binding IconForeground}"/>
+                        </GroupBox>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Image settings" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                    <DockPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <Button Content="Select image" Command="{Binding OpenImageCommand}" Height="20" Width="100" Margin="5,0" />
+                        <GroupBox Header="Image position" >
+                            <ComboBox ItemsSource="{helpers:EnumValues {x:Type wpf:ImagePosition}}"
+                                      SelectedItem="{Binding ImagePosition, UpdateSourceTrigger= PropertyChanged}"
+                                      Width="100" VerticalAlignment="Center"/>
+                        </GroupBox>
+                    </StackPanel>
+                        <Image Margin="5,0"
+                               Source="{Binding Image,UpdateSourceTrigger=PropertyChanged}" />
+
+                    </DockPanel>
+                </GroupBox>
+
+            </DockPanel>
+
             <GroupBox Header="Preview" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4">
                 <TabControl>
                     <TabItem Header="Message">
@@ -351,13 +355,13 @@
 
 
                                 Type ="{Binding SelectedNotificationType}"
-                                Image ="{Binding ??}"
+                                Image ="{Binding Image}"
                                 CloseOnClick="{Binding CloseOnClick}"
 
 
-                                LeftButtonAction ="{Binding ??}"
+                                LeftButtonAction ="{Binding LeftAction}"
                                 LeftButtonContent ="{Binding LeftButtonText}"
-                                RightButtonAction ="{Binding }"
+                                RightButtonAction ="{Binding RightAction}"
                                 RightButtonContent="{Binding RightButtonText}"
 
 
@@ -386,7 +390,6 @@
                                     <CheckBox Content="Collapsed progress bar" IsChecked="{Binding ProgressCollapsed, UpdateSourceTrigger= PropertyChanged}" Margin="5,0"/>
                                     <CheckBox Content="Title or Message when collapse" IsChecked="{Binding ProgressTitleOrMessage, UpdateSourceTrigger= PropertyChanged}" Margin="5,0" />
                                 </StackPanel>
-                                <Button Content="Progress color" Click="ProgressColorSelect_Click" Background="{Binding ProgressColor, UpdateSourceTrigger= PropertyChanged}"/>
                             </StackPanel>
 
                         </DockPanel>

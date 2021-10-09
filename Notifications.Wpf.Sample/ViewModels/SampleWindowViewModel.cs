@@ -233,6 +233,24 @@ namespace Notification.Wpf.Sample.ViewModels
 
         #endregion
 
+        #region LeftAction : Action - Left Action
+
+        /// <summary>Left Action</summary>
+        private Action _LeftAction;
+
+        /// <summary>Left Action</summary>
+        public Action LeftAction { get => _LeftAction; set => Set(ref _LeftAction, value); }
+
+        #endregion
+        #region RightAction : Action - Right Action
+
+        /// <summary>Right Action</summary>
+        private Action _RightAction;
+
+        /// <summary>Right Action</summary>
+        public Action RightAction { get => _RightAction; set => Set(ref _RightAction, value); }
+
+        #endregion
         #region LeftButtonText : string - Left btn text content
 
         /// <summary>Left btn text content</summary>

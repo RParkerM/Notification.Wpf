@@ -36,6 +36,50 @@
         <GroupBox Header="Settings" Grid.Row="1">
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
+                    <GroupBox Header="Window settings">
+                        <StackPanel Orientation="Horizontal">
+                            <GroupBox>
+                                <GroupBox.HeaderTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Collapse progress automatically" />
+                                            <CheckBox
+                                                    IsChecked="{Binding CollapseProgressIfMoreRows, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                            UpdateSourceTrigger=PropertyChanged}"
+                                                    Margin="5,0" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GroupBox.HeaderTemplate>
+                                <TextBlock
+                                        Text="{Binding CollapseProgressIfMoreRows, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                        UpdateSourceTrigger= PropertyChanged}" />
+                            </GroupBox>
+                            <GroupBox>
+                                <GroupBox.HeaderTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock>
+                                                    <Run Text="Notification max count " />
+                                                    <Run
+                                                        Text="{Binding MaxItems,Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Window}},UpdateSourceTrigger=PropertyChanged}" />
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GroupBox.HeaderTemplate>
+                                <elements:NumericUpDownControl
+                                        Value="{Binding MaxItems,
+                        RelativeSource={RelativeSource AncestorType={x:Type Window}},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                        Minimum="0" Maximum="100" Height="25" />
+
+                            </GroupBox>
+                            <GroupBox Header="Message position, when new stack" >
+                                <ComboBox ItemsSource="{helpers:EnumValues {x:Type controls:NotificationPosition}}"
+                                              SelectedItem="{Binding MessagePosition, RelativeSource={RelativeSource AncestorType={x:Type Window}}, UpdateSourceTrigger= PropertyChanged}"
+                                              Width="100" VerticalAlignment="Center"/>
+                            </GroupBox>
+
+                        </StackPanel>
+                    </GroupBox>
                     <GroupBox Header="Image settings">
                         <StackPanel Orientation="Horizontal">
                             <Button Content="Select image" Click="OpenImage_Click" Height="20" Width="100" Margin="5,0"/>
@@ -61,7 +105,202 @@
                 <controls:ProgresBarAnimateBehavior />
             </b:Interaction.Behaviors>
                 </ProgressBar>-->
+                    <GroupBox Header="Notification Type">
+                        <ComboBox x:Name="ComboBoxType"
+                                      ItemsSource="{helpers:EnumValues {x:Type wpf:NotificationType}}"
+                                      SelectedItem="{Binding SelectedNotificationType, RelativeSource={RelativeSource AncestorType={x:Type Window}}, UpdateSourceTrigger= PropertyChanged}"
+                                      Width="100" VerticalAlignment="Center" />
+                    </GroupBox>
+                    <GroupBox Header="Trim type">
+                        <ComboBox ItemsSource="{helpers:EnumValues {x:Type wpf:NotificationTextTrimType}}"
+                                      SelectedItem="{Binding SelectedTrimType, RelativeSource={RelativeSource AncestorType={x:Type Window}}, UpdateSourceTrigger= PropertyChanged}"
+                                      VerticalAlignment="Top" Width="100"
+                                      Height="25" />
+                    </GroupBox>
+                    <GroupBox>
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock>
+                                            <Run Text="Rows count " />
+                                            <Run
+                                                Text="{Binding RowCount, RelativeSource={RelativeSource AncestorType={x:Type Window}},UpdateSourceTrigger=PropertyChanged}" />
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
 
+                        <elements:NumericUpDownControl
+                                Value="{Binding RowCount,
+                        RelativeSource={RelativeSource AncestorType={x:Type Window}},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                Minimum="1" Maximum="100" Height="25" />
+                    </GroupBox>
+                    <GroupBox>
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Left button" />
+                                    <CheckBox
+                                            IsChecked="{Binding ShowLeftButton, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                UpdateSourceTrigger= PropertyChanged}"
+                                            Margin="5,0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <TextBox
+                                Text="{Binding LeftButtonText, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                        UpdateSourceTrigger= PropertyChanged}"
+                                Width="100" />
+                    </GroupBox>
+                    <GroupBox>
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Right button" />
+                                    <CheckBox
+                                            IsChecked="{Binding ShowRightButton, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                UpdateSourceTrigger= PropertyChanged}"
+                                            Margin="5,0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <TextBox
+                                Text="{Binding RightButtonText, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                        UpdateSourceTrigger= PropertyChanged}"
+                                Width="100" />
+                    </GroupBox>
+                    <GroupBox>
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Close on click" />
+                                    <CheckBox
+                                            IsChecked="{Binding CloseOnClick, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                UpdateSourceTrigger= PropertyChanged}"
+                                            Margin="5,0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <TextBlock
+                                Text="{Binding CloseOnClick, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                        UpdateSourceTrigger= PropertyChanged}" />
+                    </GroupBox>
+                    <GroupBox>
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="In window" />
+                                    <CheckBox
+                                            IsChecked="{Binding ShowInWindow, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                UpdateSourceTrigger= PropertyChanged}"
+                                            Margin="5,0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <TextBlock
+                                Text="{Binding ShowInWindow, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                        UpdateSourceTrigger= PropertyChanged}" />
+                    </GroupBox>
+
+                    <Button Content="Test" Click="TestMessage" VerticalAlignment="Center" Height="20" Width="100" Margin="5,0"/>
+
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <GroupBox>
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Use title settings" />
+                                    <CheckBox
+                                        IsChecked="{Binding UseTitleSettings, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                UpdateSourceTrigger= PropertyChanged}"
+                                        Margin="5,0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <elements:TextSettings x:Name="TitleSettings"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox>
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Use Message settings" />
+                                    <CheckBox
+                                        IsChecked="{Binding UseMessageSettings, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                UpdateSourceTrigger= PropertyChanged}"
+                                        Margin="5,0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <elements:TextSettings x:Name="MessageSettings"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <StackPanel>
+                        <GroupBox VerticalAlignment="Top">
+                            <GroupBox.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Expiration time" />
+                                        <CheckBox
+                                            IsChecked="{Binding UseExpirationTime, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                UpdateSourceTrigger= PropertyChanged}"
+                                            Margin="5,0" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GroupBox.HeaderTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <elements:NumericUpDownControl
+                                    Value="{Binding ExpirationTime,
+                        RelativeSource={RelativeSource AncestorType={x:Type Window}},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                    Minimum="1" Height="25" />
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox VerticalAlignment="Top">
+                            <GroupBox.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Show X btn" />
+                                        <CheckBox
+                                            IsChecked="{Binding ShowXBtn, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                UpdateSourceTrigger= PropertyChanged}"
+                                            Margin="5,0" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GroupBox.HeaderTemplate>
+                            <TextBlock Text="{Binding ShowXBtn, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                UpdateSourceTrigger= PropertyChanged}"></TextBlock>
+                        </GroupBox>
+                        <GroupBox VerticalAlignment="Top" Header="MinWidth">
+                            <xctk:DoubleUpDown  Value="{Binding AreaMinWidth, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                ValidatesOnDataErrors=False,
+                                NotifyOnValidationError=True,
+                                ValidatesOnNotifyDataErrors=False,
+                                UpdateSourceTrigger=PropertyChanged}"
+                                                Width="90" VerticalAlignment="Center"
+                                                UpdateValueOnEnterKey="True"  
+                                                Minimum="50"
+                                                Maximum="3000"
+                                                Increment="50"
+                                                ClipValueToMinMax="True"/>
+                        </GroupBox>
+                        <GroupBox VerticalAlignment="Top" Header="MaxWidth">
+                            <xctk:DoubleUpDown  Value="{Binding AreaMaxWidth, RelativeSource={RelativeSource AncestorType={x:Type Window}},
+                                ValidatesOnDataErrors=False,
+                                NotifyOnValidationError=True,
+                                ValidatesOnNotifyDataErrors=False,
+                                UpdateSourceTrigger=PropertyChanged}"
+                                                Width="90" VerticalAlignment="Center"
+                                                UpdateValueOnEnterKey="True"  
+                                                Minimum="50"
+                                                Maximum="3000"
+                                                Increment="50"
+                                                ClipValueToMinMax="True"/>
+                        </GroupBox>
+
+                    </StackPanel>
                 </StackPanel>
                 <GroupBox Header="Color section">
                     <GroupBox.Resources>

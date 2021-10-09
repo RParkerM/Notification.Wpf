@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace Notification.Wpf.Base.Interfaces.Options
@@ -18,6 +16,7 @@ namespace Notification.Wpf.Base.Interfaces.Options
         public Brush Foreground { get; set; }
         /// <summary> Trimming long text if need </summary>
         public NotificationTextTrimType TrimType { get; set; }
+
         /// <summary> Set rows of message that will show if set Trim </summary>
         public uint RowsCount { get; set; }
 

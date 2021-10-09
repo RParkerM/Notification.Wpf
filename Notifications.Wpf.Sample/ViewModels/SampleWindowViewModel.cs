@@ -1,17 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
+
+using FontAwesome5;
 
 using MathCore.ViewModels;
+
+using Notification.Wpf.Base.Options;
+using Notification.Wpf.Classes;
+using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
 
 namespace Notification.Wpf.Sample.ViewModels
 {
     public class SampleWindowViewModel : ViewModel
     {
+
+        public SampleWindowViewModel()
+        {
+        }
+
         #region Text
 
         #region TitleSettingModel : TextSettingViewModel - Title settings
@@ -78,7 +91,15 @@ namespace Notification.Wpf.Sample.ViewModels
         private double _AreaMinWidth = 350D;
 
         /// <summary>Min Width</summary>
-        public double AreaMinWidth { get => _AreaMinWidth; set => Set(ref _AreaMinWidth, value); }
+        public double AreaMinWidth
+        {
+            get => _AreaMinWidth;
+            set
+            {
+                Set(ref _AreaMinWidth, value);
+                NotificationConstants.MinWidth = value;
+            }
+        }
 
         #endregion
 
@@ -88,7 +109,15 @@ namespace Notification.Wpf.Sample.ViewModels
         private double _AreaMaxWidth = 350D;
 
         /// <summary>Max width</summary>
-        public double AreaMaxWidth { get => _AreaMaxWidth; set => Set(ref _AreaMaxWidth, value); }
+        public double AreaMaxWidth
+        {
+            get => _AreaMaxWidth;
+            set
+            {
+                Set(ref _AreaMaxWidth, value);
+                NotificationConstants.MaxWidth = value;
+            }
+        }
 
         #endregion
 
@@ -102,16 +131,32 @@ namespace Notification.Wpf.Sample.ViewModels
         private bool _CollapseProgressIfMoreRows;
 
         /// <summary>progress bar automatical collapsing , if messages count more than maximum</summary>
-        public bool CollapseProgressIfMoreRows { get => _CollapseProgressIfMoreRows; set => Set(ref _CollapseProgressIfMoreRows, value); }
+        public bool CollapseProgressIfMoreRows
+        {
+            get => _CollapseProgressIfMoreRows;
+            set
+            {
+                Set(ref _CollapseProgressIfMoreRows, value);
+                NotificationConstants.CollapseProgressIfMoreRows = value;
+            }
+        }
 
         #endregion
         #region MaxItems : int - Max message stack
 
         /// <summary>Max message stack</summary>
-        private int _MaxItems = 5;
+        private uint _MaxItems = 5;
 
         /// <summary>Max message stack</summary>
-        public int MaxItems { get => _MaxItems; set => Set(ref _MaxItems, value); }
+        public uint MaxItems
+        {
+            get => _MaxItems;
+            set
+            {
+                Set(ref _MaxItems, value);
+                NotificationConstants.NotificationsOverlayWindowMaxCount = value;
+            }
+        }
 
         #endregion
 
@@ -121,7 +166,15 @@ namespace Notification.Wpf.Sample.ViewModels
         private NotificationPosition _MessagePosition = NotificationPosition.BottomRight;
 
         /// <summary>Message position</summary>
-        public NotificationPosition MessagePosition { get => _MessagePosition; set => Set(ref _MessagePosition, value); }
+        public NotificationPosition MessagePosition
+        {
+            get => _MessagePosition;
+            set
+            {
+                Set(ref _MessagePosition, value);
+                NotificationConstants.MessagePosition = value;
+            }
+        }
 
         #endregion
 
@@ -189,6 +242,7 @@ namespace Notification.Wpf.Sample.ViewModels
         public string LeftButtonText { get => _LeftButtonText; set => Set(ref _LeftButtonText, value); }
 
         #endregion
+
         #region ShowRightButton : bool - Need right btn
 
         /// <summary>Need right btn</summary>
@@ -222,6 +276,210 @@ namespace Notification.Wpf.Sample.ViewModels
         #endregion
 
 
+        #region Image
+
+        void OnImageChanged()
+        {
+            if (!ImageAsIcon && (ImagePosition == ImagePosition.None || ImageSource is null))
+                return;
+            Image = new NotificationImage()
+            {
+                Position = ImagePosition,
+                Source = ImageSource
+            };
+        }
+
+        #region Image : NotificationImage - Image
+
+        /// <summary>Image</summary>
+        private NotificationImage _Image;
+
+        /// <summary>Image</summary>
+        public NotificationImage Image { get => _Image; set => Set(ref _Image, value); }
+
+        #endregion
+
+        #region ImageSource : ImageSource - ImageSource
+
+        /// <summary>ImageSource</summary>
+        private ImageSource _ImageSource;
+
+        /// <summary>ImageSource</summary>
+        public ImageSource ImageSource
+        {
+            get => _ImageSource;
+            set
+            {
+                Set(ref _ImageSource, value);
+                OnImageChanged();
+
+            }
+        }
+
+        #endregion
+
+        #region ImagePosition : ImagePosition - Image position
+
+        /// <summary>Image position</summary>
+        private ImagePosition _ImagePosition;
+
+        /// <summary>Image position</summary>
+        public ImagePosition ImagePosition
+        {
+            get => _ImagePosition;
+            set
+            {
+                Set(ref _ImagePosition, value);
+                OnImageChanged();
+            }
+        }
+
+        #endregion
+
+        #region ImageAsIcon : bool - image as Icon
+
+        /// <summary>image as Icon</summary>
+        private bool _ImageAsIcon;
+
+        /// <summary>image as Icon</summary>
+        public bool ImageAsIcon { get => _ImageAsIcon; set => Set(ref _ImageAsIcon, value); }
+
+        #endregion
+
+
+        #endregion
+
+        #region Icon section
+        private int IconSelectedIndex => (int)(SelectedIcon ?? new SvgAwesome()).Icon;
+
+
+        #region Icons : ObservableCollection<SvgAwesome> - Icons
+
+        /// <summary>Icons</summary>
+        private ObservableCollection<SvgAwesome> _Icons = new ObservableCollection<SvgAwesome>(GetIcons());
+
+        /// <summary>Icons</summary>
+        public ObservableCollection<SvgAwesome> Icons { get => _Icons; set => Set(ref _Icons, value); }
+
+        #endregion
+
+        #region SelectedIcon : SvgAwesome - Selected icon
+
+        /// <summary>Selected icon</summary>
+        private SvgAwesome _SelectedIcon;
+
+        /// <summary>Selected icon</summary>
+        public SvgAwesome SelectedIcon { get => _SelectedIcon; set => Set(ref _SelectedIcon, value); }
+
+        #endregion
+
+        #region IconForeground : SolidColorBrush - Icon color
+
+        /// <summary>Icon color</summary>
+        private SolidColorBrush _IconForeground = new SolidColorBrush(Colors.WhiteSmoke);
+
+        /// <summary>Icon color</summary>
+        public SolidColorBrush IconForeground { get => _IconForeground; set => Set(ref _IconForeground, value); }
+
+        #endregion
+
+        private static IEnumerable<SvgAwesome> GetIcons()
+        {
+            var icons = Enum.GetValues<EFontAwesomeIcon>().Select(s => new SvgAwesome() { Icon = s, Height = 20 });
+            var progress_icon = NotificationConstants.DefaultProgressIcon;
+            progress_icon.Foreground = Brushes.Black;
+
+            var result = new List<SvgAwesome>(new[] { icons.First(), progress_icon });
+            result.AddRange(icons.Skip(1));
+            return result;
+        }
+        private object GetIcon(bool isProgress = false)
+        {
+            var type = SelectedNotificationType;
+            var isNone = type == NotificationType.None || isProgress;
+            var selected_icon = (EFontAwesomeIcon)(int)(SelectedIcon ?? new SvgAwesome()).Icon;
+
+            if (ImageAsIcon)
+                return Image;
+
+            if (isNone && IconSelectedIndex == 0)
+                return null;
+
+            if (IconSelectedIndex == 806)
+                return new SvgAwesome()
+                {
+                    Icon = selected_icon,
+                    Height = 25,
+                    Foreground = IconForeground,
+                    Spin = true,
+                    SpinDuration = 1
+                };
+            return new SvgAwesome()
+            {
+                Icon = selected_icon,
+                Height = 25,
+                Foreground = IconForeground
+            };
+        }
+
+        #endregion
+
+        #region Colors
+
+        #region ContentForeground : SolidColorBrush - Foreground
+
+        /// <summary>Foreground</summary>
+        private SolidColorBrush _ContentForeground = new SolidColorBrush(Colors.WhiteSmoke);
+
+        /// <summary>Foreground</summary>
+        public SolidColorBrush ContentForeground { get => _ContentForeground; set => Set(ref _ContentForeground, value); }
+
+        #endregion
+
+        #region ContentBackground : SolidColorBrush - Background
+
+        /// <summary>Foreground</summary>
+        private SolidColorBrush _ContentBackground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF444444");
+
+        /// <summary>Foreground</summary>
+        public SolidColorBrush ContentBackground { get => _ContentBackground; set => Set(ref _ContentBackground, value); }
+
+        #endregion
+
+        #endregion
+        #endregion
+
+        #region Progress
+
+        #region ProgressColor : SolidColorBrush 
+
+        /// <summary>Progress line color</summary>
+        private SolidColorBrush _ProgressColor = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF01D328");
+
+        /// <summary>Progress line color</summary>
+        public SolidColorBrush ProgressColor { get => _ProgressColor; set => Set(ref _ProgressColor, value); }
+
+        #endregion
+
+        #region ProgressCollapsed : bool - collapsed progress bar style
+
+        /// <summary>collapsed progress bar style</summary>
+        private bool _ProgressCollapsed;
+
+        /// <summary>collapsed progress bar style</summary>
+        public bool ProgressCollapsed { get => _ProgressCollapsed; set => Set(ref _ProgressCollapsed, value); }
+
+        #endregion
+
+        #region ProgressTitleOrMessage : bool - Title or message when collapsed
+
+        /// <summary>Title or message when collapsed</summary>
+        private bool _ProgressTitleOrMessage;
+
+        /// <summary>Title or message when collapsed</summary>
+        public bool ProgressTitleOrMessage { get => _ProgressTitleOrMessage; set => Set(ref _ProgressTitleOrMessage, value); }
+
+        #endregion
         #endregion
     }
 }

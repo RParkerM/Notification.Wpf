@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 
 using Notification.Wpf.Base.Interfaces.Options;
+using Notification.Wpf.Base.Options;
 using Notification.Wpf.Classes;
 using Notification.Wpf.Constants;
 
@@ -64,7 +65,7 @@ namespace Notification.Wpf.Base.Interfaces.Base
         );
         /// <summary> Show no titled message  </summary>
         /// <param name="message">Message in window</param>
-        /// <param name="type">Window type</param>
+        /// <param name="type">Notification type</param>
         /// <param name="areaName">window are where show notification</param>
         /// <param name="expirationTime">time after which the window will disappear</param>
         /// <param name="trim">trim text if it is longer than the number of visible lines</param>
@@ -96,130 +97,17 @@ namespace Notification.Wpf.Base.Interfaces.Base
             string areaName = "",
             TimeSpan? expirationTime = null, uint RowsCountWhenTrim = 5,
             TextContentSettings MessageSettings = null,
-            bool ShowXbtn = true) =>
-            Show(
-                $"{e.Message}\n\r{e}",
-                NotificationType.Error,
-                areaName,
-                expirationTime ?? TimeSpan.MaxValue,
-                NotificationTextTrimType.AttachIfMoreRows,
-                RowsCountWhenTrim, true, MessageSettings, ShowXbtn);
+            bool ShowXbtn = true);
+
 
         /// <summary> Show Cancellation message</summary>
-        void ShowCancellation(NotificationType type = NotificationType.Warning, string areaName = "",
+        /// <param name="type">Notification type</param>
+        /// <param name="areaName">window are where show notification</param>
+        /// <param name="MessageSettings">Настройки отображения сообщения</param>
+        /// <param name="ShowXbtn">Show X (close) btn</param>
+        void ShowCancellation(
+            NotificationType type = NotificationType.Warning, string areaName = "",
             TextContentSettings MessageSettings = null,
-            bool ShowXbtn = true) => Show(NotificationConstants.CancellationMessage, NotificationType.Warning, MessageSettings: MessageSettings, ShowXbtn: ShowXbtn);
-
-
-        /// <summary>
-        /// Show message with button to open file or directory (file destination)
-        /// Показывает всплывающее окно для открытия файла или директории
-        /// </summary>
-        /// <param name="FilePath">File path</param>
-        /// <param name="ShowFile">show file button</param>
-        /// <param name="ShowDirectory">show directory button</param>
-        /// <param name="options">customization options</param>
-        /// <param name="image">image if need</param>
-        /// <param name="ExpirationTime">time after which the window will disappear </param>
-        /// <param name="AreaName">window area</param>
-        public void ShowFilePopUpMessage(string FilePath, bool ShowFile = true, bool ShowDirectory = true,
-            TimeSpan? ExpirationTime = null, string AreaName = "",
-            ICustomizedOptions options = null,
-            NotificationImage image = null) =>
-            ShowButtonWindow($"{NotificationConstants.OpenFileMessage}?", null,
-                ShowFile ? (_, _) =>
-                    {
-                        try
-                        {
-                            new Process { StartInfo = new ProcessStartInfo(FilePath) { UseShellExecute = true } }.Start();
-                        }
-                        catch (Exception exc)
-                        {
-                            Show(exc);
-                        }
-                    }
-        : null
-              , ShowFile ? NotificationConstants.OpenFileMessage : null,
-                ShowDirectory ? (_, _) =>
-                    {
-                        try
-                        {
-                            new Process { StartInfo = new ProcessStartInfo(Path.GetDirectoryName(FilePath) ?? throw new ArgumentNullException(nameof(FilePath), "File path can\t be null")) { UseShellExecute = true } }.Start();
-                        }
-                        catch (Exception exc)
-                        {
-                            Show(exc);
-                        }
-
-                    }
-        : null, ShowDirectory ? NotificationConstants.OpenFolderMessage : null, ExpirationTime, AreaName, options, image);
-
-        /// <summary>
-        /// Show message with buttons
-        /// </summary>
-        /// <param name="Message">Message</param>
-        /// <param name="Title">Title</param>
-        /// <param name="LeftButton">Left button action (if null - not visible)</param>
-        /// <param name="LeftButtonContent">Left button content (possible text) - if null - "Cancel"</param>
-        /// <param name="RightButton">Right button action (if null - not visible)</param>
-        /// <param name="RightButtonContent">Right button content (possible text) - if null - "Ok"</param>
-        /// <param name="ExpirationTime">time after which the window will disappear</param>
-        /// <param name="AreaName">area name</param>
-        /// <param name="Image">image</param>
-        /// <param name="options"> Customization options </param>
-        /// <example>
-        /// <code>
-        /// Notifier.ShowInfoWindow("The picture is successfully added","Success",
-        /// RightButton:(Sender, Args) =&gt; _ = Process.Start(report_file.FullName), RightButtonContent:"Open file",
-        /// TimeSpan:TimeSpan.FromSeconds(10));
-        /// </code>
-        /// </example>
-        void ShowButtonWindow(string Message, [CanBeNull] string Title = null,
-        [CanBeNull] RoutedEventHandler LeftButton = null, string LeftButtonContent = null,
-            [CanBeNull] RoutedEventHandler RightButton = null, string RightButtonContent = null,
-            TimeSpan? ExpirationTime = null, string AreaName = "", ICustomizedOptions options = null, NotificationImage Image = null)
-        {
-            NotificationContent content = options is not null
-                ? new NotificationContent()
-                {
-                    Title = Title,
-                    Message = Message,
-                    Type = NotificationType.Notification,
-                    LeftButtonAction = LeftButton is null
-                        ? null
-                        : () => LeftButton.Invoke(null, null),
-                    LeftButtonContent = LeftButtonContent,
-                    RightButtonAction = RightButton is null
-                        ? null
-                        : () => RightButton.Invoke(null, null),
-                    RightButtonContent = RightButtonContent,
-                    Image = Image,
-                    Background = options.Background,
-                    Foreground = options.Foreground,
-                    Icon = options.Icon,
-                    MessageTextSettings = options.MessageTextSettings,
-                    TitleTextSettings = options.TitleTextSettings,
-                    RowsCount = options.RowsCount,
-                    TrimType = options.TrimType
-                }
-                : new NotificationContent()
-                {
-                    Title = Title,
-                    Message = Message,
-                    Type = NotificationType.Notification,
-                    LeftButtonAction = LeftButton is null
-                        ? null
-                        : () => LeftButton.Invoke(null, null),
-                    LeftButtonContent = LeftButtonContent,
-                    RightButtonAction = RightButton is null
-                        ? null
-                        : () => RightButton.Invoke(null, null),
-                    RightButtonContent = RightButtonContent,
-                    Image = Image
-                };
-
-            Show(content, AreaName, ExpirationTime, null, null, false);
-        }
+            bool ShowXbtn = true);
     }
-
 }

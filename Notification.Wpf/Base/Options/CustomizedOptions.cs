@@ -46,5 +46,21 @@ namespace Notification.Wpf.Base.Options
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalTextAlignment = VerticalAlignment.Stretch
         };
+
+
+        /// <summary> Get valid options after check for null </summary>
+        /// <param name="options">options</param>
+        /// <returns></returns>
+        public static ICustomizedOptions GetValidCustomizedOptions(ICustomizedOptions options) => new CustomizedOptions()
+        {
+            Background = options?.Background ?? NotificationConstants.DefaultBackgroundColor,
+            Foreground = options?.Foreground ?? NotificationConstants.DefaultForegroundColor,
+            Icon = options?.Icon,
+            MessageTextSettings = options?.MessageTextSettings,
+            TitleTextSettings = options?.TitleTextSettings,
+            RowsCount = options?.RowsCount is { } count and > 0 ? count : 1,
+            TrimType = options?.TrimType ?? NotificationConstants.DefaulTextTrimType
+        };
+
     }
 }

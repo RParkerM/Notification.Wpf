@@ -10,18 +10,30 @@
         xmlns:elements="clr-namespace:Notification.Wpf.Sample.Elements"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:helpers="clr-namespace:Notification.Wpf.Sample.Helpers"
+        xmlns:fa5="http://schemas.fontawesome.com/icons/"
         mc:Ignorable="d"
         WindowState="Maximized"
         ResizeMode="CanMinimize"
         Title="SampleWindow" Height="1200" Width="1920"
         d:DataContext="{d:DesignInstance viewModels:SampleWindowViewModel, IsDesignTimeCreatable=True }">
+    <Window.Resources>
+        <Style TargetType="{x:Type CheckBox}" >
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Visibility" Value="Visible"/>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" Value="{StaticResource LimeGreenBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <DockPanel>
         <controls:Notification DockPanel.Dock="Bottom" />
         <controls:NotificationArea x:Name="WindowArea" DockPanel.Dock="Bottom"
-                                   Position="{Binding MessagePosition,RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                   Position="{Binding MessagePosition}"
                                    MaxItems="{Binding MaxItems}"
                                    CollapseProgressAuto="{Binding CollapseProgressIfMoreRows}"
-                                   Panel.ZIndex="999"  Grid.Row="0" Grid.RowSpan="4"/>
+                                   Panel.ZIndex="999" />
 
         <Grid>
             <Grid.RowDefinitions>
@@ -37,13 +49,13 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-                <GroupBox Header="Title">
-                    <local:TextSettingView DataContext="{Binding TitleSettingModel}"/>
-                </GroupBox>
+            <GroupBox Header="Title">
+                <local:TextSettingView DataContext="{Binding TitleSettingModel}"/>
+            </GroupBox>
 
-                <GroupBox Header="Message" Grid.Row="0" Grid.Column="1">
-                    <local:TextSettingView DataContext="{Binding MessageSettingModel}"/>
-                </GroupBox>
+            <GroupBox Header="Message" Grid.Row="0" Grid.Column="1">
+                <local:TextSettingView DataContext="{Binding MessageSettingModel}"/>
+            </GroupBox>
 
             <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" >
                 <GroupBox Header="Notification area settings">
@@ -53,20 +65,11 @@
                         </Style>
                     </GroupBox.Resources>
                     <StackPanel>
+                        <CheckBox Content="Show X btn"
+                                  IsChecked="{Binding ShowXBtn, UpdateSourceTrigger= PropertyChanged}"
+                                  Margin="5,0" />
+
                         <StackPanel Orientation="Horizontal">
-                            <GroupBox VerticalAlignment="Top">
-                                <GroupBox.HeaderTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Show X btn" />
-                                            <CheckBox
-                                        IsChecked="{Binding ShowXBtn, UpdateSourceTrigger= PropertyChanged}"
-                                        Margin="5,0" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GroupBox.HeaderTemplate>
-                                <TextBlock Text="{Binding ShowXBtn, UpdateSourceTrigger= PropertyChanged}"/>
-                            </GroupBox>
                             <GroupBox VerticalAlignment="Top" Width="120" HorizontalAlignment="Left">
                                 <GroupBox.HeaderTemplate>
                                     <DataTemplate>
@@ -129,25 +132,8 @@
                     </GroupBox.Resources>
 
                     <StackPanel HorizontalAlignment="Left">
-                        <GroupBox>
-                            <GroupBox.HeaderTemplate>
-                                <DataTemplate>
-                                    <GroupBox ToolTip="progress bar automatically collapsing , if messages count more than maximum">
-                                        <GroupBox.HeaderTemplate>
-                                            <DataTemplate>
-                                                <CheckBox Content="Collapse progress automatically"
+                        <CheckBox Content="Collapse progress automatically" ToolTip="progress bar automatically collapsing , if messages count more than maximum"
                                                       IsChecked="{Binding CollapseProgressIfMoreRows, UpdateSourceTrigger=PropertyChanged}"/>
-
-                                            </DataTemplate>
-                                        </GroupBox.HeaderTemplate>
-
-                                        <TextBlock Text="{Binding CollapseProgressIfMoreRows, UpdateSourceTrigger=PropertyChanged}" />
-                                    </GroupBox>
-                                </DataTemplate>
-                            </GroupBox.HeaderTemplate>
-                            <TextBlock
-                                        Text="{Binding CollapseProgressIfMoreRows, UpdateSourceTrigger= PropertyChanged}" />
-                        </GroupBox>
                         <GroupBox>
                             <GroupBox.HeaderTemplate>
                                 <DataTemplate>
@@ -160,7 +146,7 @@
                                     </StackPanel>
                                 </DataTemplate>
                             </GroupBox.HeaderTemplate>
-                            <xctk:IntegerUpDown  Value="{Binding DataContext.MaxItems, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}},
+                            <xctk:UIntegerUpDown  Value="{Binding DataContext.MaxItems, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}},
                                 ValidatesOnDataErrors=False,
                                 NotifyOnValidationError=True,
                                 ValidatesOnNotifyDataErrors=False,
@@ -177,54 +163,108 @@
                                               SelectedItem="{Binding MessagePosition, UpdateSourceTrigger= PropertyChanged}"
                                               VerticalAlignment="Center"/>
                         </GroupBox>
-                        <GroupBox>
-                            <GroupBox.HeaderTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="In window" />
-                                        <CheckBox
-                                        IsChecked="{Binding ShowInParentWindow, UpdateSourceTrigger= PropertyChanged}"
-                                        Margin="5,0" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GroupBox.HeaderTemplate>
-                            <TextBlock
-                            Text="{Binding ShowInParentWindow, UpdateSourceTrigger= PropertyChanged}" />
-                        </GroupBox>
+                        <CheckBox Content="In window"
+                                  IsChecked="{Binding ShowInParentWindow, UpdateSourceTrigger= PropertyChanged}"
+                                  Margin="5,0" />
 
                     </StackPanel>
                 </GroupBox>
 
             </StackPanel>
+            <StackPanel Grid.Row="0" Grid.Column="3">
+                <StackPanel Orientation="Horizontal">
+                    <GroupBox Header="Image settings">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Select image" Click="OpenImage_Click" Height="20" Width="100" Margin="5,0"/>
+                            <Image Margin="5,0"
+                                       Width="50"
+                                       Height="50"
+                                       VerticalAlignment="Center"
+                                       Source="{Binding Image,UpdateSourceTrigger=PropertyChanged}" />
+                            <GroupBox Header="Image position" >
+                                <ComboBox ItemsSource="{helpers:EnumValues {x:Type wpf:ImagePosition}}"
+                                              SelectedItem="{Binding ImagePosition, UpdateSourceTrigger= PropertyChanged}"
+                                              Width="100" VerticalAlignment="Center"/>
+                            </GroupBox>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                </StackPanel>
+                <GroupBox Header="Color section">
+                    <GroupBox.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Width" Value="100"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </GroupBox.Resources>
+
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Background" Click="BackgroundColorSelect_Click"
+                                        Background="{Binding ContentBackground,UpdateSourceTrigger=PropertyChanged}" />
+                            <Button Content="Foreground" Click="ForegroundColorSelect_Click"
+                                        Background="{Binding ContentForeground,UpdateSourceTrigger=PropertyChanged}" />
+                            <Button Content="Icon color" Click="IconColorSelect_Click"
+                                        Background="{Binding IconForeground,UpdateSourceTrigger=PropertyChanged}" />
+                            <CheckBox
+                                IsChecked="{Binding ImageAsIcon}"
+                                Content="Use image as icon" 
+                                VerticalAlignment="Center"/>
+                            <fa5:SvgAwesome
+                                    Icon="{Binding SelectedIcon,
+                                Converter={helpers:IconConverter}}"
+                                    Height="20" Width="20"
+                                    Foreground="{Binding IconForeground}" />
+
+                        </StackPanel>
+                        <ListView x:Name="ListIcons" Height="220"
+                                      ItemsSource="{Binding Icons}"
+                                      SelectedItem="{Binding SelectedIcon}"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                      ScrollViewer.PanningMode="VerticalOnly">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                        </ListView>
+                    </StackPanel>
+
+                </GroupBox>
+
+            </StackPanel>
 
             <GroupBox Header="Notification" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Top">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
 
-                    <GroupBox Header="Notification Type">
-                        <ComboBox x:Name="ComboBoxType"
-                                      ItemsSource="{helpers:EnumValues {x:Type wpf:NotificationType}}"
-                                      SelectedItem="{Binding SelectedNotificationType, UpdateSourceTrigger= PropertyChanged}"
-                                      Width="100" VerticalAlignment="Center" />
-                    </GroupBox>
-                    <GroupBox Header="Trim type">
-                        <ComboBox ItemsSource="{helpers:EnumValues {x:Type wpf:NotificationTextTrimType}}"
+                        <GroupBox Header="Notification type">
+                            <ComboBox ItemsSource="{helpers:EnumValues {x:Type wpf:NotificationType}}"
+                                  SelectedItem="{Binding SelectedNotificationType, UpdateSourceTrigger= PropertyChanged}"
+                                  Width="100" VerticalAlignment="Center" />
+                        </GroupBox>
+                        <GroupBox Header="Trim type">
+                            <ComboBox ItemsSource="{helpers:EnumValues {x:Type wpf:NotificationTextTrimType}}"
                                       SelectedItem="{Binding SelectedTrimType, UpdateSourceTrigger= PropertyChanged}"
                                       VerticalAlignment="Top" Width="100"
                                       Height="25" />
-                    </GroupBox>
-                    <GroupBox>
-                        <GroupBox.HeaderTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock>
+                        </GroupBox>
+                        <GroupBox>
+                            <GroupBox.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock>
                                             <Run Text="Rows count " />
                                             <Run
                                                 Text="{Binding RowCount,UpdateSourceTrigger=PropertyChanged}" />
-                                    </TextBlock>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GroupBox.HeaderTemplate>
-                        <xctk:IntegerUpDown  Value="{Binding DataContext.RowCount, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}},
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GroupBox.HeaderTemplate>
+                            <xctk:IntegerUpDown  Value="{Binding DataContext.RowCount, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}},
                                 ValidatesOnDataErrors=False,
                                 NotifyOnValidationError=True,
                                 ValidatesOnNotifyDataErrors=False,
@@ -233,68 +273,104 @@
                                              Minimum="1"
                                              Increment="1"
                                              ClipValueToMinMax="True"/>
-                    </GroupBox>
-                    <GroupBox>
-                        <GroupBox.HeaderTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Left button" />
-                                    <CheckBox
+                        </GroupBox>
+                        <GroupBox>
+                            <GroupBox.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Left button" />
+                                        <CheckBox
                                             IsChecked="{Binding ShowLeftButton,
                                 UpdateSourceTrigger= PropertyChanged}"
                                             Margin="5,0" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </GroupBox.HeaderTemplate>
-                        <TextBox
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GroupBox.HeaderTemplate>
+                            <TextBox
                                 Text="{Binding LeftButtonText,
                         UpdateSourceTrigger= PropertyChanged}"
                                 Width="100" />
-                    </GroupBox>
-                    <GroupBox>
-                        <GroupBox.HeaderTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Right button" />
-                                    <CheckBox
+                        </GroupBox>
+                        <GroupBox>
+                            <GroupBox.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Right button" />
+                                        <CheckBox
                                             IsChecked="{Binding ShowRightButton,
                                 UpdateSourceTrigger= PropertyChanged}"
                                             Margin="5,0" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </GroupBox.HeaderTemplate>
-                        <TextBox
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GroupBox.HeaderTemplate>
+                            <TextBox
                                 Text="{Binding RightButtonText,
                         UpdateSourceTrigger= PropertyChanged}"
                                 Width="100" />
-                    </GroupBox>
-                    <GroupBox>
-                        <GroupBox.HeaderTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Close on click" />
-                                    <CheckBox
-                                            IsChecked="{Binding CloseOnClick,
+                        </GroupBox>
+                        <CheckBox Content="Close on click"
+                              IsChecked="{Binding CloseOnClick,
                                 UpdateSourceTrigger= PropertyChanged}"
-                                            Margin="5,0" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </GroupBox.HeaderTemplate>
-                        <TextBlock
-                                Text="{Binding CloseOnClick,
-                        UpdateSourceTrigger= PropertyChanged}" />
-                    </GroupBox>
+                              Margin="5,0" />
 
-                </StackPanel>
+                    </StackPanel>
+
+
+                </DockPanel>
+            </GroupBox>
+            <GroupBox Header="Test" DockPanel.Dock="Right" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="3" >
+                <WrapPanel Grid.Row="2">
+                    <WrapPanel.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Width" Value="100"/>
+                            <Setter Property="Margin" Value="5"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </WrapPanel.Resources>
+                    <Button Content="Test message" Click="TestMessage" VerticalAlignment="Center" Height="20" Width="100" Margin="5,0"/>
+                    <Button Content="Timer message" Click="Button_Timer"/>
+                    <Button Content="Show content" Click="Show_Any_content" />
+                    <Button Content="Show Progress" Click="Progress_Click" />
+                </WrapPanel>
+
             </GroupBox>
 
-            <GroupBox Header="Test" Grid.Row="2">
-                <Button Content="Test" Click="TestMessage" VerticalAlignment="Center" Height="20" Width="100" Margin="5,0"/>
+            <GroupBox Header="Test" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left">
+                <Button Content="Test message" Click="TestMessage" VerticalAlignment="Center" Height="20" Width="100" Margin="5,0"/>
             </GroupBox>
             <GroupBox Header="Preview" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4">
                 <TabControl>
                     <TabItem Header="Message">
+                        <controls:Notification 
+                            MinWidth="{Binding AreaMinWidth}"
+                            MaxWidth="{Binding AreaMaxWidth}">
+                            <wpf:NotificationContent 
 
+                                Title="{Binding TitleSettingModel.Text}"
+                                Message="{Binding MessageSettingModel.Text}"
+
+
+                                Type ="{Binding SelectedNotificationType}"
+                                Image ="{Binding ??}"
+                                CloseOnClick="{Binding CloseOnClick}"
+
+
+                                LeftButtonAction ="{Binding ??}"
+                                LeftButtonContent ="{Binding LeftButtonText}"
+                                RightButtonAction ="{Binding }"
+                                RightButtonContent="{Binding RightButtonText}"
+
+
+                                Background ="{Binding }"
+                                Foreground ="{Binding }"
+                                Icon ="{Binding }"
+                                MessageTextSettings ="{Binding MessageSettingModel.TextSetting}"
+                                TitleTextSettings ="{Binding TitleSettingModel.TextSetting}"
+                                RowsCount ="{Binding RowCount}"
+                                TrimType="{Binding SelectedTrimType}"
+
+                            />
+                        </controls:Notification>
                     </TabItem>
                     <TabItem Header="Progress">
                         <!--<ProgressBar Width="200" Height="20" IsIndeterminate="False" Value="{Binding RowCount,
@@ -304,6 +380,16 @@
             </b:Interaction.Behaviors>
                 </ProgressBar>-->
 
+                        <DockPanel>
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" VerticalAlignment="Top" Margin="0,2">
+                                <StackPanel>
+                                    <CheckBox Content="Collapsed progress bar" IsChecked="{Binding ProgressCollapsed, UpdateSourceTrigger= PropertyChanged}" Margin="5,0"/>
+                                    <CheckBox Content="Title or Message when collapse" IsChecked="{Binding ProgressTitleOrMessage, UpdateSourceTrigger= PropertyChanged}" Margin="5,0" />
+                                </StackPanel>
+                                <Button Content="Progress color" Click="ProgressColorSelect_Click" Background="{Binding ProgressColor, UpdateSourceTrigger= PropertyChanged}"/>
+                            </StackPanel>
+
+                        </DockPanel>
                     </TabItem>
                     <TabItem Header="Image">
 

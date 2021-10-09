@@ -1,18 +1,16 @@
 ﻿using System.Windows;
 using System.Windows.Automation.Text;
 using System.Windows.Media;
+
 using Notification.Wpf.Base;
+using Notification.Wpf.Base.Interfaces.Options;
 using Notification.Wpf.Constants;
 
-namespace Notification.Wpf
+namespace Notification.Wpf.Base.Options
 {
     /// <inheritdoc />
-    public class BaseNotificationContent : ICustomizedNotification
+    public class CustomizedOptions : ICustomizedOptions
     {
-        /// <inheritdoc />
-        public string Title { get; set; }
-        /// <inheritdoc />
-        public string Message { get; set; }
         /// <inheritdoc />
         public object Icon { get; set; }
 
@@ -48,6 +46,5 @@ namespace Notification.Wpf
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalTextAlignment = VerticalAlignment.Stretch
         };
-
     }
 }

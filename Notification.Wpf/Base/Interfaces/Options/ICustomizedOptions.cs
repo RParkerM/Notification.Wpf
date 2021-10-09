@@ -1,14 +1,14 @@
-﻿using System.Windows;
-using System.Windows.Automation.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Media;
-using Notification.Wpf.Base;
 
-namespace Notification.Wpf
+namespace Notification.Wpf.Base.Interfaces.Options
 {
-    /// <summary>
-    /// Customized notification
-    /// </summary>
-    public interface ICustomizedNotification : INotificationBase
+    /// <summary> Customized options for notification </summary>
+    public interface ICustomizedOptions
     {
         /// <summary> icon in left bar side </summary>
         public object Icon { get; set; }

@@ -109,5 +109,13 @@ namespace Notification.Wpf.Constants
         public static double MaxWidth { get; set; } = 350D;
 
         #endregion
+
+
+        /// <summary> Default message for Show Cancellation </summary>
+        public static string CancellationMessage { get; set; } = "Operation was cancelled";
+        /// <summary> Open file button text </summary>
+        public static string OpenFileMessage { get; set; } = "Open File";
+        /// <summary> Open folder button text </summary>
+        public static string OpenFolderMessage { get; set; } = "Open Folder";
     }
 }

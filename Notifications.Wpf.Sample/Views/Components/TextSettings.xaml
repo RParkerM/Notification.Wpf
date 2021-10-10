@@ -28,19 +28,27 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-
+        <Grid.Resources>
+            <Style TargetType="{x:Type TextBlock}" >
+                <Setter Property="Margin" Value="5"/>
+            </Style>
+        </Grid.Resources>
         <TextBlock Grid.Row="1" Grid.Column="0" Text="FontFamily"/>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FontFamilySample, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBlock Grid.Row="2" Grid.Column="0"  Text="FontSize"/>
-        <xctk:DoubleUpDown   Grid.Row="2" Grid.Column="1"  Value="{Binding FontSizeSample ,
+        <TextBlock Grid.Row="2" Grid.Column="0">
+
+            <Run Text="FontSize "></Run>
+            <Run Text="{Binding FontSizeSample}"></Run>
+        </TextBlock>
+        <Slider   Grid.Row="2" Grid.Column="1"  Value="{Binding FontSizeSample ,
             ValidatesOnDataErrors=False,
             NotifyOnValidationError=True, 
             ValidatesOnNotifyDataErrors=False}"
-                             UpdateValueOnEnterKey="True"
                              Minimum="10"
                              Maximum="40"
-                             Increment="2"
-                             ClipValueToMinMax="True" VerticalAlignment="Center"
+                             TickFrequency="1"
+                             IsSnapToTickEnabled="True"
+                             VerticalAlignment="Center"
         />
 
         <TextBlock Grid.Row="3" Grid.Column="0"  Text="FontStyle"/>
@@ -64,15 +72,20 @@
         <ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{helpers:EnumValues {x:Type VerticalAlignment}}"
                       SelectedItem="{Binding VerAlign, UpdateSourceTrigger= PropertyChanged}"
                       Width="100" VerticalAlignment="Center"/>
-        <TextBlock Grid.Row="8" Grid.Column="0"  Text="Opacity"/>
-        <xctk:DoubleUpDown  Grid.Row="8" Grid.Column="1"  Value="{Binding OpacitySample
-                                            , ValidatesOnDataErrors=False
-                                            , NotifyOnValidationError=True, ValidatesOnNotifyDataErrors=False, UpdateSourceTrigger=PropertyChanged}"
-                            VerticalAlignment="Center"
-                            UpdateValueOnEnterKey="True"  
-                            Minimum="0"
-                            Maximum="1"
-                            Increment=".2"
-                            ClipValueToMinMax="True"/>
+        <TextBlock Grid.Row="8" Grid.Column="0">
+            <Run Text="Opacity "></Run>
+            <Run Text="{Binding OpacitySample, StringFormat={}{0:0.#}}"></Run>
+        </TextBlock>
+
+        <Slider   Grid.Row="8" Grid.Column="1"    Value="{Binding OpacitySample ,
+            ValidatesOnDataErrors=False,
+            NotifyOnValidationError=True, 
+            ValidatesOnNotifyDataErrors=False}"
+                  Minimum="0.1"
+                  Maximum="1"
+                  TickFrequency=".1"
+                  IsSnapToTickEnabled="True"
+                  VerticalAlignment="Center"
+        />
     </Grid>
 </UserControl>

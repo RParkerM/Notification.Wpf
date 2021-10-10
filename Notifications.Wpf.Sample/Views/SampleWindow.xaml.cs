@@ -43,7 +43,7 @@ namespace Notification.Wpf.Sample.Views
 
             context.TitleSettingModel.Text = "Title sample text";
             context.TitleSettingModel.FontWeightSample = FontWeights.Bold;
-
+            DataContext = context;
 
         }
     }

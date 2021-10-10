@@ -18,7 +18,7 @@
         </Grid.ColumnDefinitions>
         <TextBox  Grid.Column="1"
                   Text="{Binding Text, UpdateSourceTrigger= PropertyChanged}" 
-                  TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
+                  TextWrapping="Wrap" VerticalScrollBarVisibility="Visible"
 
                   FontFamily="{Binding FontFamilySample,UpdateSourceTrigger=PropertyChanged}"
                   FontSize="{Binding FontSizeSample,UpdateSourceTrigger=PropertyChanged}"
@@ -29,13 +29,13 @@
                   VerticalAlignment="{Binding VerAlign,UpdateSourceTrigger=PropertyChanged}"
                   Opacity="{Binding OpacitySample,UpdateSourceTrigger=PropertyChanged}"/>
 
-        <GroupBox Grid.Column="0">
+        <GroupBox Grid.Column="0" VerticalAlignment="Top">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Use settings" />
                         <CheckBox
-                            IsChecked="{Binding IsActive, UpdateSourceTrigger= PropertyChanged}"
+                            IsChecked="{Binding DataContext.IsActive, UpdateSourceTrigger= PropertyChanged,RelativeSource={RelativeSource AncestorType=local:TextSettingView}}"
                             Margin="5,0" />
                     </StackPanel>
                 </DataTemplate>

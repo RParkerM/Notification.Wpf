@@ -225,7 +225,8 @@ namespace Notification.Wpf.Sample.ViewModels
                 FontWeight = FontWeightSample,
                 TextAlignment = TextAlign,
                 HorizontalAlignment = HorAlign,
-                VerticalTextAlignment = VerAlign
+                VerticalTextAlignment = VerAlign,
+                Opacity = OpacitySample
             };
         }
 

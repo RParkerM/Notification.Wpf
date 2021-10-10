@@ -10,15 +10,24 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+
 using FontAwesome5;
+
 using MathCore.ViewModels;
 using MathCore.WPF.Commands;
+
 using Microsoft.Win32;
+
 using Notification.Wpf.Base;
 using Notification.Wpf.Base.Options;
 using Notification.Wpf.Classes;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
+using Notification.Wpf.View;
+
+using Notifications.Wpf.ViewModels;
+
+using Notification = Notification.Wpf.Controls.Notification;
 
 namespace Notification.Wpf.Sample.ViewModels
 {
@@ -41,6 +50,27 @@ namespace Notification.Wpf.Sample.ViewModels
         }
 
         #endregion
+
+        #region ImageNotification : Controls - Image
+
+        /// <summary>Image</summary>
+        private Controls.Notification _ImageNotification;
+
+        /// <summary>Image</summary>
+        public Controls.Notification ImageNotification { get => _ImageNotification; set => Set(ref _ImageNotification, value); }
+
+        #endregion
+
+        #region ProgressNotification : NotificationProgress - progress
+
+        /// <summary>progress</summary>
+        private Controls.Notification _ProgressNotification;
+
+        /// <summary>progress</summary>
+        public Controls.Notification ProgressNotification { get => _ProgressNotification; set => Set(ref _ProgressNotification, value); }
+
+        #endregion
+
         public SampleWindowViewModel()
         {
             TitleSettingModel.PropertyChanged += (Sender, Args) => SetContent();
@@ -49,7 +79,7 @@ namespace Notification.Wpf.Sample.ViewModels
             OpenImageCommand = Command.New(OpenImage);
         }
 
-        private void SetContent()
+        private NotificationContent GetContent(bool isProgress = false)
         {
             var type = SelectedNotificationType;
             var isNone = type == NotificationType.None;
@@ -58,7 +88,6 @@ namespace Notification.Wpf.Sample.ViewModels
             {
                 Title = TitleSettingModel.Text,
                 Message = MessageSettingModel.Text,
-
 
                 Type = type,
                 Image = Image,
@@ -71,19 +100,45 @@ namespace Notification.Wpf.Sample.ViewModels
                 RightButtonContent = RightButtonText ?? NotificationConstants.DefaultRightButtonContent,
 
 
-                Background = isNone ? new SolidColorBrush(ContentBackground) ?? NotificationConstants.DefaultBackgroundColor : null,
-                Foreground = isNone ? new SolidColorBrush(ContentForeground) ?? NotificationConstants.DefaultForegroundColor : null,
-                Icon = GetIcon(false),
+                Background = isNone ? new SolidColorBrush(ContentBackground) : null,
+                Foreground = isNone ? new SolidColorBrush(ContentForeground) : null,
+                Icon = GetIcon(isProgress),
                 MessageTextSettings = MessageSettingModel.IsActive ? MessageSettingModel.TextSetting : null,
                 TitleTextSettings = TitleSettingModel.IsActive ? TitleSettingModel.TextSetting : null,
                 RowsCount = RowCount is { } count and > 0 ? count : 1,
                 TrimType = SelectedTrimType
             };
 
-            Notification = new Controls.Notification(content, ShowXBtn)
-            {
-                VerticalAlignment = VerticalAlignment.Bottom,
-            };
+            return content;
+        }
+
+        private void UpdateNotificationArea() { Notification = new Controls.Notification(GetContent(), ShowXBtn); }
+
+        private void UpdateImageArea()
+        {
+            ImageNotification = new Controls.Notification(ImageSource, ShowXBtn);
+        }
+        private void UpdateProgressArea()
+        {
+            ICustomizedNotification content = GetContent(true);
+            var model = new NotificationProgressViewModel(content,
+                ShowCancelButton,
+                ShowProgress,
+                UseWaitingMessage ? BaseWaitingMessage : null,
+                ProgressCollapsed,
+                ProgressTitleOrMessage,
+                new SolidColorBrush(ProgressColor));
+            NotificationProgress progress = new NotificationProgress() { DataContext = model };
+            ProgressNotification = new Controls.Notification(progress, ShowXBtn);
+           SetProgressValue(ProgressValue);
+        }
+        private void SetContent()
+        {
+            UpdateNotificationArea();
+
+            UpdateImageArea();
+
+            UpdateProgressArea();
         }
 
         #region Text
@@ -414,6 +469,7 @@ namespace Notification.Wpf.Sample.ViewModels
         }
 
         #endregion
+
         #region LeftButtonText : string - Left btn text content
 
         /// <summary>Left btn text content</summary>
@@ -494,7 +550,10 @@ namespace Notification.Wpf.Sample.ViewModels
         void OnImageChanged()
         {
             if (!ImageAsIcon && (ImagePosition == ImagePosition.None || ImageSource is null))
+            {
+                Image = null;
                 return;
+            }
             Image = new NotificationImage()
             {
                 Position = ImagePosition,
@@ -654,7 +713,7 @@ namespace Notification.Wpf.Sample.ViewModels
             var selected_icon = (EFontAwesomeIcon)(int)(SelectedIcon ?? new SvgAwesome()).Icon;
 
             if (ImageAsIcon)
-                return Image;
+                return ImageSource;
 
             if (!isNone || IconSelectedIndex == 0)
                 return null;
@@ -733,7 +792,7 @@ namespace Notification.Wpf.Sample.ViewModels
             set
             {
                 Set(ref _ProgressColor, value);
-                SetContent();
+                UpdateProgressArea();
             }
         }
 
@@ -751,7 +810,7 @@ namespace Notification.Wpf.Sample.ViewModels
             set
             {
                 Set(ref _ProgressCollapsed, value);
-                SetContent();
+                UpdateProgressArea();
             }
         }
 
@@ -769,11 +828,100 @@ namespace Notification.Wpf.Sample.ViewModels
             set
             {
                 Set(ref _ProgressTitleOrMessage, value);
-                SetContent();
+                UpdateProgressArea();
             }
         }
 
         #endregion
+
+        #region ShowCancelButton : bool - show progress cancel btn
+
+        /// <summary>show progress cancel btn</summary>
+        private bool _ShowCancelButton = true;
+
+        /// <summary>show progress cancel btn</summary>
+        public bool ShowCancelButton { get => _ShowCancelButton; set => Set(ref _ShowCancelButton, value); }
+
+        #endregion
+
+        #region ShowProgress : bool - Show Progress Value
+
+        /// <summary>Show Progress Value</summary>
+        private bool _ShowProgress;
+
+        /// <summary>Show Progress Value</summary>
+        public bool ShowProgress
+        {
+            get => _ShowProgress;
+            set
+            {
+                Set(ref _ShowProgress, value);
+                UpdateProgressArea();
+            }
+        }
+
+        #endregion
+
+        #region UseWaitingMessage : bool - Use Waiting Message
+
+        /// <summary>Use Waiting Message</summary>
+        private bool _UseWaitingMessage = true;
+
+        /// <summary>Use Waiting Message</summary>
+        public bool UseWaitingMessage
+        {
+            get => _UseWaitingMessage;
+            set
+            {
+                Set(ref _UseWaitingMessage, value);
+                UpdateProgressArea();
+            }
+        }
+
+        #endregion
+        #region BaseWaitingMessage : string - Base Waiting Message when calculation
+
+        /// <summary>Base Waiting Message when calculation</summary>
+        private string _BaseWaitingMessage = "Calculation time";
+
+        /// <summary>Base Waiting Message when calculation</summary>
+        public string BaseWaitingMessage
+        {
+            get => _BaseWaitingMessage;
+            set
+            {
+                Set(ref _BaseWaitingMessage, value);
+                UpdateProgressArea();
+            }
+        }
+
+        #endregion
+
+        #region ProgressValue : double - progress value
+
+        /// <summary>progress value</summary>
+        private double _ProgressValue;
+
+        /// <summary>progress value</summary>
+        public double ProgressValue
+        {
+            get => _ProgressValue;
+            set
+            {
+                Set(ref _ProgressValue, value);
+                SetProgressValue(value);
+            }
+        }
+
+        void SetProgressValue(double value)
+        {
+            if (ProgressNotification?.Content is not NotificationProgress { DataContext: NotificationProgressViewModel context } progress)
+                return;
+            context.NotifierProgress.Report((ShowProgress ? value : null, MessageSettingModel.Text, TitleSettingModel.Text, ShowCancelButton));
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -811,5 +959,6 @@ namespace Notification.Wpf.Sample.ViewModels
 
 
         #endregion
+
     }
 }

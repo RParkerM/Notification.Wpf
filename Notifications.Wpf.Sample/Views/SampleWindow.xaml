@@ -41,7 +41,7 @@
                                    Position="{Binding MessagePosition}"
                                    MaxItems="{Binding MaxItems}"
                                    CollapseProgressAuto="{Binding CollapseProgressIfMoreRows}"
-                                   Panel.ZIndex="999" />
+                                   Panel.ZIndex="999"/>
 
         <Grid>
             <Grid.RowDefinitions>
@@ -322,37 +322,37 @@
 
             <GroupBox Header="Preview" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4">
                 <TabControl>
-                    <TabItem Header="Message" Content="{Binding Notification}">
-                        <!--<controls:Notification 
-                            VerticalAlignment="Bottom"
-                            XbtnVisibility="{Binding ShowXBtn, UpdateSourceTrigger=PropertyChanged}"
-                            MinWidth="{Binding AreaMinWidth}"
-                            MaxWidth="{Binding AreaMaxWidth}"
-                            Content="{Binding Notification, UpdateSourceTrigger=PropertyChanged}">
-                        </controls:Notification>-->
+                    <TabItem Header="Message">
+                        <ContentControl Content="{Binding Notification}"
+                                        VerticalAlignment="{Binding MessagePosition, Converter={helpers:VerticalPositionConverter}}"
+                                        HorizontalAlignment="{Binding MessagePosition, Converter={helpers:HorizontalPositionConverter}}"/>
                     </TabItem>
                     <TabItem Header="Progress">
-                        <!--<ProgressBar Width="200" Height="20" IsIndeterminate="False" Value="{Binding RowCount,
-                RelativeSource={RelativeSource AncestorType={x:Type Window}},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-            <b:Interaction.Behaviors>
-                <controls:ProgresBarAnimateBehavior />
-            </b:Interaction.Behaviors>
-                </ProgressBar>-->
-
                         <DockPanel>
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" VerticalAlignment="Top" Margin="0,2">
-                                <StackPanel>
+                                <StackPanel Orientation="Horizontal">
                                     <CheckBox Content="Collapsed progress bar" IsChecked="{Binding ProgressCollapsed, UpdateSourceTrigger= PropertyChanged}" />
                                     <CheckBox Content="Title or Message when collapse" IsChecked="{Binding ProgressTitleOrMessage, UpdateSourceTrigger= PropertyChanged}"  />
+                                    <CheckBox Content="Show cancel button" IsChecked="{Binding ShowCancelButton, UpdateSourceTrigger= PropertyChanged}"  />
+                                    <CheckBox Content="Show progress" IsChecked="{Binding ShowProgress, UpdateSourceTrigger= PropertyChanged}"  />
+                                    <CheckBox Content="Show calculation message" IsChecked="{Binding UseWaitingMessage, UpdateSourceTrigger= PropertyChanged}"  />
+                                    <TextBox Text="{Binding BaseWaitingMessage, UpdateSourceTrigger= PropertyChanged}" Width="200"/>
+                                    <Slider Value="{Binding ProgressValue, UpdateSourceTrigger= PropertyChanged}" Minimum="0" Maximum="100" Width="200" Cursor="Hand" IsSnapToTickEnabled="True" TickFrequency="1"></Slider>
                                 </StackPanel>
                             </StackPanel>
-
+                            <ContentControl Content="{Binding ProgressNotification}"
+                                            VerticalAlignment="{Binding MessagePosition, Converter={helpers:VerticalPositionConverter}}"
+                                            HorizontalAlignment="{Binding MessagePosition, Converter={helpers:HorizontalPositionConverter}}"/>
                         </DockPanel>
                     </TabItem>
                     <TabItem Header="Image">
+                        <ContentControl Content="{Binding ImageNotification}"
+                                        MinWidth="{Binding AreaMinWidth}"
+                                        MaxWidth="{Binding AreaMaxWidth}"
 
-                    </TabItem>
-                    <TabItem Header="String">
+                                        VerticalAlignment="{Binding MessagePosition, Converter={helpers:VerticalPositionConverter}}"
+                                        HorizontalAlignment="{Binding MessagePosition, Converter={helpers:HorizontalPositionConverter}}"
+                                        />
 
                     </TabItem>
                 </TabControl>

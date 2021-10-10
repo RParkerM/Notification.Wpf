@@ -99,7 +99,6 @@ namespace Notification.Wpf.Constants
 
         /// <summary> Cancel button content </summary>
         public static object DefaultProgressButtonContent { get; set; } = "Cancel";
-
         #endregion
 
         #region Area

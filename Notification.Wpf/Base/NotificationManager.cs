@@ -367,8 +367,8 @@ namespace Notification.Wpf
             {
                 switch (content)
                 {
-                    case NotificationProgressViewModel:
-                        area.Show(content, ShowXbtn);
+                    case NotificationProgressViewModel progress:
+                        area.Show(progress, ShowXbtn);
                         break;
                     default:
                         area.Show(content, (TimeSpan)expirationTime, onClick, onClose, CloseOnClick,ShowXbtn);

@@ -4,7 +4,7 @@
     <TargetFrameworks>net5.0-windows;netcoreapp3.1-windows;net4.6-windows;net4.6.1-windows;net4.7-windows;net4.8-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <LangVersion>latest</LangVersion>
-    <Version>5.6.1</Version>
+    <Version>5.7.0</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Notifications.Wpf.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
@@ -31,12 +31,10 @@
     <RepositoryUrl>https://github.com/Platonenkov/Notification.Wpf</RepositoryUrl>
     <PackageTags>Toast Notifications WPF</PackageTags>
     <PackageReleaseNotes>
-      Added overlay window position from constants,
-      Added text style settings to content,
-      ImageSource template for icon,
-      X-Close button visible setting
-      Add Notification Min and Max Setting
-      Add ImageSource template for Notification
+      Add new sample project in repository,
+      Add Center screen message position
+      Fix progress margin style when no waiting message and button,
+      Add functions for base message functions (errors view, open file or directory)
     </PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
@@ -59,7 +57,8 @@
 
   <ItemGroup>
     <PackageReference Include="FontAwesome5" Version="2.1.4" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
+    <PackageReference Include="Microsoft.DependencyValidation.Analyzers" Version="0.11.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.37" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 

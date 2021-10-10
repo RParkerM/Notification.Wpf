@@ -1,21 +1,9 @@
 ﻿using System;
-using Notification.Wpf.Classes;
 
-namespace Notification.Wpf
+namespace Notification.Wpf.Base.Interfaces.Options
 {
-    /// <summary>
-    /// Notification template
-    /// </summary>
-    public interface INotification: ICustomizedNotification
+    public interface IButtonOptions
     {
-        /// <summary> Image </summary>
-        public NotificationImage Image { get; set; }
-        /// <summary> Notification type (change color) </summary>
-        NotificationType Type { get; set; }
-
-        /// <summary> close message when OnClick to message window </summary>
-        public bool CloseOnClick { get; set; }
-
         #region Left button
 
         /// <summary>

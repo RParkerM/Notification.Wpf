@@ -336,7 +336,7 @@ namespace Notification.Wpf.Sample.ViewModels
         #region MessagePosition : NotificationPosition - Message position
 
         /// <summary>Message position</summary>
-        private NotificationPosition _MessagePosition = NotificationPosition.BottomCenter;
+        private NotificationPosition _MessagePosition = NotificationConstants.MessagePosition = NotificationPosition.BottomCenter;
 
         /// <summary>Message position</summary>
         public NotificationPosition MessagePosition

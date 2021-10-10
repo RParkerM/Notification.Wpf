@@ -36,13 +36,6 @@
         </Style>
 
     </Window.Resources>
-    <DockPanel>
-        <controls:NotificationArea x:Name="WindowArea" DockPanel.Dock="Bottom"
-                                   Position="{Binding MessagePosition}"
-                                   MaxItems="{Binding MaxItems}"
-                                   CollapseProgressAuto="{Binding CollapseProgressIfMoreRows}"
-                                   Panel.ZIndex="999"/>
-
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -56,8 +49,12 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-
-            <TextBlock Grid.Row="2" Grid.Column="3" DataContext="{Binding DataContext.MessageSettingModel, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}"
+            <controls:NotificationArea x:Name="WindowArea" DockPanel.Dock="Bottom" Grid.Row="0" Grid.RowSpan="4" Grid.ColumnSpan="4" Grid.Column="0"
+                                       Position="{Binding MessagePosition}"
+                                       MaxItems="{Binding MaxItems}"
+                                       CollapseProgressAuto="{Binding CollapseProgressIfMoreRows}"
+                                       Panel.ZIndex="999"/>
+        <TextBlock Grid.Row="2" Grid.Column="3" DataContext="{Binding DataContext.MessageSettingModel, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}"
                        HorizontalAlignment="{Binding HorAlign,UpdateSourceTrigger=PropertyChanged}" 
                        VerticalAlignment="{Binding VerAlign,UpdateSourceTrigger=PropertyChanged}"
                        Text="{Binding Text,UpdateSourceTrigger=PropertyChanged}"
@@ -106,6 +103,7 @@
                     <StackPanel>
                         <CheckBox Content="Show X btn"
                                   IsChecked="{Binding ShowXBtn, UpdateSourceTrigger= PropertyChanged}"/>
+                        <CheckBox Content="Close on click" IsChecked="{Binding CloseOnClick, UpdateSourceTrigger= PropertyChanged}" />
 
                         <GroupBox>
                             <GroupBox.HeaderTemplate>
@@ -202,8 +200,7 @@
                         <fa5:SvgAwesome
                                     Icon="{Binding SelectedIcon,
                                 Converter={helpers:IconConverter}}"
-                                    Height="20" Width="20"
-                                    Foreground="{Binding IconForeground}" />
+                                    Height="20" Width="20"/>
 
                     </StackPanel>
                     <ListView x:Name="ListIcons" Height="220"
@@ -221,7 +218,7 @@
 
             </GroupBox>
 
-            <GroupBox Header="Notification" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Top">
+            <GroupBox Header="Notification" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left">
                 <DockPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
 
@@ -259,12 +256,43 @@
                         UpdateSourceTrigger= PropertyChanged}"
                                 Width="100" />
                         </GroupBox>
-                        <CheckBox Content="Close on click" IsChecked="{Binding CloseOnClick, UpdateSourceTrigger= PropertyChanged}" />
 
                     </StackPanel>
 
-
                 </DockPanel>
+            </GroupBox>
+            <GroupBox Header="Progress" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel>
+                            <CheckBox Content="Collapsed progress bar" IsChecked="{Binding ProgressCollapsed, UpdateSourceTrigger= PropertyChanged}" Margin="3,2" />
+                        <CheckBox Content="Title or Message when collapse" IsChecked="{Binding ProgressTitleOrMessage, UpdateSourceTrigger= PropertyChanged}" Margin="3,2" />
+                        <CheckBox Content="Show cancel button" IsChecked="{Binding ShowCancelButton, UpdateSourceTrigger= PropertyChanged}"  Margin="3,2"/>
+                        </StackPanel>
+                        <GroupBox>
+                            <GroupBox.HeaderTemplate>
+                                <DataTemplate>
+                                <CheckBox Content="Show calculation message" IsChecked="{Binding DataContext.UseWaitingMessage, UpdateSourceTrigger= PropertyChanged , RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" />
+                                </DataTemplate>
+                            </GroupBox.HeaderTemplate>
+                            <TextBox Text="{Binding BaseWaitingMessage, UpdateSourceTrigger= PropertyChanged}" VerticalAlignment="Top"
+                                     Width="200"
+                                     Visibility="{Binding UseWaitingMessage, Converter={Bool2Visibility Collapsed=False}}"/>
+                        </GroupBox>
+                        <GroupBox >
+                            <GroupBox.HeaderTemplate>
+                                <DataTemplate>
+                                <CheckBox Content="Show progress" IsChecked="{Binding DataContext.ShowProgress, UpdateSourceTrigger= PropertyChanged , RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" />
+                                </DataTemplate>
+                            </GroupBox.HeaderTemplate>
+                            <Slider Value="{Binding ProgressValue, UpdateSourceTrigger= PropertyChanged}"
+                                    Minimum="0" Maximum="100" Width="200" Cursor="Hand" IsSnapToTickEnabled="True" TickFrequency="1"
+                                    Visibility="{Binding ShowProgress, Converter={Bool2Visibility Collapsed=False}}"/>
+                        </GroupBox>
+
+                        <StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+
             </GroupBox>
             <GroupBox Header="Test" DockPanel.Dock="Right" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="3" >
                 <WrapPanel>
@@ -275,7 +303,7 @@
                             <Setter Property="VerticalAlignment" Value="Center"/>
                         </Style>
                     </WrapPanel.Resources>
-                    <Button Content="Test message" Command="{Binding ShowTestMessageCommand}" VerticalAlignment="Center" />
+                    <Button Content="Test message" Command="{Binding ShowTestMessageCommand}" />
                     <Button Content="Timer message" Command="{Binding ShowTimerMessageCommand}"/>
                     <Button Content="Show content" Command="{Binding ShowContentCommand}"/>
                     <Button Content="Show Progress" Command="{Binding ShowProgressMessageCommand}"/>
@@ -320,34 +348,20 @@
 
             </DockPanel>
 
-            <GroupBox Header="Preview" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4">
-                <TabControl>
+            <CheckBox Grid.Row="3" Grid.Column="0" Content="Preview" x:Name="PreviewArea" IsChecked="True" Panel.ZIndex="10" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Header=" " BorderThickness="0">
+
+                <TabControl Visibility="{Binding IsChecked, ElementName=PreviewArea ,Converter={Bool2Visibility Collapsed=False}}">
                     <TabItem Header="Message">
                         <ContentControl Content="{Binding Notification}"
                                         VerticalAlignment="{Binding MessagePosition, Converter={helpers:VerticalPositionConverter}}"
                                         HorizontalAlignment="{Binding MessagePosition, Converter={helpers:HorizontalPositionConverter}}"/>
                     </TabItem>
                     <TabItem Header="Progress">
-                        <DockPanel>
-                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" VerticalAlignment="Top" Margin="0,2">
-                                <StackPanel Orientation="Horizontal">
-                                    <CheckBox Content="Collapsed progress bar" IsChecked="{Binding ProgressCollapsed, UpdateSourceTrigger= PropertyChanged}" />
-                                    <CheckBox Content="Title or Message when collapse" IsChecked="{Binding ProgressTitleOrMessage, UpdateSourceTrigger= PropertyChanged}"  />
-                                    <CheckBox Content="Show cancel button" IsChecked="{Binding ShowCancelButton, UpdateSourceTrigger= PropertyChanged}"  />
-                                    <CheckBox Content="Show calculation message" IsChecked="{Binding UseWaitingMessage, UpdateSourceTrigger= PropertyChanged}"  />
-                                    <TextBox Text="{Binding BaseWaitingMessage, UpdateSourceTrigger= PropertyChanged}" 
-                                             Width="200"
-                                             Visibility="{Binding UseWaitingMessage, Converter={Bool2Visibility Collapsed=False}}"/>
-                                    <CheckBox Content="Show progress" IsChecked="{Binding ShowProgress, UpdateSourceTrigger= PropertyChanged}"  />
-                                    <Slider Value="{Binding ProgressValue, UpdateSourceTrigger= PropertyChanged}"
-                                            Minimum="0" Maximum="100" Width="200" Cursor="Hand" IsSnapToTickEnabled="True" TickFrequency="1"
-                                            Visibility="{Binding ShowProgress, Converter={Bool2Visibility Collapsed=False}}"/>
-                                </StackPanel>
-                            </StackPanel>
+                            
                             <ContentControl Content="{Binding ProgressNotification}"
                                             VerticalAlignment="{Binding MessagePosition, Converter={helpers:VerticalPositionConverter}}"
                                             HorizontalAlignment="{Binding MessagePosition, Converter={helpers:HorizontalPositionConverter}}"/>
-                        </DockPanel>
                     </TabItem>
                     <TabItem Header="Image">
                         <ContentControl Content="{Binding ImageNotification}"
@@ -362,5 +376,4 @@
                 </TabControl>
             </GroupBox>
         </Grid>
-    </DockPanel>
 </Window>

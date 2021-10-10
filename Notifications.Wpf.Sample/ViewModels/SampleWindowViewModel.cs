@@ -6,11 +6,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-
+using System.Windows.Threading;
 using FontAwesome5;
 
 using MathCore.ViewModels;
@@ -35,7 +37,7 @@ namespace Notification.Wpf.Sample.ViewModels
     {
         private readonly NotificationManager _notificationManager = new();
 
-        Action ButtonClick(string button) => () => _notificationManager.Show($"{button} button click");
+        Action ButtonClick(string button) => () => _notificationManager.Show($"{button} button click",areaName:GetArea());
 
         #region Notification : NotificationContent - Модель сообщения
 
@@ -77,7 +79,16 @@ namespace Notification.Wpf.Sample.ViewModels
             MessageSettingModel.PropertyChanged += (Sender, Args) => SetContent();
 
             OpenImageCommand = Command.New(OpenImage);
+            ShowTestMessageCommand = Command.New(TestMessage);
+            ShowTimerMessageCommand = Command.New(Button_Timer);
+            ShowProgressMessageCommand = Command.New(Progress_Click);
+            ShowContentCommand = Command.New(Show_Any_content);
+
+            Timer = new Timer { Interval = 1000 };
+            Timer.Elapsed += (_, _) => Dispatcher.CurrentDispatcher.Invoke(() => _notificationManager.Show("Pink string from another thread!", areaName: GetArea()));
+
         }
+        private string GetArea() => ShowInParentWindow ? "WindowArea" : "";
 
         private NotificationContent GetContent(bool isProgress = false)
         {
@@ -325,7 +336,7 @@ namespace Notification.Wpf.Sample.ViewModels
         #region MessagePosition : NotificationPosition - Message position
 
         /// <summary>Message position</summary>
-        private NotificationPosition _MessagePosition = NotificationPosition.BottomRight;
+        private NotificationPosition _MessagePosition = NotificationPosition.BottomCenter;
 
         /// <summary>Message position</summary>
         public NotificationPosition MessagePosition
@@ -935,6 +946,8 @@ namespace Notification.Wpf.Sample.ViewModels
 
         #region Commands
 
+        #region Open Image command
+
         public ICommand OpenImageCommand { get; }
         private void OpenImage()
         {
@@ -965,6 +978,185 @@ namespace Notification.Wpf.Sample.ViewModels
                 _notificationManager.Show("Error", e.Message, type: NotificationType.Error);
             }
         }
+
+        #endregion
+
+        #region Command ICommand : Summary
+
+        /// <summary>Summary</summary>
+        public ICommand ShowTestMessageCommand { get; }
+        private void TestMessage()
+        {
+            var clickContent = new NotificationContent
+            {
+                Title = "Clicked!",
+                Message = "Window notification was clicked!",
+                Type = NotificationType.Success,
+            };
+
+            var content = GetContent(false);
+
+            _notificationManager.Show(content,
+                areaName: GetArea(),
+                expirationTime: UseExpirationTime ? TimeSpan.FromSeconds(ExpirationTime) : TimeSpan.MaxValue,
+                onClick: CloseOnClick ? () =>
+                    {
+                        _notificationManager.Show(
+                            clickContent, ShowXbtn: ShowXBtn, areaName: GetArea(),
+                            onClick: () =>
+                            {
+                                _notificationManager.Show(ImageSource, areaName: GetArea());
+                            });
+                    }
+                    : null,
+                ShowXbtn: ShowXBtn);
+        }
+
+        #endregion
+
+        #region Command ICommand : Summary
+
+        /// <summary>Summary</summary>
+        public ICommand ShowTimerMessageCommand { get; }
+
+        private readonly Timer Timer;
+
+        private void Button_Timer()
+        {
+            if (!Timer.Enabled) Timer.Start();
+            else Timer.Stop();
+        }
+
+        #endregion
+        #region Command ICommand : Summary
+
+        /// <summary>Summary</summary>
+        public ICommand ShowContentCommand { get; }
+        private void Show_Any_content()
+        {
+            var grid = new Grid();
+            var text_block = new TextBlock { Text = "Some Text", Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Center };
+
+
+            var panelBTN = new StackPanel { Height = 100, Margin = new Thickness(0, 40, 0, 0) };
+            var btn1 = new Button { Width = 200, Height = 40, Content = "Cancel" };
+            var text = new TextBlock
+                { Foreground = Brushes.White, Text = "Hello, world", Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Center };
+            panelBTN.VerticalAlignment = VerticalAlignment.Bottom;
+            panelBTN.Children.Add(btn1);
+
+            //var row1 = new RowDefinition();
+            //var row2 = new RowDefinition();
+            //var row3 = new RowDefinition();
+
+            grid.RowDefinitions.Add(new RowDefinition());
+            grid.RowDefinitions.Add(new RowDefinition());
+            grid.RowDefinitions.Add(new RowDefinition());
+
+
+            grid.HorizontalAlignment = HorizontalAlignment.Center;
+            grid.Children.Add(text_block);
+            grid.Children.Add(text);
+            grid.Children.Add(panelBTN);
+
+            Grid.SetRow(panelBTN, 1);
+            Grid.SetRow(text_block, 0);
+            Grid.SetRow(text, 2);
+
+            object content = grid;
+
+            _notificationManager.Show(content, null, TimeSpan.MaxValue);
+
+        }
+
+        #endregion
+        #region Command ICommand : Summary
+
+        /// <summary>Summary</summary>
+        public ICommand ShowProgressMessageCommand { get; }
+        private async void Progress_Click()
+        {
+            #region First sample
+
+            //using var progress = _notificationManager.ShowProgressBar(
+            //    title,
+            //    true,
+            //    true,
+            //    GetArea(),
+            //    SelectedTrimType == NotificationTextTrimType.Trim,
+            //    2u,
+            //    IsCollapse: ProgressCollapsed,
+            //    TitleWhenCollapsed: ProgressTitleOrMessage,
+            //    progressColor: new SolidColorBrush(ProgressColor),
+            //    background: new SolidColorBrush(ContentBackground),
+            //    foreground: new SolidColorBrush(ContentForeground), icon: GetIcon(true));
+
+            #endregion
+
+            #region Second sample
+
+            var content = GetContent(true);
+
+            using var progress = _notificationManager.ShowProgressBar(
+                content,
+                ShowCancelButton,
+                ShowProgress,
+                GetArea(),
+                UseWaitingMessage
+                    ? BaseWaitingMessage
+                    : "",
+                ProgressCollapsed,
+                ProgressTitleOrMessage
+              , new SolidColorBrush(ProgressColor),ShowXBtn);
+
+            #endregion
+            try
+            {
+                var message = MessageSettingModel.Text;
+
+                await Task.Run(
+                    async () =>
+                    {
+                        for (var i = 0; i <= 100; i++)
+                        {
+                            progress.Cancel.ThrowIfCancellationRequested();
+                            progress.Report((i, message, null, null));
+                            progress.WaitingTimer.BaseWaitingMessage = i is > 30 and < 70 ? null : "Calculation time";
+
+                            await Task.Delay(TimeSpan.FromSeconds(0.03), progress.Cancel);
+                        }
+                    }, progress.Cancel).ConfigureAwait(false);
+
+                for (var i = 0; i <= 100; i++)
+                {
+                    progress.Cancel.ThrowIfCancellationRequested();
+                    progress.Report((i, $"Progress {i}", "With progress", true));
+                    await Task.Delay(TimeSpan.FromSeconds(0.02), progress.Cancel).ConfigureAwait(false);
+                }
+
+                for (var i = 0; i <= 100; i++)
+                {
+                    progress.Cancel.ThrowIfCancellationRequested();
+                    progress.Report((null, $"{i}", "Whithout progress", null));
+                    await Task.Delay(TimeSpan.FromSeconds(0.03), progress.Cancel).ConfigureAwait(false);
+                }
+
+                for (var i = 0; i <= 100; i++)
+                {
+                    progress.Cancel.ThrowIfCancellationRequested();
+                    progress.Report((i, null, "Agane whith progress", null));
+                    await Task.Delay(TimeSpan.FromSeconds(0.02), progress.Cancel).ConfigureAwait(false);
+                }
+
+
+            }
+            catch (OperationCanceledException)
+            {
+                _notificationManager.Show("Операция отменена", string.Empty, TimeSpan.FromSeconds(3), ShowXbtn: ShowXBtn);
+            }
+        }
+
+        #endregion
 
 
         #endregion

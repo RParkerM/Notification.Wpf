@@ -27,6 +27,9 @@ namespace Notification.Wpf.Sample.Helpers
                 NotificationPosition.TopLeft => VerticalAlignment.Top,
                 NotificationPosition.BottomCenter => VerticalAlignment.Bottom,
                 NotificationPosition.TopCenter => VerticalAlignment.Top,
+                NotificationPosition.Center => VerticalAlignment.Center,
+                NotificationPosition.CenterLeft => VerticalAlignment.Center,
+                NotificationPosition.CenterRight => VerticalAlignment.Center,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -50,6 +53,9 @@ namespace Notification.Wpf.Sample.Helpers
                 NotificationPosition.TopLeft => HorizontalAlignment.Left,
                 NotificationPosition.BottomCenter => HorizontalAlignment.Center,
                 NotificationPosition.TopCenter => HorizontalAlignment.Center,
+                NotificationPosition.Center => HorizontalAlignment.Center,
+                NotificationPosition.CenterLeft => HorizontalAlignment.Left,
+                NotificationPosition.CenterRight => HorizontalAlignment.Right,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

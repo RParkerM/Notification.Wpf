@@ -219,7 +219,7 @@ namespace Notification.Wpf.Sample.ViewModels
 
         private TimeSpan Seconds => UseExpirationTime ? TimeSpan.FromSeconds(ExpirationTime) : TimeSpan.MaxValue;
         /// <summary>Expiration time</summary>
-        private int _ExpirationTime;
+        private int _ExpirationTime = 3;
 
         /// <summary>Expiration time</summary>
         public int ExpirationTime

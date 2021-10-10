@@ -351,20 +351,20 @@
             <CheckBox Grid.Row="3" Grid.Column="0" Content="Preview" x:Name="PreviewArea" IsChecked="True" Panel.ZIndex="10" VerticalAlignment="Top" HorizontalAlignment="Left"/>
             <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Header=" " BorderThickness="0">
 
-                <TabControl Visibility="{Binding IsChecked, ElementName=PreviewArea ,Converter={Bool2Visibility Collapsed=False}}">
-                    <TabItem Header="Message">
-                        <ContentControl Content="{Binding Notification}"
+                <TabControl Visibility="{Binding IsChecked, ElementName=PreviewArea ,Converter={Bool2Visibility Collapsed=False}}" >
+                    <TabItem Header="Message" >
+                    <ContentControl Content="{Binding Notification}" IsEnabled="False"
                                         VerticalAlignment="{Binding MessagePosition, Converter={helpers:VerticalPositionConverter}}"
                                         HorizontalAlignment="{Binding MessagePosition, Converter={helpers:HorizontalPositionConverter}}"/>
                     </TabItem>
                     <TabItem Header="Progress">
-                            
-                            <ContentControl Content="{Binding ProgressNotification}"
+
+                    <ContentControl Content="{Binding ProgressNotification}" IsEnabled="False"
                                             VerticalAlignment="{Binding MessagePosition, Converter={helpers:VerticalPositionConverter}}"
                                             HorizontalAlignment="{Binding MessagePosition, Converter={helpers:HorizontalPositionConverter}}"/>
                     </TabItem>
                     <TabItem Header="Image">
-                        <ContentControl Content="{Binding ImageNotification}"
+                    <ContentControl Content="{Binding ImageNotification}" IsEnabled="False"
                                         MinWidth="{Binding AreaMinWidth}"
                                         MaxWidth="{Binding AreaMaxWidth}"
 

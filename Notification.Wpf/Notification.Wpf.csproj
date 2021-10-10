@@ -34,6 +34,7 @@
       Add new sample project in repository,
       Add Center screen message position
       Fix progress margin style when no waiting message and button,
+      Add functions for base message functions (errors view, open file or directory)
     </PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>

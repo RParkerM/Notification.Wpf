@@ -78,7 +78,7 @@
                     <extensions:RowDefinitionCollapsable Visible="{Binding Collapse, Converter={wpf:BoolInverse}}" />
                     <extensions:RowDefinitionCollapsable Visible="{Binding Collapse, Converter={wpf:BoolInverse}}" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Margin="0,0,20,0" 
+                <TextBlock Grid.Row="0" Margin="0,0,15,0" 
                            Foreground="{Binding Foreground, UpdateSourceTrigger=PropertyChanged}" 
                            Text="{Binding Title}"
                            FontWeight="Medium" TextTrimming="CharacterEllipsis">
@@ -93,6 +93,7 @@
                                     <Setter Property="VerticalAlignment" Value="{Binding TitleTextSettings.VerticalTextAlignment}"/>
                                     <Setter Property="FontStyle" Value="{Binding TitleTextSettings.FontStyle}"/>
                                     <Setter Property="FontWeight" Value="{Binding TitleTextSettings.FontWeight}"/>
+                                    <Setter Property="Opacity" Value="{Binding TitleTextSettings.Opacity}"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -122,7 +123,6 @@
                                TextWrapping="NoWrap"
                                TextTrimming="CharacterEllipsis"
                                MaxHeight="20"
-                               MaxWidth="300"
                                Foreground="{Binding Foreground, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"
                                Visibility="{Binding Collapse, Converter={converters:BoolToVisibility Collapse=True}}">
                         <TextBlock.Style>
@@ -169,8 +169,8 @@
                     </TextBlock>
                 </Grid>
                 <TextBlock x:Name="MessageBox" Grid.Row="2"  Text="{Binding Message}" Foreground="{Binding Foreground, UpdateSourceTrigger=PropertyChanged}" 
-                           Margin="0,0,12,5"
-                           TextWrapping="Wrap" Opacity=".8" MinHeight="20" >
+                           Margin="0,0,5,0" 
+                           TextWrapping="Wrap" MinHeight="20" >
                     <TextBlock.Style>
                         <Style TargetType="{x:Type TextBlock}">
                             <Style.Triggers>
@@ -191,37 +191,44 @@
                                     <Setter Property="FontWeight" Value="{Binding MessageTextSettings.FontWeight}"/>
                                     <Setter Property="Opacity" Value="{Binding MessageTextSettings.Opacity}"/>
                                 </DataTrigger>
+                                <DataTrigger Binding="{Binding MessageTextSettings, Converter={wpf:IsNull}}" Value="true">
+                                    <Setter Property="FontFamily" Value="Segoe UI"/>
+                                    <Setter Property="FontSize" Value="14"/>
+                                    <Setter Property="Opacity" Value=".8"/>
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
-                <DockPanel Grid.Row="3">
+                <DockPanel Grid.Row="3" >
                     <TextBlock Text="{Binding WaitingTime}" DockPanel.Dock="Left" Width="190" 
-                               HorizontalAlignment="Left" VerticalAlignment="Center"
+                               HorizontalAlignment="Left" VerticalAlignment="Bottom"
                                Foreground="{Binding Foreground, UpdateSourceTrigger=PropertyChanged}" 
                                TextWrapping="NoWrap" 
                                TextTrimming="CharacterEllipsis"
-                               FontSize="14"
-                               Opacity=".8" Margin="5,0,0,0">
+                               Visibility="{Binding WaitingTime, Converter={wpf:Combine First={wpf:StringIsNullOrWhiteSpace}, Then={converters:BoolToVisibility Inverse=True, Collapse=True}}}">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding MessageTextSettings, Converter={wpf:IsNull}}" Value="false">
                                         <Setter Property="FontFamily" Value="{Binding MessageTextSettings.FontFamily}"/>
                                         <Setter Property="FontSize" Value="{Binding MessageTextSettings.FontSize}"/>
-                                        <Setter Property="HorizontalAlignment" Value="{Binding MessageTextSettings.HorizontalAlignment}"/>
-                                        <Setter Property="VerticalAlignment" Value="{Binding MessageTextSettings.VerticalTextAlignment}"/>
                                         <Setter Property="FontStyle" Value="{Binding MessageTextSettings.FontStyle}"/>
                                         <Setter Property="FontWeight" Value="{Binding MessageTextSettings.FontWeight}"/>
                                         <Setter Property="Opacity" Value="{Binding MessageTextSettings.Opacity}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding MessageTextSettings, Converter={wpf:IsNull}}" Value="true">
+                                        <Setter Property="FontFamily" Value="Segoe UI"/>
+                                        <Setter Property="FontSize" Value="14"/>
+                                        <Setter Property="Opacity" Value=".8"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
-                    <Button x:Name="Cancel" Width="100" HorizontalAlignment="Right"
+                    <Button x:Name="Cancel" Width="100" HorizontalAlignment="Right" Height="30"
                             Content="{Binding RightButtonContent}"
-                            DockPanel.Dock="Right" Margin="0,0,5,0"
+                            DockPanel.Dock="Right" Margin="0,5,0,0"
                             Foreground="{Binding Foreground}" 
                             controls:Notification.CloseOnClick="True"
                             Visibility="{Binding ShowCancelButton, Converter={converters:BoolToVisibility Collapse=True}}"/>

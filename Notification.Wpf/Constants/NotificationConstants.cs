@@ -99,14 +99,22 @@ namespace Notification.Wpf.Constants
 
         /// <summary> Cancel button content </summary>
         public static object DefaultProgressButtonContent { get; set; } = "Cancel";
-
         #endregion
 
         #region Area
-
+        /// <summary> Notification MinWidth (if MaxWidth less than MinWidth = MaxWidth) </summary>
         public static double MinWidth { get; set; } = 350D;
+        /// <summary> Notification MaxWidth</summary>
         public static double MaxWidth { get; set; } = 350D;
 
         #endregion
+
+
+        /// <summary> Default message for Show Cancellation </summary>
+        public static string CancellationMessage { get; set; } = "Operation was cancelled";
+        /// <summary> Open file button text </summary>
+        public static string OpenFileMessage { get; set; } = "Open File";
+        /// <summary> Open folder button text </summary>
+        public static string OpenFolderMessage { get; set; } = "Open Folder";
     }
 }

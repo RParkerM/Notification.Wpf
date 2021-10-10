@@ -31,6 +31,9 @@ for (var i = 0; i <= 100; i++)
   
 ### Update list
 
+`v5.6.1`
+* Added Image template for Notification content
+  
 `v5.6.0`
 * Added overlay window position from constants,
 * ImageSource template for icon,

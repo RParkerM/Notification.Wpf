@@ -5,9 +5,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+
+using Notification.Wpf.Base.Interfaces.Options;
+using Notification.Wpf.Base.Options;
+using Notification.Wpf.Classes;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Utils;
 using Notification.Wpf.View;
+
 using Notifications.Wpf.View;
 
 namespace Notification.Wpf.Controls

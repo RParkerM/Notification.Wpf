@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using Notification.Wpf.Base;
 using Notification.Wpf.Classes;
 using Notification.Wpf.Controls;
+using Notification.Wpf.Sample.ViewModels;
 
 namespace Notification.Wpf.Sample
 {

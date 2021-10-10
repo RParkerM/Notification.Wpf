@@ -99,12 +99,10 @@ namespace Notification.Wpf.Controls
         /// <summary>
         /// Отображает окно прогресса
         /// </summary>
-        /// <param name="model">модель прогресс бара</param>
+        /// <param name="progress">модель прогресс бара</param>
         /// <param name="ShowXbtn">need to show X close button</param>
-        public async void Show(object model, bool ShowXbtn)
+        public async void Show(NotificationProgressViewModel progress, bool ShowXbtn)
         {
-            var progress = (NotificationProgressViewModel)model;
-
             var content = new NotificationProgress { DataContext = progress };
             content.Cancel.Click += progress.CancelProgress;
 

@@ -230,7 +230,7 @@
                             <TextBlock x:Name="TitleTxt" DockPanel.Dock="Top"
                                        Text="{Binding Title}"
                                        TextTrimming="CharacterEllipsis"
-                                       Margin="0,0,20,0"
+                                       Margin="0,0,15,0"
                                        Visibility="{Binding Title,
                                          Converter={wpf:Combine
                                          First={wpf:StringIsNullOrWhiteSpace},
@@ -250,7 +250,7 @@
                                        Text="{Binding Message}"
                                        TextWrapping="Wrap"
                                        Opacity=".8"
-                                       Margin="0,0,12,0" Visibility="{Binding Message,
+                                       Margin="0,0,5,0" Visibility="{Binding Message,
                                          Converter={wpf:Combine
                                          First={wpf:StringIsNullOrWhiteSpace},
                                          Then={converters:BoolToVisibility Inverse=True, Collapse=True}}}"/>
@@ -398,6 +398,18 @@
                 <ControlTemplate TargetType="{x:Type controls:NotificationArea}">
                     <controls:ReversibleStackPanel x:Name="PART_Items"/>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="Position" Value="Center">
+                            <Setter TargetName="PART_Items" Property="VerticalAlignment" Value="Center"/>
+                            <Setter TargetName="PART_Items" Property="HorizontalAlignment" Value="Center"/>
+                        </Trigger>
+                        <Trigger Property="Position" Value="CenterLeft">
+                            <Setter TargetName="PART_Items" Property="VerticalAlignment" Value="Center"/>
+                            <Setter TargetName="PART_Items" Property="HorizontalAlignment" Value="Left"/>
+                        </Trigger>
+                        <Trigger Property="Position" Value="CenterRight">
+                            <Setter TargetName="PART_Items" Property="VerticalAlignment" Value="Center"/>
+                            <Setter TargetName="PART_Items" Property="HorizontalAlignment" Value="Right"/>
+                        </Trigger>
                         <Trigger Property="Position" Value="TopLeft">
                             <Setter TargetName="PART_Items" Property="VerticalAlignment" Value="Top"/>
                             <Setter TargetName="PART_Items" Property="HorizontalAlignment" Value="Left"/>

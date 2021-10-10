@@ -1,14 +1,12 @@
-﻿using System.Windows;
-using System.Windows.Automation.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Media;
-using Notification.Wpf.Base;
 
-namespace Notification.Wpf
+namespace Notification.Wpf.Base.Interfaces.Options
 {
-    /// <summary>
-    /// Customized notification
-    /// </summary>
-    public interface ICustomizedNotification : INotificationBase
+    /// <summary> Customized options for notification </summary>
+    public interface ICustomizedOptions
     {
         /// <summary> icon in left bar side </summary>
         public object Icon { get; set; }
@@ -18,6 +16,7 @@ namespace Notification.Wpf
         public Brush Foreground { get; set; }
         /// <summary> Trimming long text if need </summary>
         public NotificationTextTrimType TrimType { get; set; }
+
         /// <summary> Set rows of message that will show if set Trim </summary>
         public uint RowsCount { get; set; }
 

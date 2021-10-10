@@ -1,4 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
+
+using Notification.Wpf.Base.Interfaces.Options;
+using Notification.Wpf.Base.Options;
+using Notification.Wpf.Classes;
+using Notification.Wpf.Constants;
+
+using Notifications.Wpf.Annotations;
 
 namespace Notification.Wpf.Base.Interfaces.Base
 {
@@ -55,7 +65,7 @@ namespace Notification.Wpf.Base.Interfaces.Base
         );
         /// <summary> Show no titled message  </summary>
         /// <param name="message">Message in window</param>
-        /// <param name="type">Window type</param>
+        /// <param name="type">Notification type</param>
         /// <param name="areaName">window are where show notification</param>
         /// <param name="expirationTime">time after which the window will disappear</param>
         /// <param name="trim">trim text if it is longer than the number of visible lines</param>
@@ -65,8 +75,7 @@ namespace Notification.Wpf.Base.Interfaces.Base
         /// <param name="ShowXbtn">Show X (close) btn</param>
         /// <param name="icon">Message icon</param>
         void Show(
-            string message, NotificationType type = NotificationType.None,
-            string areaName = "",
+            string message, NotificationType type = NotificationType.None, string areaName = "",
             TimeSpan? expirationTime = null,
             NotificationTextTrimType trim = NotificationTextTrimType.NoTrim,
             uint RowsCountWhenTrim = 1,
@@ -75,5 +84,30 @@ namespace Notification.Wpf.Base.Interfaces.Base
             bool ShowXbtn = true,
             object icon = null
         );
+
+        /// <summary> Show error message </summary>
+        /// <param name="e">error</param>
+        /// <param name="areaName">window are where show notification</param>
+        /// <param name="expirationTime">time after which the window will disappear</param>
+        /// <param name="RowsCountWhenTrim">Base number of rows when trims</param>
+        /// <param name="MessageSettings">Настройки отображения сообщения</param>
+        /// <param name="ShowXbtn">Show X (close) btn</param>
+        void Show(
+            [NotNull] Exception e,
+            string areaName = "",
+            TimeSpan? expirationTime = null, uint RowsCountWhenTrim = 5,
+            TextContentSettings MessageSettings = null,
+            bool ShowXbtn = true);
+
+
+        /// <summary> Show Cancellation message</summary>
+        /// <param name="type">Notification type</param>
+        /// <param name="areaName">window are where show notification</param>
+        /// <param name="MessageSettings">Настройки отображения сообщения</param>
+        /// <param name="ShowXbtn">Show X (close) btn</param>
+        void ShowCancellation(
+            NotificationType type = NotificationType.Warning, string areaName = "",
+            TextContentSettings MessageSettings = null,
+            bool ShowXbtn = true);
     }
 }

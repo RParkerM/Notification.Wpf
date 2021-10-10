@@ -1,18 +1,16 @@
 ﻿using System.Windows;
 using System.Windows.Automation.Text;
 using System.Windows.Media;
+
 using Notification.Wpf.Base;
+using Notification.Wpf.Base.Interfaces.Options;
 using Notification.Wpf.Constants;
 
-namespace Notification.Wpf
+namespace Notification.Wpf.Base.Options
 {
     /// <inheritdoc />
-    public class BaseNotificationContent : ICustomizedNotification
+    public class CustomizedOptions : ICustomizedOptions
     {
-        /// <inheritdoc />
-        public string Title { get; set; }
-        /// <inheritdoc />
-        public string Message { get; set; }
         /// <inheritdoc />
         public object Icon { get; set; }
 
@@ -47,6 +45,21 @@ namespace Notification.Wpf
             TextAlignment = NotificationConstants.MessageTextAlignment,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalTextAlignment = VerticalAlignment.Stretch
+        };
+
+
+        /// <summary> Get valid options after check for null </summary>
+        /// <param name="options">options</param>
+        /// <returns></returns>
+        public static ICustomizedOptions GetValidCustomizedOptions(ICustomizedOptions options) => new CustomizedOptions()
+        {
+            Background = options?.Background ?? NotificationConstants.DefaultBackgroundColor,
+            Foreground = options?.Foreground ?? NotificationConstants.DefaultForegroundColor,
+            Icon = options?.Icon,
+            MessageTextSettings = options?.MessageTextSettings,
+            TitleTextSettings = options?.TitleTextSettings,
+            RowsCount = options?.RowsCount is { } count and > 0 ? count : 1,
+            TrimType = options?.TrimType ?? NotificationConstants.DefaulTextTrimType
         };
 
     }

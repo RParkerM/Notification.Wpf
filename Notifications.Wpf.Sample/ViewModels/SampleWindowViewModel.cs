@@ -124,13 +124,14 @@ namespace Notification.Wpf.Sample.ViewModels
             var model = new NotificationProgressViewModel(content,
                 ShowCancelButton,
                 ShowProgress,
-                UseWaitingMessage ? BaseWaitingMessage : null,
+                UseWaitingMessage ? BaseWaitingMessage : "",
                 ProgressCollapsed,
                 ProgressTitleOrMessage,
-                new SolidColorBrush(ProgressColor));
+                new SolidColorBrush(ProgressColor))
+            { process = ProgressValue, ShowProgress = ShowProgress };
             NotificationProgress progress = new NotificationProgress() { DataContext = model };
             ProgressNotification = new Controls.Notification(progress, ShowXBtn);
-           SetProgressValue(ProgressValue);
+            SetProgressValue(ProgressValue);
         }
         private void SetContent()
         {
@@ -840,14 +841,22 @@ namespace Notification.Wpf.Sample.ViewModels
         private bool _ShowCancelButton = true;
 
         /// <summary>show progress cancel btn</summary>
-        public bool ShowCancelButton { get => _ShowCancelButton; set => Set(ref _ShowCancelButton, value); }
+        public bool ShowCancelButton
+        {
+            get => _ShowCancelButton;
+            set
+            {
+                Set(ref _ShowCancelButton, value);
+                UpdateProgressArea();
+            }
+        }
 
         #endregion
 
         #region ShowProgress : bool - Show Progress Value
 
         /// <summary>Show Progress Value</summary>
-        private bool _ShowProgress;
+        private bool _ShowProgress = true;
 
         /// <summary>Show Progress Value</summary>
         public bool ShowProgress

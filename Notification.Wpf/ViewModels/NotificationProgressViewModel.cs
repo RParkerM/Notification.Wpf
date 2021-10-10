@@ -322,13 +322,17 @@ namespace Notifications.Wpf.ViewModels
             if (_Timer.ElapsedMilliseconds < 100 && ProgressInfo.percent is not null && ProgressInfo.percent != 100 && ProgressInfo.percent != 0)
                 return;
             _Timer.Restart();
+            var wait_message = NotifierProgress.WaitingTimer.BaseWaitingMessage;
             if (ProgressInfo.percent is null)
             {
                 if (ShowProgress)
                 {
                     ShowProgress = false;
-                    NotifierProgress.WaitingTimer.Restart();
-                    WaitingTime = string.Empty;
+                    if(wait_message != "")
+                    {
+                        NotifierProgress.WaitingTimer.Restart();
+                        WaitingTime = string.Empty;
+                    }
                 }
             }
             else
@@ -339,7 +343,7 @@ namespace Notifications.Wpf.ViewModels
                     NotifierProgress.WaitingTimer.Restart();
                 }
                 process = (double)ProgressInfo.percent;
-                if (NotifierProgress.WaitingTimer.BaseWaitingMessage is null)
+                if (wait_message is null or "")
                     WaitingTime = null;
                 else if (process > 10)
                 {

@@ -334,10 +334,14 @@
                                     <CheckBox Content="Collapsed progress bar" IsChecked="{Binding ProgressCollapsed, UpdateSourceTrigger= PropertyChanged}" />
                                     <CheckBox Content="Title or Message when collapse" IsChecked="{Binding ProgressTitleOrMessage, UpdateSourceTrigger= PropertyChanged}"  />
                                     <CheckBox Content="Show cancel button" IsChecked="{Binding ShowCancelButton, UpdateSourceTrigger= PropertyChanged}"  />
-                                    <CheckBox Content="Show progress" IsChecked="{Binding ShowProgress, UpdateSourceTrigger= PropertyChanged}"  />
                                     <CheckBox Content="Show calculation message" IsChecked="{Binding UseWaitingMessage, UpdateSourceTrigger= PropertyChanged}"  />
-                                    <TextBox Text="{Binding BaseWaitingMessage, UpdateSourceTrigger= PropertyChanged}" Width="200"/>
-                                    <Slider Value="{Binding ProgressValue, UpdateSourceTrigger= PropertyChanged}" Minimum="0" Maximum="100" Width="200" Cursor="Hand" IsSnapToTickEnabled="True" TickFrequency="1"></Slider>
+                                    <TextBox Text="{Binding BaseWaitingMessage, UpdateSourceTrigger= PropertyChanged}" 
+                                             Width="200"
+                                             Visibility="{Binding UseWaitingMessage, Converter={Bool2Visibility Collapsed=False}}"/>
+                                    <CheckBox Content="Show progress" IsChecked="{Binding ShowProgress, UpdateSourceTrigger= PropertyChanged}"  />
+                                    <Slider Value="{Binding ProgressValue, UpdateSourceTrigger= PropertyChanged}"
+                                            Minimum="0" Maximum="100" Width="200" Cursor="Hand" IsSnapToTickEnabled="True" TickFrequency="1"
+                                            Visibility="{Binding ShowProgress, Converter={Bool2Visibility Collapsed=False}}"/>
                                 </StackPanel>
                             </StackPanel>
                             <ContentControl Content="{Binding ProgressNotification}"

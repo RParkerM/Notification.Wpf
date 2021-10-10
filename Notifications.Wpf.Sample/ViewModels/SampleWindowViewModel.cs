@@ -139,7 +139,7 @@ namespace Notification.Wpf.Sample.ViewModels
                 ProgressCollapsed,
                 ProgressTitleOrMessage,
                 new SolidColorBrush(ProgressColor))
-            { process = ProgressValue, ShowProgress = ShowProgress };
+            { process = ProgressValue, ShowProgress = ShowProgress};
             NotificationProgress progress = new NotificationProgress() { DataContext = model };
             ProgressNotification = new Controls.Notification(progress, ShowXBtn);
             SetProgressValue(ProgressValue);

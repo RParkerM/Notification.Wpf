@@ -230,7 +230,7 @@
                             <TextBlock x:Name="TitleTxt" DockPanel.Dock="Top"
                                        Text="{Binding Title}"
                                        TextTrimming="CharacterEllipsis"
-                                       Margin="0,0,20,0"
+                                       Margin="0,0,15,0"
                                        Visibility="{Binding Title,
                                          Converter={wpf:Combine
                                          First={wpf:StringIsNullOrWhiteSpace},
@@ -250,7 +250,7 @@
                                        Text="{Binding Message}"
                                        TextWrapping="Wrap"
                                        Opacity=".8"
-                                       Margin="0,0,12,0" Visibility="{Binding Message,
+                                       Margin="0,0,5,0" Visibility="{Binding Message,
                                          Converter={wpf:Combine
                                          First={wpf:StringIsNullOrWhiteSpace},
                                          Then={converters:BoolToVisibility Inverse=True, Collapse=True}}}"/>

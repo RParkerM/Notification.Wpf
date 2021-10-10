@@ -230,7 +230,7 @@ namespace Notifications.Wpf.ViewModels
             {
                 Set(ref _Collapse, value);
                 GeneralPadding = value ? new(1) : new(12);
-                BarMargin = value ? new(1) : new(0, 5, 5, 5);
+                BarMargin = value ? new(1) : new(0, 5, 0, 5);
                 BarHeight = value ? 32 : 20;
             }
         }

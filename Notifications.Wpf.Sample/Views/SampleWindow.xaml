@@ -358,7 +358,6 @@
                                         HorizontalAlignment="{Binding MessagePosition, Converter={helpers:HorizontalPositionConverter}}"/>
                     </TabItem>
                     <TabItem Header="Progress">
-
                     <ContentControl Content="{Binding ProgressNotification}" IsEnabled="False"
                                             VerticalAlignment="{Binding MessagePosition, Converter={helpers:VerticalPositionConverter}}"
                                             HorizontalAlignment="{Binding MessagePosition, Converter={helpers:HorizontalPositionConverter}}"/>

@@ -31,6 +31,13 @@ for (var i = 0; i <= 100; i++)
   
 ### Update list
 
+`v5.7.0`
+* Add new sample project in repository
+* Add Center screen message position
+* Fix progress margin style when no waiting message and button
+* Add functions for base message functions (errors view, open file or directory)
+
+  
 `v5.6.1`
 * Added Image template for Notification content
   

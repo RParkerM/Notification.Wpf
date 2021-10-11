@@ -10,8 +10,9 @@
              xmlns:viewModels="clr-namespace:Notification.Wpf.Sample.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             d:DataContext="{d:DesignInstance viewModels:TextSettingViewModel, IsDesignTimeCreatable=True }">
-    <Grid>
+             d:DataContext="{d:DesignInstance viewModels:TextSettingViewModel, IsDesignTimeCreatable=True }"
+             MaxHeight="300">
+    <Grid  MaxHeight="260" VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
@@ -29,7 +30,7 @@
                   VerticalAlignment="{Binding VerAlign,UpdateSourceTrigger=PropertyChanged}"
                   Opacity="{Binding OpacitySample,UpdateSourceTrigger=PropertyChanged}"/>
 
-        <GroupBox Grid.Column="0" VerticalAlignment="Top">
+        <GroupBox Grid.Column="0" VerticalAlignment="Top" Height="300">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -40,7 +41,7 @@
                     </StackPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
                 <elements:TextSettings DataContext="{Binding UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </GroupBox>

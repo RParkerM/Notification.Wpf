@@ -8,6 +8,7 @@
              xmlns:wpf="clr-namespace:Notification.Wpf"
              xmlns:extensions="clr-namespace:Notifications.Wpf.Extensions"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:helpers="clr-namespace:Notification.Wpf.Sample.Helpers"
              mc:Ignorable="d" 
              Foreground="White"
              d:DesignHeight="120" d:DesignWidth="300"
@@ -176,7 +177,9 @@
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding TrimType}" Value="Trim">
                                     <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-                                    <Setter  Property="Height" Value="{Binding RowsCount, Converter={wpf:MessageRowsCountConverter BaseSize=20}}"/>
+                                    <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+                                    <Setter Property="helpers:NotificationLineHeightBehavior.Lines" 
+                                            Value="{Binding RowsCount}" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding TrimType}" Value="NoTrim">
                                     <Setter Property="TextTrimming" Value="None"/>
@@ -201,31 +204,35 @@
                     </TextBlock.Style>
                 </TextBlock>
                 <DockPanel Grid.Row="3" >
-                    <TextBlock Text="{Binding WaitingTime}" DockPanel.Dock="Left" Width="190" 
-                               HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                    <TextBlock Text="{Binding WaitingTime}"  
+                                   DockPanel.Dock="Left"
+                                   HorizontalAlignment="Left" VerticalAlignment="Bottom"
                                Foreground="{Binding Foreground, UpdateSourceTrigger=PropertyChanged}" 
                                TextWrapping="NoWrap" 
                                TextTrimming="CharacterEllipsis"
                                Visibility="{Binding WaitingTime, Converter={wpf:Combine First={wpf:StringIsNullOrWhiteSpace}, Then={converters:BoolToVisibility Inverse=True, Collapse=True}}}">
-                        <TextBlock.Style>
-                            <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding MessageTextSettings, Converter={wpf:IsNull}}" Value="false">
-                                        <Setter Property="FontFamily" Value="{Binding MessageTextSettings.FontFamily}"/>
-                                        <Setter Property="FontSize" Value="{Binding MessageTextSettings.FontSize}"/>
-                                        <Setter Property="FontStyle" Value="{Binding MessageTextSettings.FontStyle}"/>
-                                        <Setter Property="FontWeight" Value="{Binding MessageTextSettings.FontWeight}"/>
-                                        <Setter Property="Opacity" Value="{Binding MessageTextSettings.Opacity}"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding MessageTextSettings, Converter={wpf:IsNull}}" Value="true">
-                                        <Setter Property="FontFamily" Value="Segoe UI"/>
-                                        <Setter Property="FontSize" Value="14"/>
-                                        <Setter Property="Opacity" Value=".8"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding MessageTextSettings, Converter={wpf:IsNull}}" Value="false">
+                                            <Setter Property="FontFamily" Value="{Binding MessageTextSettings.FontFamily}"/>
+                                            <Setter Property="FontSize" Value="{Binding MessageTextSettings.FontSize}"/>
+                                            <Setter Property="FontStyle" Value="{Binding MessageTextSettings.FontStyle}"/>
+                                            <Setter Property="FontWeight" Value="{Binding MessageTextSettings.FontWeight}"/>
+                                            <Setter Property="Opacity" Value="{Binding MessageTextSettings.Opacity}"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Visibility, ElementName=Cancel}" Value="Visible">
+                                            <Setter Property="MaxWidth" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type DockPanel}}, Converter={converters:Add Parameter=-105}}"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding MessageTextSettings, Converter={wpf:IsNull}}" Value="true">
+                                            <Setter Property="FontFamily" Value="Segoe UI"/>
+                                            <Setter Property="FontSize" Value="14"/>
+                                            <Setter Property="Opacity" Value=".8"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     <Button x:Name="Cancel" Width="100" HorizontalAlignment="Right" Height="30"
                             Content="{Binding RightButtonContent}"
                             DockPanel.Dock="Right" Margin="0,5,0,0"

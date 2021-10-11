@@ -330,7 +330,7 @@
                        FontWeight="{Binding FontWeightSample,UpdateSourceTrigger=PropertyChanged}"
                        Opacity="{Binding OpacitySample,UpdateSourceTrigger=PropertyChanged}"
                        FontSize="{Binding FontSizeSample}"
-                       LineHeight="25"
+                       LineHeight="NaN"
 
                        >
                     <TextBlock.Style>
@@ -340,8 +340,6 @@
                                 Value="CharacterEllipsis" />
                             <Setter Property="TextWrapping"
                                 Value="Wrap" />
-                            <!--<Setter Property="LineHeight"
-                                Value="16" />-->
                             <Setter Property="LineStackingStrategy"
                                 Value="BlockLineHeight" />
                             <Setter Property="helpers1:NotificationLineHeightBehavior.MaxLines"

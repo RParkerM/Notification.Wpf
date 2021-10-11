@@ -6,7 +6,8 @@
                     xmlns:p="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
                     xmlns:converters="clr-namespace:Notification.Wpf.Converters"
                     xmlns:fa5="http://schemas.fontawesome.com/icons/"
-                    xmlns:constants="clr-namespace:Notification.Wpf.Constants">
+                    xmlns:constants="clr-namespace:Notification.Wpf.Constants"
+                    xmlns:helpers="clr-namespace:Notification.Wpf.Sample.Helpers">
 
     <SolidColorBrush x:Key="BorderBrush" Color="#EEE" p:Freeze="True"/>
     <SolidColorBrush x:Key="TransparentBrush" Color="Transparent" p:Freeze="True"/>
@@ -262,17 +263,23 @@
                     <DataTrigger Binding="{Binding TrimType}" Value="Attach">
                         <Setter TargetName="Attach" Property="Visibility" Value="Visible"/>
                         <Setter TargetName="MessageBox" Property="TextTrimming" Value="CharacterEllipsis"/>
-                        <Setter TargetName="MessageBox" Property="Height" Value="{Binding RowsCount, Converter={wpf:MessageRowsCountConverter BaseSize=20}}"/>
+                        <Setter TargetName="MessageBox"  Property="LineStackingStrategy" Value="BlockLineHeight" />
+                        <Setter TargetName="MessageBox" Property="helpers:NotificationLineHeightBehavior.Lines" 
+                                Value="{Binding RowsCount}" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding TrimType}" Value="AttachIfMoreRows">
                         <Setter TargetName="Attach" Property="Visibility" Value="{Binding Converter={wpf:NotificationAttachVisibleConverter}}"/>
                         <Setter TargetName="MessageBox" Property="TextTrimming" Value="CharacterEllipsis"/>
-                        <Setter TargetName="MessageBox" Property="Height" Value="{Binding RowsCount, Converter={wpf:MessageRowsCountConverter BaseSize=20}}"/>
+                        <Setter TargetName="MessageBox"  Property="LineStackingStrategy" Value="BlockLineHeight" />
+                        <Setter TargetName="MessageBox" Property="helpers:NotificationLineHeightBehavior.Lines" 
+                                Value="{Binding RowsCount}" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding TrimType}" Value="Trim">
                         <Setter TargetName="Attach" Property="Visibility" Value="Collapsed"/>
                         <Setter TargetName="MessageBox" Property="TextTrimming" Value="CharacterEllipsis"/>
-                        <Setter TargetName="MessageBox"  Property="Height" Value="{Binding RowsCount, Converter={wpf:MessageRowsCountConverter BaseSize=20}}"/>
+                        <Setter TargetName="MessageBox" Property="LineStackingStrategy" Value="BlockLineHeight" />
+                        <Setter TargetName="MessageBox" Property="helpers:NotificationLineHeightBehavior.Lines" 
+                                Value="{Binding RowsCount}" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding TrimType}" Value="NoTrim">
                         <Setter TargetName="Attach" Property="Visibility" Value="Collapsed"/>

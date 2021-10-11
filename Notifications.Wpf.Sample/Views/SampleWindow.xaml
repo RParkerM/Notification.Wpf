@@ -38,9 +38,9 @@
     </Window.Resources>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition />
+                <RowDefinition MaxHeight="300"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -54,42 +54,13 @@
                                        MaxItems="{Binding MaxItems}"
                                        CollapseProgressAuto="{Binding CollapseProgressIfMoreRows}"
                                        Panel.ZIndex="999"/>
-        <TextBlock Grid.Row="2" Grid.Column="3" DataContext="{Binding DataContext.MessageSettingModel, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}"
-                       HorizontalAlignment="{Binding HorAlign,UpdateSourceTrigger=PropertyChanged}" 
-                       VerticalAlignment="{Binding VerAlign,UpdateSourceTrigger=PropertyChanged}"
-                       Text="{Binding Text,UpdateSourceTrigger=PropertyChanged}"
-                       TextAlignment="{Binding TextAlign,UpdateSourceTrigger=PropertyChanged}"
-                       FontStyle="{Binding FontStyleSample,UpdateSourceTrigger=PropertyChanged}"
-                       FontFamily="{Binding FontFamilySample,UpdateSourceTrigger=PropertyChanged}"
-                       FontWeight="{Binding FontWeightSample,UpdateSourceTrigger=PropertyChanged}"
-                       Opacity="{Binding OpacitySample,UpdateSourceTrigger=PropertyChanged}"
-                       FontSize="{Binding FontSizeSample}"
-                       LineHeight="25"
 
-                       >
-                <TextBlock.Style>
-                    <Style TargetType="{x:Type TextBlock}"
-                           BasedOn="{StaticResource {x:Type TextBlock}}">
-                        <Setter Property="TextTrimming"
-                                Value="CharacterEllipsis" />
-                        <Setter Property="TextWrapping"
-                                Value="Wrap" />
-                        <!--<Setter Property="LineHeight"
-                                Value="16" />-->
-                        <Setter Property="LineStackingStrategy"
-                                Value="BlockLineHeight" />
-                        <Setter Property="helpers1:NotificationLineHeightBehavior.MaxLines"
-                                Value="{Binding DataContext.RowCount, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" />
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
-
-            <GroupBox Header="Title" Grid.Row="0" Grid.Column="0">
-                <local:TextSettingView DataContext="{Binding TitleSettingModel}"/>
+            <GroupBox Header="Title" Grid.Row="0" Grid.Column="0" >
+                <local:TextSettingView DataContext="{Binding TitleSettingModel}" Height="300"/>
             </GroupBox>
 
             <GroupBox Header="Message" Grid.Row="0" Grid.Column="1">
-                <local:TextSettingView DataContext="{Binding MessageSettingModel}"/>
+            <local:TextSettingView DataContext="{Binding MessageSettingModel}" Height="300"/>
             </GroupBox>
 
             <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
@@ -138,17 +109,6 @@
                                 </DataTemplate>
                             </GroupBox.HeaderTemplate>
                             <Slider Value="{Binding AreaMaxWidth}" ToolTip="{Binding AreaMaxWidth}"  Maximum="1800" Minimum="{Binding AreaMinWidth,UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
-                        </GroupBox>
-                        <GroupBox>
-                            <GroupBox.HeaderTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Rows count " />
-                                        <TextBlock Text="{Binding DataContext.RowCount, StringFormat={}{0:0.##}, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GroupBox.HeaderTemplate>
-                            <Slider Value="{Binding RowCount}" ToolTip="{Binding RowCount}" Minimum="1" Margin="5"/>
                         </GroupBox>
                     </StackPanel>
                 </GroupBox>
@@ -203,7 +163,7 @@
                                     Height="20" Width="20"/>
 
                     </StackPanel>
-                    <ListView x:Name="ListIcons" Height="220"
+                    <ListView x:Name="ListIcons" Height="242" 
                                       ItemsSource="{Binding Icons}"
                                       SelectedItem="{Binding SelectedIcon}"
                                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -219,7 +179,6 @@
             </GroupBox>
 
             <GroupBox Header="Notification" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left">
-                <DockPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
 
                         <GroupBox Header="Notification type">
@@ -256,10 +215,19 @@
                         UpdateSourceTrigger= PropertyChanged}"
                                 Width="100" />
                         </GroupBox>
+                        <GroupBox>
+                            <GroupBox.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Rows count " />
+                                        <TextBlock Text="{Binding DataContext.RowCount, StringFormat={}{0:0.##}, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GroupBox.HeaderTemplate>
+                            <Slider Value="{Binding RowCount}" ToolTip="{Binding RowCount}" Minimum="1" Margin="5"/>
+                        </GroupBox>
 
                     </StackPanel>
-
-                </DockPanel>
             </GroupBox>
             <GroupBox Header="Progress" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Right">
                     <StackPanel Orientation="Horizontal">
@@ -278,10 +246,15 @@
                                      Width="200"
                                      Visibility="{Binding UseWaitingMessage, Converter={Bool2Visibility Collapsed=False}}"/>
                         </GroupBox>
-                        <GroupBox >
+                <GroupBox ToolTip="Move to change progress">
                             <GroupBox.HeaderTemplate>
                                 <DataTemplate>
-                                <CheckBox Content="Show progress" IsChecked="{Binding DataContext.ShowProgress, UpdateSourceTrigger= PropertyChanged , RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" />
+                                    <StackPanel Orientation="Horizontal" >
+                                <CheckBox Content="Show progress"
+                                                  IsChecked="{Binding DataContext.ShowProgress, UpdateSourceTrigger= PropertyChanged , RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" />
+                                <TextBlock VerticalAlignment="Center"
+                                           Text="{Binding DataContext.ProgressValue, UpdateSourceTrigger= PropertyChanged , RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}"/>
+                                    </StackPanel>
                                 </DataTemplate>
                             </GroupBox.HeaderTemplate>
                             <Slider Value="{Binding ProgressValue, UpdateSourceTrigger= PropertyChanged}"
@@ -310,7 +283,9 @@
                 </WrapPanel>
 
             </GroupBox>
-            <DockPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+
+        <Expander Header="Color and Image " IsExpanded="True"  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">
+            <DockPanel MaxHeight="340">
                 <GroupBox Header="Color section" DockPanel.Dock="Left">
                     <StackPanel Orientation="Horizontal">
                         <!--<xctk:ColorPicker />-->
@@ -340,13 +315,42 @@
                                       Width="100" VerticalAlignment="Center"/>
                             </GroupBox>
                         </StackPanel>
-                        <Image Margin="5,0"
+                        <Image Margin="5,0" Width="350" VerticalAlignment="Bottom"
                                Source="{Binding ImageSource,UpdateSourceTrigger=PropertyChanged}" />
 
                     </DockPanel>
                 </GroupBox>
+                <TextBlock DataContext="{Binding DataContext.MessageSettingModel, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}"
+                       HorizontalAlignment="{Binding HorAlign,UpdateSourceTrigger=PropertyChanged}" 
+                       VerticalAlignment="{Binding VerAlign,UpdateSourceTrigger=PropertyChanged}"
+                       Text="{Binding Text,UpdateSourceTrigger=PropertyChanged}"
+                       TextAlignment="{Binding TextAlign,UpdateSourceTrigger=PropertyChanged}"
+                       FontStyle="{Binding FontStyleSample,UpdateSourceTrigger=PropertyChanged}"
+                       FontFamily="{Binding FontFamilySample,UpdateSourceTrigger=PropertyChanged}"
+                       FontWeight="{Binding FontWeightSample,UpdateSourceTrigger=PropertyChanged}"
+                       Opacity="{Binding OpacitySample,UpdateSourceTrigger=PropertyChanged}"
+                       FontSize="{Binding FontSizeSample}"
+                       LineHeight="NaN"
+
+                       >
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}"
+                           BasedOn="{StaticResource {x:Type TextBlock}}">
+                            <Setter Property="TextTrimming"
+                                Value="CharacterEllipsis" />
+                            <Setter Property="TextWrapping"
+                                Value="Wrap" />
+                            <Setter Property="LineStackingStrategy"
+                                Value="BlockLineHeight" />
+                            <Setter Property="helpers1:NotificationLineHeightBehavior.MaxLines"
+                                Value="{Binding DataContext.RowCount, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
 
             </DockPanel>
+
+        </Expander>
 
             <CheckBox Grid.Row="3" Grid.Column="0" Content="Preview" x:Name="PreviewArea" IsChecked="True" Panel.ZIndex="10" VerticalAlignment="Top" HorizontalAlignment="Left"/>
             <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Header=" " BorderThickness="0">

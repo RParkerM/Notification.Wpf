@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Media;
-using FontAwesome5;
 using Notification.Wpf.Controls;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Global
@@ -86,16 +85,6 @@ namespace Notification.Wpf.Constants
         #region Progress
         /// <summary> default progress line foreground </summary>
         public static Brush DefaultProgressColor { get; set; } = (Brush)new BrushConverter().ConvertFrom("#FF01D328");
-
-        /// <summary> base progress icon </summary>
-        public static SvgAwesome DefaultProgressIcon { get; set; } = new SvgAwesome()
-        {
-            Icon = EFontAwesomeIcon.Solid_Spinner,
-            Height = 20,
-            Spin = true,
-            SpinDuration = 1,
-            Foreground = DefaultForegroundColor
-        };
 
         /// <summary> Cancel button content </summary>
         public static object DefaultProgressButtonContent { get; set; } = "Cancel";

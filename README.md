@@ -4,7 +4,7 @@ WPF toast notifications. (Messages and progress bars)
 ## [Last Updates](https://github.com/Platonenkov/Notification.Wpf/blob/dev/Updates.md)
 
 ### Installation:
-Install-Package Notification.WPF -Version 5.4.0
+Install-Package Notification.WPF -Version 5.7.0.1
 
 ![Demo](https://github.com/Platonenkov/Notifications.Wpf/blob/dev/Files/notification.gif)
 ![Demo](https://github.com/Platonenkov/Notifications.Wpf/blob/dev/Files/progress.gif)

@@ -104,7 +104,7 @@ namespace Notifications.Wpf.ViewModels
 
         #region Icon
 
-        private object _Icon = NotificationConstants.DefaultProgressIcon;
+        private object _Icon;
         /// <inheritdoc />
         public object Icon { get => _Icon; set => Set(ref _Icon, value); }
 

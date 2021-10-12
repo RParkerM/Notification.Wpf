@@ -949,12 +949,8 @@ namespace Notification.Wpf.Sample
         private static IEnumerable<SvgAwesome> GetIcons()
         {
             var icons = Enum.GetValues<EFontAwesomeIcon>().Select(s => new SvgAwesome() { Icon = s, Height = 20 });
-            var progress_icon = NotificationConstants.DefaultProgressIcon;
-            progress_icon.Foreground = Brushes.Black;
 
-            var result = new List<SvgAwesome>(new[] { icons.First(), progress_icon });
-            result.AddRange(icons.Skip(1));
-            return result;
+            return icons;
         }
 
         #endregion

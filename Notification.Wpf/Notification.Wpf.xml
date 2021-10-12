@@ -4,35 +4,42 @@
         <name>Notification.Wpf</name>
     </assembly>
     <members>
-        <member name="T:Notification.Wpf.BaseNotificationContent">
-            <inheritdoc />
+        <member name="M:Notification.Wpf.Base.Interfaces.Base.IButtonMessageManager.ShowFilePopUpMessage(System.String,System.Boolean,System.Boolean,System.Nullable{System.TimeSpan},System.String,Notification.Wpf.Base.Interfaces.Options.ICustomizedOptions,Notification.Wpf.Classes.NotificationImage,System.Boolean)">
+            <summary>
+            Show message with button to open file or directory (file destination)
+            Показывает всплывающее окно для открытия файла или директории
+            </summary>
+            <param name="FilePath">File path</param>
+            <param name="ShowFile">show file button</param>
+            <param name="ShowDirectory">show directory button</param>
+            <param name="options">customization options</param>
+            <param name="image">image if need</param>
+            <param name="ExpirationTime">time after which the window will disappear </param>
+            <param name="AreaName">window area</param>
+            <param name="ShowXbtn">Show X close button</param>
         </member>
-        <member name="P:Notification.Wpf.BaseNotificationContent.Title">
-            <inheritdoc />
-        </member>
-        <member name="P:Notification.Wpf.BaseNotificationContent.Message">
-            <inheritdoc />
-        </member>
-        <member name="P:Notification.Wpf.BaseNotificationContent.Icon">
-            <inheritdoc />
-        </member>
-        <member name="P:Notification.Wpf.BaseNotificationContent.Background">
-            <inheritdoc />
-        </member>
-        <member name="P:Notification.Wpf.BaseNotificationContent.Foreground">
-            <inheritdoc />
-        </member>
-        <member name="P:Notification.Wpf.BaseNotificationContent.TrimType">
-            <inheritdoc />
-        </member>
-        <member name="P:Notification.Wpf.BaseNotificationContent.RowsCount">
-            <inheritdoc />
-        </member>
-        <member name="P:Notification.Wpf.BaseNotificationContent.TitleTextSettings">
-            <inheritdoc />
-        </member>
-        <member name="P:Notification.Wpf.BaseNotificationContent.MessageTextSettings">
-            <inheritdoc />
+        <member name="M:Notification.Wpf.Base.Interfaces.Base.IButtonMessageManager.ShowButtonWindow(System.String,System.String,System.Action,System.String,System.Action,System.String,System.Nullable{System.TimeSpan},System.String,Notification.Wpf.Base.Interfaces.Options.ICustomizedOptions,Notification.Wpf.Classes.NotificationImage,System.Boolean)">
+            <summary>
+            Show message with buttons
+            </summary>
+            <param name="Message">Message</param>
+            <param name="Title">Title</param>
+            <param name="LeftButtonAction">Left button action (if null - not visible)</param>
+            <param name="LeftButtonContent">Left button content (possible text) - if null - "Cancel"</param>
+            <param name="RightButtonAction">Right button action (if null - not visible)</param>
+            <param name="RightButtonContent">Right button content (possible text) - if null - "Ok"</param>
+            <param name="ExpirationTime">time after which the window will disappear</param>
+            <param name="AreaName">area name</param>
+            <param name="Image">image</param>
+            <param name="options"> Customization options </param>
+            <param name="ShowXbtn">Show X close button</param>
+            <example>
+            <code>
+            Notifier.ShowInfoWindow("The picture is successfully added","Success",
+            RightButton:(Sender, Args) =&gt; _ = Process.Start(report_file.FullName), RightButtonContent:"Open file",
+            TimeSpan:TimeSpan.FromSeconds(10));
+            </code>
+            </example>
         </member>
         <member name="T:Notification.Wpf.Base.Interfaces.Base.IMessageManager">
             <summary> Message manager </summary>
@@ -71,7 +78,7 @@
         <member name="M:Notification.Wpf.Base.Interfaces.Base.IMessageManager.Show(System.String,Notification.Wpf.NotificationType,System.String,System.Nullable{System.TimeSpan},Notification.Wpf.NotificationTextTrimType,System.UInt32,System.Boolean,Notification.Wpf.Base.TextContentSettings,System.Boolean,System.Object)">
             <summary> Show no titled message  </summary>
             <param name="message">Message in window</param>
-            <param name="type">Window type</param>
+            <param name="type">Notification type</param>
             <param name="areaName">window are where show notification</param>
             <param name="expirationTime">time after which the window will disappear</param>
             <param name="trim">trim text if it is longer than the number of visible lines</param>
@@ -80,6 +87,22 @@
             <param name="MessageSettings">Настройки отображения сообщения</param>
             <param name="ShowXbtn">Show X (close) btn</param>
             <param name="icon">Message icon</param>
+        </member>
+        <member name="M:Notification.Wpf.Base.Interfaces.Base.IMessageManager.Show(System.Exception,System.String,System.Nullable{System.TimeSpan},System.UInt32,Notification.Wpf.Base.TextContentSettings,System.Boolean)">
+            <summary> Show error message </summary>
+            <param name="e">error</param>
+            <param name="areaName">window are where show notification</param>
+            <param name="expirationTime">time after which the window will disappear</param>
+            <param name="RowsCountWhenTrim">Base number of rows when trims</param>
+            <param name="MessageSettings">Настройки отображения сообщения</param>
+            <param name="ShowXbtn">Show X (close) btn</param>
+        </member>
+        <member name="M:Notification.Wpf.Base.Interfaces.Base.IMessageManager.ShowCancellation(Notification.Wpf.NotificationType,System.String,Notification.Wpf.Base.TextContentSettings,System.Boolean)">
+            <summary> Show Cancellation message</summary>
+            <param name="type">Notification type</param>
+            <param name="areaName">window are where show notification</param>
+            <param name="MessageSettings">Настройки отображения сообщения</param>
+            <param name="ShowXbtn">Show X (close) btn</param>
         </member>
         <member name="T:Notification.Wpf.Base.Interfaces.Base.IProgressManager">
             <summary> Progress message manager </summary>
@@ -142,6 +165,79 @@
         <member name="P:Notification.Wpf.Base.Interfaces.ITextContentSettings.Opacity">
             <summary> Text opacity </summary>
         </member>
+        <member name="P:Notification.Wpf.Base.Interfaces.Options.IButtonOptions.LeftButtonContent">
+            <summary>
+            left button content
+            </summary>
+        </member>
+        <member name="P:Notification.Wpf.Base.Interfaces.Options.IButtonOptions.LeftButtonAction">
+            <summary>
+            Left button action
+            </summary>
+        </member>
+        <member name="P:Notification.Wpf.Base.Interfaces.Options.IButtonOptions.RightButtonContent">
+            <summary>
+            Right button content
+            </summary>
+        </member>
+        <member name="P:Notification.Wpf.Base.Interfaces.Options.IButtonOptions.RightButtonAction">
+            <summary>
+            Right button action
+            </summary>
+        </member>
+        <member name="T:Notification.Wpf.Base.Interfaces.Options.ICustomizedOptions">
+            <summary> Customized options for notification </summary>
+        </member>
+        <member name="P:Notification.Wpf.Base.Interfaces.Options.ICustomizedOptions.Icon">
+            <summary> icon in left bar side </summary>
+        </member>
+        <member name="P:Notification.Wpf.Base.Interfaces.Options.ICustomizedOptions.Background">
+            <summary> Notification background </summary>
+        </member>
+        <member name="P:Notification.Wpf.Base.Interfaces.Options.ICustomizedOptions.Foreground">
+            <summary> Text foreground </summary>
+        </member>
+        <member name="P:Notification.Wpf.Base.Interfaces.Options.ICustomizedOptions.TrimType">
+            <summary> Trimming long text if need </summary>
+        </member>
+        <member name="P:Notification.Wpf.Base.Interfaces.Options.ICustomizedOptions.RowsCount">
+            <summary> Set rows of message that will show if set Trim </summary>
+        </member>
+        <member name="P:Notification.Wpf.Base.Interfaces.Options.ICustomizedOptions.TitleTextSettings">
+            <summary> Title text style settings </summary>
+        </member>
+        <member name="P:Notification.Wpf.Base.Interfaces.Options.ICustomizedOptions.MessageTextSettings">
+            <summary> Message text style settings </summary>
+        </member>
+        <member name="T:Notification.Wpf.Base.Options.CustomizedOptions">
+            <inheritdoc />
+        </member>
+        <member name="P:Notification.Wpf.Base.Options.CustomizedOptions.Icon">
+            <inheritdoc />
+        </member>
+        <member name="P:Notification.Wpf.Base.Options.CustomizedOptions.Background">
+            <inheritdoc />
+        </member>
+        <member name="P:Notification.Wpf.Base.Options.CustomizedOptions.Foreground">
+            <inheritdoc />
+        </member>
+        <member name="P:Notification.Wpf.Base.Options.CustomizedOptions.TrimType">
+            <inheritdoc />
+        </member>
+        <member name="P:Notification.Wpf.Base.Options.CustomizedOptions.RowsCount">
+            <inheritdoc />
+        </member>
+        <member name="P:Notification.Wpf.Base.Options.CustomizedOptions.TitleTextSettings">
+            <inheritdoc />
+        </member>
+        <member name="P:Notification.Wpf.Base.Options.CustomizedOptions.MessageTextSettings">
+            <inheritdoc />
+        </member>
+        <member name="M:Notification.Wpf.Base.Options.CustomizedOptions.GetValidCustomizedOptions(Notification.Wpf.Base.Interfaces.Options.ICustomizedOptions)">
+            <summary> Get valid options after check for null </summary>
+            <param name="options">options</param>
+            <returns></returns>
+        </member>
         <member name="T:Notification.Wpf.Base.TextContentSettings">
             <summary> Text content settings </summary>
         </member>
@@ -169,31 +265,11 @@
         <member name="P:Notification.Wpf.Base.TextContentSettings.Opacity">
             <inheritdoc />
         </member>
+        <member name="T:Notification.Wpf.INotificationManager">
+            <summary> Notification manager for popup messages </summary>
+        </member>
         <member name="T:Notification.Wpf.ICustomizedNotification">
-            <summary>
-            Customized notification
-            </summary>
-        </member>
-        <member name="P:Notification.Wpf.ICustomizedNotification.Icon">
-            <summary> icon in left bar side </summary>
-        </member>
-        <member name="P:Notification.Wpf.ICustomizedNotification.Background">
-            <summary> Notification background </summary>
-        </member>
-        <member name="P:Notification.Wpf.ICustomizedNotification.Foreground">
-            <summary> Text foreground </summary>
-        </member>
-        <member name="P:Notification.Wpf.ICustomizedNotification.TrimType">
-            <summary> Trimming long text if need </summary>
-        </member>
-        <member name="P:Notification.Wpf.ICustomizedNotification.RowsCount">
-            <summary> Set rows of message that will show if set Trim </summary>
-        </member>
-        <member name="P:Notification.Wpf.ICustomizedNotification.TitleTextSettings">
-            <summary> Title text style settings </summary>
-        </member>
-        <member name="P:Notification.Wpf.ICustomizedNotification.MessageTextSettings">
-            <summary> Message text style settings </summary>
+            <summary> Customized notification </summary>
         </member>
         <member name="T:Notification.Wpf.INotification">
             <summary>
@@ -209,26 +285,6 @@
         <member name="P:Notification.Wpf.INotification.CloseOnClick">
             <summary> close message when OnClick to message window </summary>
         </member>
-        <member name="P:Notification.Wpf.INotification.LeftButtonContent">
-            <summary>
-            left button content
-            </summary>
-        </member>
-        <member name="P:Notification.Wpf.INotification.LeftButtonAction">
-            <summary>
-            Left button action
-            </summary>
-        </member>
-        <member name="P:Notification.Wpf.INotification.RightButtonContent">
-            <summary>
-            Right button content
-            </summary>
-        </member>
-        <member name="P:Notification.Wpf.INotification.RightButtonAction">
-            <summary>
-            Right button action
-            </summary>
-        </member>
         <member name="T:Notification.Wpf.INotificationBase">
             <summary>
             Base notification
@@ -239,33 +295,6 @@
         </member>
         <member name="P:Notification.Wpf.INotificationBase.Message">
             <summary> Body message text </summary>
-        </member>
-        <member name="T:Notification.Wpf.INotificationManager">
-            <summary> Notification manager for popup messages </summary>
-        </member>
-        <member name="T:Notification.Wpf.NotificationContent">
-            <summary> Message </summary>
-        </member>
-        <member name="P:Notification.Wpf.NotificationContent.Image">
-            <inheritdoc/>
-        </member>
-        <member name="P:Notification.Wpf.NotificationContent.Type">
-            <inheritdoc/>
-        </member>
-        <member name="P:Notification.Wpf.NotificationContent.LeftButtonContent">
-            <inheritdoc/>
-        </member>
-        <member name="P:Notification.Wpf.NotificationContent.LeftButtonAction">
-            <inheritdoc/>
-        </member>
-        <member name="P:Notification.Wpf.NotificationContent.RightButtonContent">
-            <inheritdoc/>
-        </member>
-        <member name="P:Notification.Wpf.NotificationContent.RightButtonAction">
-            <inheritdoc/>
-        </member>
-        <member name="P:Notification.Wpf.NotificationContent.CloseOnClick">
-            <inheritdoc/>
         </member>
         <member name="T:Notification.Wpf.NotificationManager">
             <inheritdoc />
@@ -285,10 +314,22 @@
         <member name="M:Notification.Wpf.NotificationManager.Show(System.String,Notification.Wpf.NotificationType,System.String,System.Nullable{System.TimeSpan},Notification.Wpf.NotificationTextTrimType,System.UInt32,System.Boolean,Notification.Wpf.Base.TextContentSettings,System.Boolean,System.Object)">
             <inheritdoc />
         </member>
+        <member name="M:Notification.Wpf.NotificationManager.Show(System.Exception,System.String,System.Nullable{System.TimeSpan},System.UInt32,Notification.Wpf.Base.TextContentSettings,System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:Notification.Wpf.NotificationManager.ShowCancellation(Notification.Wpf.NotificationType,System.String,Notification.Wpf.Base.TextContentSettings,System.Boolean)">
+            <inheritdoc />
+        </member>
         <member name="M:Notification.Wpf.NotificationManager.ShowProgressBar(System.String,System.Boolean,System.Boolean,System.String,System.Boolean,System.UInt32,System.String,System.Boolean,System.Boolean,System.Windows.Media.Brush,System.Windows.Media.Brush,System.Windows.Media.Brush,System.Object,Notification.Wpf.Base.TextContentSettings,Notification.Wpf.Base.TextContentSettings,System.Boolean)">
             <inheritdoc />
         </member>
         <member name="M:Notification.Wpf.NotificationManager.ShowProgressBar(Notification.Wpf.ICustomizedNotification,System.Boolean,System.Boolean,System.String,System.String,System.Boolean,System.Boolean,System.Windows.Media.Brush,System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:Notification.Wpf.NotificationManager.ShowFilePopUpMessage(System.String,System.Boolean,System.Boolean,System.Nullable{System.TimeSpan},System.String,Notification.Wpf.Base.Interfaces.Options.ICustomizedOptions,Notification.Wpf.Classes.NotificationImage,System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:Notification.Wpf.NotificationManager.ShowButtonWindow(System.String,System.String,System.Action,System.String,System.Action,System.String,System.Nullable{System.TimeSpan},System.String,Notification.Wpf.Base.Interfaces.Options.ICustomizedOptions,Notification.Wpf.Classes.NotificationImage,System.Boolean)">
             <inheritdoc />
         </member>
         <member name="M:Notification.Wpf.NotificationManager.ShowContent(System.Object,System.Nullable{System.TimeSpan},System.String,System.Action,System.Action,System.Boolean,System.Boolean)">
@@ -333,6 +374,53 @@
             <summary>
             InitializeComponent
             </summary>
+        </member>
+        <member name="T:Notification.Wpf.BaseNotificationContent">
+            <inheritdoc cref="T:Notification.Wpf.ICustomizedNotification" />
+        </member>
+        <member name="P:Notification.Wpf.BaseNotificationContent.Title">
+            <inheritdoc />
+        </member>
+        <member name="P:Notification.Wpf.BaseNotificationContent.Message">
+            <inheritdoc />
+        </member>
+        <member name="T:Notification.Wpf.NotificationContent">
+            <summary> Message </summary>
+        </member>
+        <member name="P:Notification.Wpf.NotificationContent.Image">
+            <inheritdoc/>
+        </member>
+        <member name="P:Notification.Wpf.NotificationContent.Type">
+            <inheritdoc/>
+        </member>
+        <member name="P:Notification.Wpf.NotificationContent.LeftButtonContent">
+            <inheritdoc/>
+        </member>
+        <member name="P:Notification.Wpf.NotificationContent.LeftButtonAction">
+            <inheritdoc/>
+        </member>
+        <member name="P:Notification.Wpf.NotificationContent.RightButtonContent">
+            <inheritdoc/>
+        </member>
+        <member name="P:Notification.Wpf.NotificationContent.RightButtonAction">
+            <inheritdoc/>
+        </member>
+        <member name="P:Notification.Wpf.NotificationContent.CloseOnClick">
+            <inheritdoc/>
+        </member>
+        <member name="M:Notification.Wpf.NotificationContent.GetValidContent(System.String,System.String,Notification.Wpf.NotificationType,System.Action,System.Object,System.Action,System.Object,Notification.Wpf.Classes.NotificationImage,System.Boolean,Notification.Wpf.Base.Interfaces.Options.ICustomizedOptions)">
+            <summary> Get valid options after check for null </summary>
+            <param name="CloseOnClick"></param>
+            <param name="options">options</param>
+            <param name="Title"></param>
+            <param name="Message"></param>
+            <param name="type"></param>
+            <param name="LeftButtonAction"></param>
+            <param name="LeftButtonContent"></param>
+            <param name="RightButtonAction"></param>
+            <param name="RightButtonContent"></param>
+            <param name="Image"></param>
+            <returns></returns>
         </member>
         <member name="T:Notification.Wpf.ImagePosition">
             <summary> Image position in notification </summary>
@@ -519,17 +607,32 @@
         <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaultProgressButtonContent">
             <summary> Cancel button content </summary>
         </member>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.MinWidth">
+            <summary> Notification MinWidth (if MaxWidth less than MinWidth = MaxWidth) </summary>
+        </member>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.MaxWidth">
+            <summary> Notification MaxWidth</summary>
+        </member>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.CancellationMessage">
+            <summary> Default message for Show Cancellation </summary>
+        </member>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.OpenFileMessage">
+            <summary> Open file button text </summary>
+        </member>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.OpenFolderMessage">
+            <summary> Open folder button text </summary>
+        </member>
         <member name="F:Notification.Wpf.Controls.NotificationArea.CollapseProgressAutoProperty">
             <summary>Progress bar will automatically collapsed if items count more that max items</summary>
         </member>
         <member name="P:Notification.Wpf.Controls.NotificationArea.CollapseProgressAuto">
             <summary>Progress bar will automatically collapsed if items count more that max items</summary>
         </member>
-        <member name="M:Notification.Wpf.Controls.NotificationArea.Show(System.Object,System.Boolean)">
+        <member name="M:Notification.Wpf.Controls.NotificationArea.Show(Notifications.Wpf.ViewModels.NotificationProgressViewModel,System.Boolean)">
             <summary>
             Отображает окно прогресса
             </summary>
-            <param name="model">модель прогресс бара</param>
+            <param name="progress">модель прогресс бара</param>
             <param name="ShowXbtn">need to show X close button</param>
         </member>
         <member name="M:Notification.Wpf.Controls.NotificationArea.OnShowContent(Notification.Wpf.Controls.Notification,System.Nullable{System.TimeSpan})">
@@ -1569,36 +1672,6 @@
         <member name="M:Notifications.Wpf.View.TextContentView.InitializeComponent">
             <summary>
             InitializeComponent
-            </summary>
-        </member>
-        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
-            <summary>
-            GeneratedInternalTypeHelper
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
-            <summary>
-            CreateInstance
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            GetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            SetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
-            <summary>
-            CreateDelegate
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
-            <summary>
-            AddEventHandler
             </summary>
         </member>
     </members>

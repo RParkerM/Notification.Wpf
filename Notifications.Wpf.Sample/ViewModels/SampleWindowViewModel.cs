@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -29,7 +30,7 @@ using Notification.Wpf.View;
 
 using Notifications.Wpf.ViewModels;
 
-using Notification = Notification.Wpf.Controls.Notification;
+using Timer = System.Timers.Timer;
 
 namespace Notification.Wpf.Sample.ViewModels
 {
@@ -711,7 +712,14 @@ namespace Notification.Wpf.Sample.ViewModels
         private static IEnumerable<SvgAwesome> GetIcons()
         {
             var icons = Enum.GetValues<EFontAwesomeIcon>().Select(s => new SvgAwesome() { Icon = s, Height = 20 });
-            var progress_icon = NotificationConstants.DefaultProgressIcon;
+            var progress_icon = new SvgAwesome()
+            {
+                Icon = EFontAwesomeIcon.Solid_Spinner,
+                Height = 20,
+                Spin = true,
+                SpinDuration = 1,
+                Foreground = NotificationConstants.DefaultForegroundColor
+            };
             progress_icon.Foreground = Brushes.Black;
 
             var result = new List<SvgAwesome>(new[] { icons.First(), progress_icon });
@@ -981,7 +989,7 @@ namespace Notification.Wpf.Sample.ViewModels
 
         #endregion
 
-        #region Command ICommand : Summary
+        #region TestMessage ICommand 
 
         /// <summary>Summary</summary>
         public ICommand ShowTestMessageCommand { get; }
@@ -1014,7 +1022,7 @@ namespace Notification.Wpf.Sample.ViewModels
 
         #endregion
 
-        #region Command ICommand : Summary
+        #region TimerMessage ICommand 
 
         /// <summary>Summary</summary>
         public ICommand ShowTimerMessageCommand { get; }
@@ -1028,7 +1036,8 @@ namespace Notification.Wpf.Sample.ViewModels
         }
 
         #endregion
-        #region Command ICommand : Summary
+
+        #region Content ICommand 
 
         /// <summary>Summary</summary>
         public ICommand ShowContentCommand { get; }
@@ -1070,7 +1079,8 @@ namespace Notification.Wpf.Sample.ViewModels
         }
 
         #endregion
-        #region Command ICommand : Summary
+
+        #region ProgressMessage ICommand 
 
         /// <summary>Summary</summary>
         public ICommand ShowProgressMessageCommand { get; }
@@ -1095,6 +1105,24 @@ namespace Notification.Wpf.Sample.ViewModels
 
             #region Second sample
 
+            //try
+            //{
+            //    object ob = null;
+            //    Thread myThread = new Thread(() => ob = GetIcon(true));
+            //    myThread.Start();
+            //    int count = 1;
+            //    while (ob is null)
+            //    {
+            //        await Task.Delay(100).ConfigureAwait(false);
+            //        Debug.WriteLine($"Ожидание {count}");
+            //        count++;
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    Debug.WriteLine(e);
+            //    return;
+            //}
             var content = GetContent(true);
 
             using var progress = _notificationManager.ShowProgressBar(
@@ -1107,7 +1135,7 @@ namespace Notification.Wpf.Sample.ViewModels
                     : "",
                 ProgressCollapsed,
                 ProgressTitleOrMessage
-              , new SolidColorBrush(ProgressColor),ShowXBtn);
+              , new SolidColorBrush(ProgressColor), ShowXBtn);
 
             #endregion
             try

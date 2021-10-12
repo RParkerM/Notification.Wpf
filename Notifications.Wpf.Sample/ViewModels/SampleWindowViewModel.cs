@@ -1104,19 +1104,18 @@ namespace Notification.Wpf.Sample.ViewModels
             #endregion
 
             #region Second sample
-
+            // ToDo STA Error for SvgAwesome
             //try
             //{
-            //    object ob = null;
-            //    Thread myThread = new Thread(() => ob = GetIcon(true));
+            //    SvgAwesome SVG = null;
+            //    Thread myThread = new Thread(()=>SVG = new SvgAwesome());
             //    myThread.Start();
-            //    int count = 1;
-            //    while (ob is null)
+            //    while (SVG is null)
             //    {
             //        await Task.Delay(100).ConfigureAwait(false);
-            //        Debug.WriteLine($"Ожидание {count}");
-            //        count++;
             //    }
+                    
+
             //}
             //catch (Exception e)
             //{

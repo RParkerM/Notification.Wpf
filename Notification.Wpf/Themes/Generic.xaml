@@ -5,7 +5,6 @@
                     xmlns:wpf="clr-namespace:Notification.Wpf"
                     xmlns:p="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
                     xmlns:converters="clr-namespace:Notification.Wpf.Converters"
-                    xmlns:fa5="http://schemas.fontawesome.com/icons/"
                     xmlns:constants="clr-namespace:Notification.Wpf.Constants"
                     xmlns:helpers="clr-namespace:Notification.Wpf.Sample.Helpers">
 
@@ -36,39 +35,81 @@
     <Color x:Key="WhiteColor" A="255"  R="255" G="255" B="255"/>
     <Color x:Key="BlackColor" A="255"  R="0" G="0" B="0"/>
 
-    <fa5:ImageAwesome x:Key="LinkIcon" Icon="Solid_Link" Foreground="{StaticResource WhiteBrush}" Height="20" Rotation="135" x:Shared="False"/>
-    <fa5:ImageAwesome x:Key="MinimizeIcon" Icon="Regular_WindowMinimize" Foreground="{StaticResource WhiteBrush}" Height="20" x:Shared="False"/>
-    <fa5:ImageAwesome x:Key="MaximizeIcon" Icon="Regular_WindowMaximize" Foreground="{StaticResource WhiteBrush}" Height="20" x:Shared="False"/>
-    <fa5:ImageAwesome x:Key="SettingIcon" Icon="Solid_Cog" Foreground="{StaticResource WhiteBrush}" Height="20" x:Shared="False"/>
-    <fa5:ImageAwesome x:Key="LoadIcon" Icon="Solid_Spinner" Foreground="{StaticResource WhiteBrush}" Height="20" x:Shared="False" Spin="True" SpinDuration="1"/>
-    <fa5:ImageAwesome x:Key="ErrorIcon" Icon="Solid_Bug" Foreground="{StaticResource WhiteBrush}" Height="20" x:Shared="False"/>
-    <fa5:ImageAwesome x:Key="CloseIcon" Icon="Regular_WindowClose" Foreground="{StaticResource WhiteBrush}" Height="12" x:Shared="False"/>
-    <fa5:ImageAwesome x:Key="AttachIcon" Icon="Solid_Paperclip"  Foreground="{StaticResource WhiteBrush}" Height="25" x:Shared="False">
-        <fa5:ImageAwesome.Triggers>
-            <EventTrigger RoutedEvent="fa5:ImageAwesome.Loaded">
-                <EventTrigger.Actions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimationUsingKeyFrames
-                            Storyboard.TargetProperty
-                            ="(fa5:ImageAwesome.Foreground).(SolidColorBrush.Color)"
-                            RepeatBehavior="10x"
-                            AutoReverse="True">
-                                <LinearColorKeyFrame
-                                KeyTime="0:0:0"
-                                Value="{StaticResource WhiteColor}"/>
-                                <LinearColorKeyFrame
-                                KeyTime="0:0:1"
-                                Value="{StaticResource BlackColor}"/>
-                            </ColorAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger.Actions>
-            </EventTrigger>
-        </fa5:ImageAwesome.Triggers>
-    </fa5:ImageAwesome>
+    <Viewbox x:Key="LinkIcon" Height="20" x:Shared="False" >
+        <Path  
+              Data="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"
+              Fill="{StaticResource WhiteBrush}" >
+        </Path>
+        <Viewbox.RenderTransform>
+            <RotateTransform Angle="135"/>
+        </Viewbox.RenderTransform>
 
-    <!--<Path x:Key="CloseIcon" Data="M 2.6874995 2.8246546e-7 -4.7683716e-7 2.6855503 5.3007795 7.9863303 -4.7683716e-7 13.28516 2.6874995 15.97266 l 5.29883 -5.30079 5.3007805 5.30079 2.68554 -2.6875 -5.29882 -5.2988297 5.29882 -5.30078 L 13.28711 2.8246546e-7 7.9863295 5.2988303 2.6874995 2.8246546e-7 Z" Fill="White" x:Shared="False"/>-->
+    </Viewbox>
+
+    <Viewbox x:Key="MinimizeIcon" Height="20" x:Shared="False" >
+        <Path 
+              Data="M480 480H32c-17.7 0-32-14.3-32-32s14.3-32 32-32h448c17.7 0 32 14.3 32 32s-14.3 32-32 32z"
+              Fill="{StaticResource WhiteBrush}"  />
+    </Viewbox>
+
+    <Viewbox x:Key="MaximizeIcon" Height="20" x:Shared="False" >
+        <Path 
+              Data="M464 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm0 394c0 3.3-2.7 6-6 6H54c-3.3 0-6-2.7-6-6V192h416v234z"
+              Fill="{StaticResource WhiteBrush}"/>
+    </Viewbox>
+
+    <Viewbox x:Key="SettingIcon" Height="20" x:Shared="False" >
+        <Path 
+              Data="M487.4 315.7l-42.6-24.6c4.3-23.2 4.3-47 0-70.2l42.6-24.6c4.9-2.8 7.1-8.6 5.5-14-11.1-35.6-30-67.8-54.7-94.6-3.8-4.1-10-5.1-14.8-2.3L380.8 110c-17.9-15.4-38.5-27.3-60.8-35.1V25.8c0-5.6-3.9-10.5-9.4-11.7-36.7-8.2-74.3-7.8-109.2 0-5.5 1.2-9.4 6.1-9.4 11.7V75c-22.2 7.9-42.8 19.8-60.8 35.1L88.7 85.5c-4.9-2.8-11-1.9-14.8 2.3-24.7 26.7-43.6 58.9-54.7 94.6-1.7 5.4.6 11.2 5.5 14L67.3 221c-4.3 23.2-4.3 47 0 70.2l-42.6 24.6c-4.9 2.8-7.1 8.6-5.5 14 11.1 35.6 30 67.8 54.7 94.6 3.8 4.1 10 5.1 14.8 2.3l42.6-24.6c17.9 15.4 38.5 27.3 60.8 35.1v49.2c0 5.6 3.9 10.5 9.4 11.7 36.7 8.2 74.3 7.8 109.2 0 5.5-1.2 9.4-6.1 9.4-11.7v-49.2c22.2-7.9 42.8-19.8 60.8-35.1l42.6 24.6c4.9 2.8 11 1.9 14.8-2.3 24.7-26.7 43.6-58.9 54.7-94.6 1.5-5.5-.7-11.3-5.6-14.1zM256 336c-44.1 0-80-35.9-80-80s35.9-80 80-80 80 35.9 80 80-35.9 80-80 80z"
+              Fill="{StaticResource WhiteBrush}" />
+    </Viewbox>
+
+    <!--<fa5:ImageAwesome x:Key="LoadIcon" Icon="Solid_Spinner" Foreground="{StaticResource WhiteBrush}" Height="20" x:Shared="False" Spin="True" SpinDuration="1"/>-->
+    <!--<Path x:Key="LoadIcon" Height="20"
+          Data="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"
+          Fill="{StaticResource WhiteBrush}" x:Shared="False" />-->
+
+    <Viewbox x:Key="ErrorIcon" Height="20" x:Shared="False" >
+        <Path 
+                  Data="M511.988 288.9c-.478 17.43-15.217 31.1-32.653 31.1H424v16c0 21.864-4.882 42.584-13.6 61.145l60.228 60.228c12.496 12.497 12.496 32.758 0 45.255-12.498 12.497-32.759 12.496-45.256 0l-54.736-54.736C345.886 467.965 314.351 480 280 480V236c0-6.627-5.373-12-12-12h-24c-6.627 0-12 5.373-12 12v244c-34.351 0-65.886-12.035-90.636-32.108l-54.736 54.736c-12.498 12.497-32.759 12.496-45.256 0-12.496-12.497-12.496-32.758 0-45.255l60.228-60.228C92.882 378.584 88 357.864 88 336v-16H32.666C15.23 320 .491 306.33.013 288.9-.484 270.816 14.028 256 32 256h56v-58.745l-46.628-46.628c-12.496-12.497-12.496-32.758 0-45.255 12.498-12.497 32.758-12.497 45.256 0L141.255 160h229.489l54.627-54.627c12.498-12.497 32.758-12.497 45.256 0 12.496 12.497 12.496 32.758 0 45.255L424 197.255V256h56c17.972 0 32.484 14.816 31.988 32.9zM257 0c-61.856 0-112 50.144-112 112h224C369 50.144 318.856 0 257 0z"
+                  Fill="{StaticResource WhiteBrush}" />
+    </Viewbox>
+    <Viewbox x:Key="CloseIcon" Height="12" x:Shared="False" >
+        <Path 
+              Data="M464 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm0 394c0 3.3-2.7 6-6 6H54c-3.3 0-6-2.7-6-6V86c0-3.3 2.7-6 6-6h404c3.3 0 6 2.7 6 6v340zM356.5 194.6L295.1 256l61.4 61.4c4.6 4.6 4.6 12.1 0 16.8l-22.3 22.3c-4.6 4.6-12.1 4.6-16.8 0L256 295.1l-61.4 61.4c-4.6 4.6-12.1 4.6-16.8 0l-22.3-22.3c-4.6-4.6-4.6-12.1 0-16.8l61.4-61.4-61.4-61.4c-4.6-4.6-4.6-12.1 0-16.8l22.3-22.3c4.6-4.6 12.1-4.6 16.8 0l61.4 61.4 61.4-61.4c4.6-4.6 12.1-4.6 16.8 0l22.3 22.3c4.7 4.6 4.7 12.1 0 16.8z"
+              Fill="{StaticResource WhiteBrush}" />
+    </Viewbox>
+
+    <Viewbox x:Key="AttachIcon" Height="25" x:Shared="False" >
+        <Path 
+          Data="M43.246 466.142c-58.43-60.289-57.341-157.511 1.386-217.581L254.392 34c44.316-45.332 116.351-45.336 160.671 0 43.89 44.894 43.943 117.329 0 162.276L232.214 383.128c-29.855 30.537-78.633 30.111-107.982-.998-28.275-29.97-27.368-77.473 1.452-106.953l143.743-146.835c6.182-6.314 16.312-6.422 22.626-.241l22.861 22.379c6.315 6.182 6.422 16.312.241 22.626L171.427 319.927c-4.932 5.045-5.236 13.428-.648 18.292 4.372 4.634 11.245 4.711 15.688.165l182.849-186.851c19.613-20.062 19.613-52.725-.011-72.798-19.189-19.627-49.957-19.637-69.154 0L90.39 293.295c-34.763 35.56-35.299 93.12-1.191 128.313 34.01 35.093 88.985 35.137 123.058.286l172.06-175.999c6.177-6.319 16.307-6.433 22.626-.256l22.877 22.364c6.319 6.177 6.434 16.307.256 22.626l-172.06 175.998c-59.576 60.938-155.943 60.216-214.77-.485z"
+          Fill="{StaticResource WhiteBrush}" >
+            <Path.Triggers>
+                <EventTrigger RoutedEvent="Path.Loaded">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimationUsingKeyFrames
+                                Storyboard.TargetProperty
+                                ="(Path.Fill).(SolidColorBrush.Color)"
+                                RepeatBehavior="10x"
+                                AutoReverse="True">
+                                    <LinearColorKeyFrame
+                                    KeyTime="0:0:0"
+                                    Value="{StaticResource WhiteColor}"/>
+                                    <LinearColorKeyFrame
+                                    KeyTime="0:0:1"
+                                    Value="{StaticResource BlackColor}"/>
+                                </ColorAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Path.Triggers>
+        </Path>
+    </Viewbox>
+
+
     <Path x:Key="SuccessIcon"
           Data="M 15.56055 5.9323048e-7 7.53125 10.197261 2.73242 5.2304706 0 7.8710906 7.82422 15.968751 18.54492 2.3515606 15.56055 5.9323048e-7 Z"
           Fill="{StaticResource WhiteBrush}" x:Shared="False" />

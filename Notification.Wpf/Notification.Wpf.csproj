@@ -4,7 +4,7 @@
     <TargetFrameworks>net5.0-windows;netcoreapp3.1-windows;net4.6-windows;net4.6.1-windows;net4.7-windows;net4.8-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <LangVersion>latest</LangVersion>
-    <Version>5.7.0.2</Version>
+    <Version>5.7.1.0</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Notifications.Wpf.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
@@ -36,6 +36,7 @@
       Fix progress margin style when no waiting message and button,
       Add functions for base message functions (errors view, open file or directory)
       fix SwgAwesome STA error...
+      Remove FontAwesome dependency
     </PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
@@ -57,7 +58,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FontAwesome5" Version="2.1.4" />
     <PackageReference Include="Microsoft.DependencyValidation.Analyzers" Version="0.11.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.37" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />

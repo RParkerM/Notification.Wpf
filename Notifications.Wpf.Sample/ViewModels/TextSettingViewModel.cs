@@ -7,6 +7,7 @@ using System.Windows.Media;
 using MathCore.ViewModels;
 
 using Notification.Wpf.Base;
+using Notification.Wpf.Constants;
 
 namespace Notification.Wpf.Sample.ViewModels
 {

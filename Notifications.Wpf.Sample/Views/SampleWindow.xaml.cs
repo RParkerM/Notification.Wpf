@@ -30,21 +30,6 @@ namespace Notification.Wpf.Sample.Views
             Top = workArea.Top;
             Width = workArea.Width;
             Height = workArea.Height;
-
-            var context = new SampleWindowViewModel();
-
-            context.MessageSettingModel.Text =
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis euismod accumsan orci vel varius. Nulla consectetur egestas est,"
-                + " in porttitor elit placerat non. Cras dapibus cursus magna. Nunc ac malesuada lacus. Etiam non luctus magna, nec vulputate diam."
-                + " Sed porta mi at tristique bibendum. Nunc luctus libero ut mauris cursus, eget dignissim est luctus.Sed ac nibh dignissim, elementum mi ut,"
-                + " tempor quam.Donec quis ornare sapien. Maecenas arcu elit, blandit quis odio eu, elementum bibendum leo."
-                + " Etiam iaculis consectetur metus. Donec in bibendum massa. Nam nec facilisis eros, sit amet blandit magna.Duis vitae"
-                + " justo nec nisi maximus efficitur vitae non mauris.";
-
-            context.TitleSettingModel.Text = "Title sample text";
-            context.TitleSettingModel.FontWeightSample = FontWeights.Bold;
-            DataContext = context;
-
         }
     }
 }

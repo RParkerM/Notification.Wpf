@@ -33,7 +33,8 @@ namespace Notification.Wpf.Base.Options
             FontWeight = FontWeights.Bold,
             TextAlignment = NotificationConstants.TitleTextAlignment,
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalTextAlignment = VerticalAlignment.Stretch
+            VerticalTextAlignment = VerticalAlignment.Stretch,
+            Opacity = 1
         };
         /// <inheritdoc />
         public TextContentSettings MessageTextSettings { get; set; } = new()
@@ -44,7 +45,8 @@ namespace Notification.Wpf.Base.Options
             FontWeight = FontWeights.Normal,
             TextAlignment = NotificationConstants.MessageTextAlignment,
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalTextAlignment = VerticalAlignment.Stretch
+            VerticalTextAlignment = VerticalAlignment.Stretch,
+            Opacity = 0.8
         };
 
 

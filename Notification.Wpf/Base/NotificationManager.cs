@@ -6,11 +6,13 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
+
 using Notification.Wpf.Base;
 using Notification.Wpf.Base.Interfaces.Options;
 using Notification.Wpf.Classes;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
+
 using Notifications.Wpf.Annotations;
 using Notifications.Wpf.ViewModels;
 
@@ -44,7 +46,7 @@ namespace Notification.Wpf
             if (!_dispatcher.CheckAccess())
             {
                 _dispatcher.BeginInvoke(
-                    new Action(() => Show(content, areaName, expirationTime, onClick, onClose, CloseOnClick,ShowXbtn)));
+                    new Action(() => Show(content, areaName, expirationTime, onClick, onClose, CloseOnClick, ShowXbtn)));
                 return;
             }
 
@@ -94,8 +96,8 @@ namespace Notification.Wpf
                 Message = message,
                 Title = title,
                 CloseOnClick = CloseOnClick,
-                MessageTextSettings = MessageSettings,
-                TitleTextSettings = TitleSettings,
+                MessageTextSettings = MessageSettings ?? NotificationConstants.MessageSettings,
+                TitleTextSettings = TitleSettings ?? NotificationConstants.TitleSettings,
                 Icon = icon
             };
 
@@ -103,7 +105,7 @@ namespace Notification.Wpf
         }
         /// <inheritdoc />
         public void Show(
-            string message, NotificationType type = NotificationType.None, 
+            string message, NotificationType type = NotificationType.None,
             string areaName = "", TimeSpan? expirationTime = null,
             NotificationTextTrimType trim = NotificationTextTrimType.NoTrim, uint RowsCountWhenTrim = 1,
             bool CloseOnClick = true,
@@ -135,11 +137,11 @@ namespace Notification.Wpf
                 RowsCount = RowsCountWhenTrim,
                 Message = message,
                 CloseOnClick = CloseOnClick,
-                MessageTextSettings = MessageSettings,
+                MessageTextSettings = MessageSettings ?? NotificationConstants.MessageSettings,
                 Icon = icon
             };
 
-            ShowContent(content, expirationTime, areaName, null,null, CloseOnClick, ShowXbtn);
+            ShowContent(content, expirationTime, areaName, null, null, CloseOnClick, ShowXbtn);
         }
         /// <inheritdoc />
         public void Show(
@@ -154,13 +156,13 @@ namespace Notification.Wpf
                 areaName,
                 expirationTime ?? TimeSpan.MaxValue,
                 NotificationTextTrimType.AttachIfMoreRows,
-                RowsCountWhenTrim, true, MessageSettings, ShowXbtn);
+                RowsCountWhenTrim, true, MessageSettings ?? NotificationConstants.MessageSettings, ShowXbtn);
 
         /// <inheritdoc />
         public void ShowCancellation(NotificationType type = NotificationType.Warning, string areaName = "",
             TextContentSettings MessageSettings = null,
             bool ShowXbtn = true)
-            => Show(NotificationConstants.CancellationMessage, type, areaName, MessageSettings: MessageSettings, ShowXbtn: ShowXbtn);
+            => Show(NotificationConstants.CancellationMessage, type, areaName, MessageSettings: MessageSettings ?? NotificationConstants.MessageSettings, ShowXbtn: ShowXbtn);
 
         #endregion
 
@@ -190,7 +192,7 @@ namespace Notification.Wpf
                         TrimText, DefaultRowsCount,
                         BaseWaitingMessage,
                         IsCollapse, TitleWhenCollapsed,
-                        background, foreground, progressColor, 
+                        background, foreground, progressColor,
                         icon,
                         TitleSettings, MessageSettings,
                         ShowXbtn));
@@ -202,12 +204,12 @@ namespace Notification.Wpf
                 BaseWaitingMessage,
                 IsCollapse, TitleWhenCollapsed,
                 background, foreground, progressColor, icon,
-                TitleSettings, MessageSettings);
+                TitleSettings ?? NotificationConstants.TitleSettings, MessageSettings ?? NotificationConstants.MessageSettings);
 
             if (Title != null)
                 model.Title = Title;
 
-            ShowContent(model, areaName: areaName, ShowXbtn:ShowXbtn);
+            ShowContent(model, areaName: areaName, ShowXbtn: ShowXbtn);
             return model.NotifierProgress;
         }
         /// <inheritdoc />
@@ -244,14 +246,14 @@ namespace Notification.Wpf
                 TitleWhenCollapsed,
                 progressColor);
 
-            ShowContent(model, areaName: areaName,ShowXbtn:ShowXbtn);
+            ShowContent(model, areaName: areaName, ShowXbtn: ShowXbtn);
             return model.NotifierProgress;
         }
 
         #endregion
 
         #region Buttons
-        
+
         /// <inheritdoc />
         public void ShowFilePopUpMessage(
             string FilePath, bool ShowFile = true, bool ShowDirectory = true,
@@ -371,7 +373,7 @@ namespace Notification.Wpf
                         area.Show(progress, ShowXbtn);
                         break;
                     default:
-                        area.Show(content, (TimeSpan)expirationTime, onClick, onClose, CloseOnClick,ShowXbtn);
+                        area.Show(content, (TimeSpan)expirationTime, onClick, onClose, CloseOnClick, ShowXbtn);
                         break;
                 }
             }

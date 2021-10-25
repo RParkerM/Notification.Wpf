@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Media;
+using Notification.Wpf.Base;
 using Notification.Wpf.Controls;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Global
@@ -80,6 +81,29 @@ namespace Notification.Wpf.Constants
         public static TextAlignment TitleTextAlignment { get; set; } = TextAlignment.Left;
         /// <summary> Default Message text alignment </summary>
         public static TextAlignment MessageTextAlignment { get; set; } = TextAlignment.Left;
+
+        public static TextContentSettings TitleSettings => new ()
+        {
+            FontFamily = new FontFamily(FontName),
+            FontSize = TitleSize,
+            FontStyle = FontStyles.Normal,
+            FontWeight = FontWeights.Bold,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalTextAlignment = VerticalAlignment.Stretch,
+            Opacity = 1,
+            TextAlignment = TextAlignment.Left
+        };
+        public static TextContentSettings MessageSettings => new ()
+        {
+            FontFamily = new FontFamily(FontName),
+            FontSize = TitleSize,
+            FontStyle = FontStyles.Normal,
+            FontWeight = FontWeights.Normal,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalTextAlignment = VerticalAlignment.Stretch,
+            Opacity = 0.8,
+            TextAlignment = TextAlignment.Left
+        };
         #endregion
 
         #region Progress

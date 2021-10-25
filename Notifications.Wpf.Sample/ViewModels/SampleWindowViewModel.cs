@@ -36,7 +36,7 @@ namespace Notification.Wpf.Sample.ViewModels
 {
     public class SampleWindowViewModel : ViewModel
     {
-        private readonly NotificationManager _notificationManager = new();
+        private readonly INotificationManager _notificationManager;
 
         Action ButtonClick(string button) => () => _notificationManager.Show($"{button} button click",areaName:GetArea());
 
@@ -74,8 +74,9 @@ namespace Notification.Wpf.Sample.ViewModels
 
         #endregion
 
-        public SampleWindowViewModel()
+        public SampleWindowViewModel(INotificationManager manager)
         {
+            _notificationManager = manager;
             TitleSettingModel.PropertyChanged += (Sender, Args) => SetContent();
             MessageSettingModel.PropertyChanged += (Sender, Args) => SetContent();
 
@@ -87,6 +88,16 @@ namespace Notification.Wpf.Sample.ViewModels
 
             Timer = new Timer { Interval = 1000 };
             Timer.Elapsed += (_, _) => Dispatcher.CurrentDispatcher.Invoke(() => _notificationManager.Show("Pink string from another thread!", areaName: GetArea()));
+            MessageSettingModel.Text =
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis euismod accumsan orci vel varius. Nulla consectetur egestas est,"
+                + " in porttitor elit placerat non. Cras dapibus cursus magna. Nunc ac malesuada lacus. Etiam non luctus magna, nec vulputate diam."
+                + " Sed porta mi at tristique bibendum. Nunc luctus libero ut mauris cursus, eget dignissim est luctus.Sed ac nibh dignissim, elementum mi ut,"
+                + " tempor quam.Donec quis ornare sapien. Maecenas arcu elit, blandit quis odio eu, elementum bibendum leo."
+                + " Etiam iaculis consectetur metus. Donec in bibendum massa. Nam nec facilisis eros, sit amet blandit magna.Duis vitae"
+                + " justo nec nisi maximus efficitur vitae non mauris.";
+
+            TitleSettingModel.Text = "Title sample text";
+            TitleSettingModel.FontWeightSample = FontWeights.Bold;
 
         }
         private string GetArea() => ShowInParentWindow ? "WindowArea" : "";

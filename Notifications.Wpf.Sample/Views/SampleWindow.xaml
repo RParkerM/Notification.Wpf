@@ -16,6 +16,7 @@
         WindowState="Maximized"
         ResizeMode="CanMinimize"
         Title="SampleWindow" Height="1200" Width="1920"
+        DataContext="{Binding SampleModel, Source={StaticResource Locator}}"
         d:DataContext="{d:DesignInstance viewModels:SampleWindowViewModel, IsDesignTimeCreatable=True }">
     <Window.Resources>
         <Style TargetType="{x:Type CheckBox}" >

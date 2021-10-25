@@ -4,6 +4,7 @@
              xmlns:controls="clr-namespace:Notification.Wpf.Controls;assembly=Notification.Wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:sample="clr-namespace:Notification.Wpf.Sample"
+             xmlns:service="clr-namespace:Notification.Wpf.Sample.Service"
              ShutdownMode="OnMainWindowClose"
              StartupUri="Views\SampleWindow.xaml">
     <Application.Resources>
@@ -13,6 +14,7 @@
                 </ResourceDictionary>
 
             </ResourceDictionary.MergedDictionaries>
+            <service:ServiceLocator x:Key="Locator"/>
 
             <sample:CustomTemplateSelector x:Key="CustomTemplateSelector" />
 

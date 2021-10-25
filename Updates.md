@@ -30,7 +30,11 @@ for (var i = 0; i <= 100; i++)
   
   
 ### Update list
-
+`v5.7.1`
+* Remove FontAwesome dependency
+* Corrects message height calculation when font style changes to non-standart
+* Fix SwgAwesome STA error whith progress
+  
 `v5.7.0`
 * Add new sample project in repository
 * Add Center screen message position

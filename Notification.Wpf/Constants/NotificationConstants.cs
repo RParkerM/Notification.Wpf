@@ -91,7 +91,7 @@ namespace Notification.Wpf.Constants
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalTextAlignment = VerticalAlignment.Stretch,
             Opacity = 1,
-            TextAlignment = TextAlignment.Left
+            TextAlignment = TitleTextAlignment
         };
         public static TextContentSettings MessageSettings => new ()
         {
@@ -102,7 +102,7 @@ namespace Notification.Wpf.Constants
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalTextAlignment = VerticalAlignment.Stretch,
             Opacity = 0.8,
-            TextAlignment = TextAlignment.Left
+            TextAlignment = MessageTextAlignment
         };
         #endregion
 

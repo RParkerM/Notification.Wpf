@@ -1,6 +1,6 @@
 <details>	
   <br />
-  <summary><b>🔰 Initialization</b></summary>
+  <summary><h2>🔰 Initialization</h3></summary>
     
 - ### 1 method
     
@@ -77,18 +77,12 @@ public static void Show(...)
     __NotificationManager.Show(...);
 }
 ``` 
-~~- ### 3 method~~
-    
-~~not recommended, one window using~~
-```csharp
-var manager = new NotificationManager();
-```
 
 </details>
     
 <details>	
   <br />
-  <summary><b>🔔 Notifications</b></summary>
+  <summary><h2>🔔 Notifications</h2></summary>
 
 ```csharp
     var content = new NotificationContent();
@@ -100,7 +94,7 @@ var manager = new NotificationManager();
     
 <details>	
   <br />
-  <summary><b>💤 Progress rar</b></summary>
+  <summary><h2>💤 Progress rar</h2></summary>
 
 ```csharp
 using var progress = notificationManager.ShowProgressBar();
@@ -116,7 +110,7 @@ for (var i = 0; i <= 100; i++)
   
 <details>	
   <br />
-  <summary><b>🔥 Properties</b></summary>
+  <summary><h2>🔥 Properties</h2></summary>
     
 At this moment enabled:
     
@@ -228,13 +222,8 @@ Will work when will start new message stack.
 ``` 
 
 ![](https://via.placeholder.com/30x15/f03c15/000000?text=+) `if MaxWidth less than MinWidth:`
+  
 ![](https://via.placeholder.com/30x15/f03c15/000000?text=+) `MinWidth = MaxWidth`
     
 </details> 
-
-```csharp
-
-    
-```
-[Message initialization methods](https://github.com/Platonenkov/Notification.Wpf/blob/dev/Notification.Wpf/Base/Interfaces/Base/IMessageManager.cs)
 </details>

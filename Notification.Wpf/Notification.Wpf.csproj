@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0-windows;netcoreapp3.1-windows;net4.6-windows;net4.6.1-windows;net4.7-windows;net4.8-windows</TargetFrameworks>
+    <TargetFrameworks>net6.0-windows;net5.0-windows;netcoreapp3.1-windows;net4.6-windows;net4.6.1-windows;net4.7-windows;net4.8-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <LangVersion>latest</LangVersion>
-    <Version>5.7.1.2</Version>
+    <Version>6.0.0.0</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Notifications.Wpf.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
@@ -31,12 +31,7 @@
     <RepositoryUrl>https://github.com/Platonenkov/Notification.Wpf</RepositoryUrl>
     <PackageTags>Toast Notifications WPF</PackageTags>
     <PackageReleaseNotes>
-      Add new sample project in repository,
-      Add Center screen message position
-      Fix progress margin style when no waiting message and button,
-      Add functions for base message functions (errors view, open file or directory)
-      fix SwgAwesome STA error...
-      Remove FontAwesome dependency
+      Added net 6 supporting
     </PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>

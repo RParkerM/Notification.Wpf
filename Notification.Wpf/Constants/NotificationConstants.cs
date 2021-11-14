@@ -19,10 +19,15 @@ namespace Notification.Wpf.Constants
         public static NotificationPosition MessagePosition { get; set; } = NotificationPosition.BottomRight;
 
         #region Notification
-        /// <summary> base background color </summary>
 
         #region Default colors
 
+        /// <summary> base background color </summary>
+        public static Brush DefaultBackgroundColor { get; set; } = (Brush)new BrushConverter().ConvertFrom("#FF444444");
+        /// <summary> base foreground color </summary>
+        public static Brush DefaultForegroundColor { get; set; } = new SolidColorBrush(Colors.WhiteSmoke);
+
+        /// <summary> base background color </summary>
         public static Brush SuccessBackgroundColor { get; set; } = new SolidColorBrush(Colors.LimeGreen);
         /// <summary> base background color </summary>
         public static Brush WarningBackgroundColor { get; set; } = new SolidColorBrush(Colors.Orange);
@@ -30,9 +35,9 @@ namespace Notification.Wpf.Constants
         public static Brush ErrorBackgroundColor { get; set; } = new SolidColorBrush(Colors.OrangeRed);
         /// <summary> base background color </summary>
         public static Brush InformationBackgroundColor { get; set; } = new SolidColorBrush(Colors.CornflowerBlue);
-        /// <summary> base background color </summary>
-        public static Brush DefaultBackgroundColor { get; set; } = (Brush)new BrushConverter().ConvertFrom("#FF444444");
 
+        /// <summary> default progress line foreground </summary>
+        public static Brush DefaultProgressColor { get; set; } = (Brush)new BrushConverter().ConvertFrom("#FF01D328");
         #endregion
 
         #region Default Icons
@@ -58,30 +63,43 @@ namespace Notification.Wpf.Constants
         //public static object NotificationIcon = InformationIcon;
 
         #endregion
-        /// <summary> Default text size </summary>
-        public static double BaseTextSize { get; set; } = 14D;
 
-        /// <summary> base foreground color </summary>
-        public static Brush DefaultForegroundColor { get; set; } = new SolidColorBrush(Colors.WhiteSmoke);
+
+        #region Text trim and row count
+
         /// <summary> visible rows count in message by default</summary>
         public static uint DefaultRowCounts { get; set; } = 2U;
-        /// <summary>default Notification left button content </summary>
-        public static object DefaultLeftButtonContent { get; set; } = "Ok";
-        /// <summary>default Notification right button content </summary>
-        public static object DefaultRightButtonContent { get; set; } = "Cancel";
         /// <summary>default Notification text trim type </summary>
         public static NotificationTextTrimType DefaulTextTrimType { get; set; } = NotificationTextTrimType.NoTrim;
+
+        #endregion
+
+        #region Text properties
+
+        #region Size
+
+        /// <summary> Default text size </summary>
+        public static double BaseTextSize { get; set; } = 14D;
         /// <summary> Default Title text size </summary>
         public static double TitleSize { get; set; } = BaseTextSize;
         /// <summary> Default Message text size </summary>
         public static double MessageSize { get; set; } = BaseTextSize;
+
+        #endregion
+
         /// <summary> Default FontName </summary>
         public static string FontName { get; set; } = "Segoe UI";
+
+        #region Text alignment
+
         /// <summary> Default Title text alignment </summary>
         public static TextAlignment TitleTextAlignment { get; set; } = TextAlignment.Left;
         /// <summary> Default Message text alignment </summary>
         public static TextAlignment MessageTextAlignment { get; set; } = TextAlignment.Left;
 
+        #endregion
+
+        /// <summary> Title text settings </summary>
         public static TextContentSettings TitleSettings => new ()
         {
             FontFamily = new FontFamily(FontName),
@@ -93,6 +111,7 @@ namespace Notification.Wpf.Constants
             Opacity = 1,
             TextAlignment = TitleTextAlignment
         };
+        /// <summary> Message text settings </summary>
         public static TextContentSettings MessageSettings => new ()
         {
             FontFamily = new FontFamily(FontName),
@@ -104,23 +123,20 @@ namespace Notification.Wpf.Constants
             Opacity = 0.8,
             TextAlignment = MessageTextAlignment
         };
+
         #endregion
 
-        #region Progress
-        /// <summary> default progress line foreground </summary>
-        public static Brush DefaultProgressColor { get; set; } = (Brush)new BrushConverter().ConvertFrom("#FF01D328");
-
-        /// <summary> Cancel button content </summary>
-        public static object DefaultProgressButtonContent { get; set; } = "Cancel";
         #endregion
 
-        #region Area
+        #region Message size
         /// <summary> Notification MinWidth (if MaxWidth less than MinWidth = MaxWidth) </summary>
         public static double MinWidth { get; set; } = 350D;
         /// <summary> Notification MaxWidth</summary>
         public static double MaxWidth { get; set; } = 350D;
 
         #endregion
+
+        #region Default text
 
 
         /// <summary> Default message for Show Cancellation </summary>
@@ -129,5 +145,14 @@ namespace Notification.Wpf.Constants
         public static string OpenFileMessage { get; set; } = "Open File";
         /// <summary> Open folder button text </summary>
         public static string OpenFolderMessage { get; set; } = "Open Folder";
+
+        /// <summary>default Notification left button content </summary>
+        public static object DefaultLeftButtonContent { get; set; } = "Ok";
+        /// <summary>default Notification right button content </summary>
+        public static object DefaultRightButtonContent { get; set; } = "Cancel";
+        /// <summary> Cancel button content </summary>
+        public static object DefaultProgressButtonContent { get; set; } = "Cancel";
+
+        #endregion
     }
 }

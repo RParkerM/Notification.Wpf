@@ -1,35 +1,14 @@
-### How to:
-first - create `INotificationManager notificationManager = new NotificationManager();`
-<details>	
-  <br />
-  <summary><b>🔥 Create new Notification</b></summary>
-
-```C#
-    var content = new NotificationContent();
-    notificationManager.Show(content);
-    notificationManager.Show("Title","Message");
-```
-[Message initialization methods](https://github.com/Platonenkov/Notification.Wpf/blob/dev/Notification.Wpf/Base/Interfaces/Base/IMessageManager.cs)
-</details>
-
-<details>	
-  <br />
-  <summary><b>🔥 Create new Progress rar</b></summary>
-
-```C#
-using var progress = notificationManager.ShowProgressBar();
-for (var i = 0; i <= 100; i++)
-{
-    progress.Cancel.ThrowIfCancellationRequested();
-    progress.Report((i, $"Progress {i}", "With progress", true));
-    await Task.Delay(TimeSpan.FromSeconds(0.02), progress.Cancel).ConfigureAwait(false);
-}
-```
-[Progress initialization methods](https://github.com/Platonenkov/Notification.Wpf/blob/dev/Notification.Wpf/Base/Interfaces/Base/IProgressManager.cs)
-</details>
-  
-  
 ### Update list
+`v6.1.0.0`
+*  Added stack control. Use `NotificationConstants.IsReversedPanel` to change stack orientation. Set as `null to default`.
+* Message position as `Absolute` with constant setting: `NotificationConstants.AbsolutePosition`
+
+`v6.0.0.0`
+* Added net6 supporting
+
+`v5.7.1.2`
+* fix text settings for string only messages
+
 `v5.7.1`
 * Remove FontAwesome dependency
 * Corrects message height calculation when font style changes to non-standart

@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using Notification.Wpf.Base;
+using Notification.Wpf.Classes;
 using Notification.Wpf.Controls;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Global
@@ -17,6 +18,12 @@ namespace Notification.Wpf.Constants
 
         /// <summary> Overlay message position </summary>
         public static NotificationPosition MessagePosition { get; set; } = NotificationPosition.BottomRight;
+
+        /// <summary> Reverse are when absolute </summary>
+        public static bool? IsReversedPanel { get; set; }
+
+        /// <summary> Default message position when position absolute </summary>
+        public static AbsolutePosition AbsolutePosition { get; } = new AbsolutePosition();
 
         #region Notification
 
@@ -154,5 +161,11 @@ namespace Notification.Wpf.Constants
         public static object DefaultProgressButtonContent { get; set; } = "Cancel";
 
         #endregion
+
+        /// <summary> work area height </summary>
+        public static double AreaHeight => SystemParameters.WorkArea.Height;
+        /// <summary> work area width </summary>
+        public static double AreaWidth => SystemParameters.WorkArea.Width;
+
     }
 }

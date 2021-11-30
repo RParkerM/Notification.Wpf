@@ -12,10 +12,9 @@
         xmlns:helpers="clr-namespace:Notification.Wpf.Sample.Helpers"
         xmlns:fa5="http://schemas.fontawesome.com/icons/"
         xmlns:helpers1="clr-namespace:Notification.Wpf.Sample.Helpers;assembly=Notification.Wpf"
+        xmlns:constants="clr-namespace:Notification.Wpf.Constants;assembly=Notification.Wpf"
         mc:Ignorable="d"
-        WindowState="Maximized"
-        ResizeMode="CanMinimize"
-        Title="SampleWindow" Height="1200" Width="1920"
+        Title="SampleWindow" 
         DataContext="{Binding SampleModel, Source={StaticResource Locator}}"
         d:DataContext="{d:DesignInstance viewModels:SampleWindowViewModel, IsDesignTimeCreatable=True }">
     <Window.Resources>
@@ -37,253 +36,255 @@
         </Style>
 
     </Window.Resources>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition MaxHeight="300"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <controls:NotificationArea x:Name="WindowArea" DockPanel.Dock="Bottom" Grid.Row="0" Grid.RowSpan="4" Grid.ColumnSpan="4" Grid.Column="0"
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="300"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <controls:NotificationArea x:Name="WindowArea" DockPanel.Dock="Bottom" Grid.Row="0" Grid.RowSpan="4" Grid.ColumnSpan="4" Grid.Column="0"
                                        Position="{Binding MessagePosition}"
                                        MaxItems="{Binding MaxItems}"
                                        CollapseProgressAuto="{Binding CollapseProgressIfMoreRows}"
                                        Panel.ZIndex="999"/>
 
-            <GroupBox Header="Title" Grid.Row="0" Grid.Column="0" >
-                <local:TextSettingView DataContext="{Binding TitleSettingModel}" Height="300"/>
-            </GroupBox>
+        <GroupBox Header="Title" Grid.Row="0" Grid.Column="0" >
+            <local:TextSettingView DataContext="{Binding TitleSettingModel}" Height="300"/>
+        </GroupBox>
 
-            <GroupBox Header="Message" Grid.Row="0" Grid.Column="1">
+        <GroupBox Header="Message" Grid.Row="0" Grid.Column="1">
             <local:TextSettingView DataContext="{Binding MessageSettingModel}" Height="300"/>
+        </GroupBox>
+
+        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
+            <GroupBox Header="Notification area settings">
+                <GroupBox.Resources>
+                    <Style TargetType="{x:Type GroupBox}">
+                        <Setter Property="MinWidth" Value="180"></Setter>
+                        <Setter Property="Margin" Value="1,5"/>
+                    </Style>
+                </GroupBox.Resources>
+                <StackPanel>
+                    <CheckBox Content="Show X btn"
+                                  IsChecked="{Binding ShowXBtn, UpdateSourceTrigger= PropertyChanged}"/>
+                    <CheckBox Content="Close on click" IsChecked="{Binding CloseOnClick, UpdateSourceTrigger= PropertyChanged}" />
+
+                    <GroupBox>
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox Content="Use expiration time"
+                                        IsChecked="{Binding DataContext.UseExpirationTime, UpdateSourceTrigger= PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}"/>
+                                    <TextBlock Text="{Binding DataContext.ExpirationTime, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <Slider Value="{Binding ExpirationTime}" ToolTip="{Binding ExpirationTime}" Maximum="100" Minimum="1" Margin="5"/>
+                    </GroupBox>
+                    <GroupBox >
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Minimum width "/>
+                                    <TextBlock Text="{Binding DataContext.AreaMinWidth, StringFormat={}{0:0.##}, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <Slider Value="{Binding AreaMinWidth}" ToolTip="{Binding AreaMinWidth}" Maximum="{Binding AreaMaxWidth,UpdateSourceTrigger=PropertyChanged}" Minimum="50" Margin="5"/>
+                    </GroupBox>
+                    <GroupBox>
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Maximum width " />
+                                    <TextBlock Text="{Binding DataContext.AreaMaxWidth, StringFormat={}{0:0.##}, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <Slider Value="{Binding AreaMaxWidth}" ToolTip="{Binding AreaMaxWidth}"  Maximum="1800" Minimum="{Binding AreaMinWidth,UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                    </GroupBox>
+                </StackPanel>
             </GroupBox>
 
-            <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
-                <GroupBox Header="Notification area settings">
-                    <GroupBox.Resources>
-                        <Style TargetType="{x:Type GroupBox}">
-                            <Setter Property="MinWidth" Value="180"></Setter>
-                            <Setter Property="Margin" Value="1,5"/>
-                        </Style>
-                    </GroupBox.Resources>
-                    <StackPanel>
-                        <CheckBox Content="Show X btn"
-                                  IsChecked="{Binding ShowXBtn, UpdateSourceTrigger= PropertyChanged}"/>
-                        <CheckBox Content="Close on click" IsChecked="{Binding CloseOnClick, UpdateSourceTrigger= PropertyChanged}" />
+            <GroupBox  Header="Window settings">
+                <GroupBox.Resources>
+                    <Style TargetType="{x:Type GroupBox}">
+                        <Setter Property="MinWidth" Value="120"></Setter>
+                        <Setter Property="Margin" Value="1,2"/>
+                    </Style>
+                </GroupBox.Resources>
 
-                        <GroupBox>
-                            <GroupBox.HeaderTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <CheckBox Content="Use expiration time"
-                                        IsChecked="{Binding DataContext.UseExpirationTime, UpdateSourceTrigger= PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}"/>
-                                        <TextBlock Text="{Binding DataContext.ExpirationTime, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GroupBox.HeaderTemplate>
-                            <Slider Value="{Binding ExpirationTime}" ToolTip="{Binding ExpirationTime}" Maximum="100" Minimum="1" Margin="5"/>
-                        </GroupBox>
-                        <GroupBox >
-                            <GroupBox.HeaderTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Minimum width "/>
-                                        <TextBlock Text="{Binding DataContext.AreaMinWidth, StringFormat={}{0:0.##}, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GroupBox.HeaderTemplate>
-                            <Slider Value="{Binding AreaMinWidth}" ToolTip="{Binding AreaMinWidth}" Maximum="{Binding AreaMaxWidth,UpdateSourceTrigger=PropertyChanged}" Minimum="50" Margin="5"/>
-                        </GroupBox>
-                        <GroupBox>
-                            <GroupBox.HeaderTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Maximum width " />
-                                        <TextBlock Text="{Binding DataContext.AreaMaxWidth, StringFormat={}{0:0.##}, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GroupBox.HeaderTemplate>
-                            <Slider Value="{Binding AreaMaxWidth}" ToolTip="{Binding AreaMaxWidth}"  Maximum="1800" Minimum="{Binding AreaMinWidth,UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
-                        </GroupBox>
-                    </StackPanel>
-                </GroupBox>
-
-                <GroupBox  Header="Window settings">
-                    <GroupBox.Resources>
-                        <Style TargetType="{x:Type GroupBox}">
-                            <Setter Property="MinWidth" Value="120"></Setter>
-                            <Setter Property="Margin" Value="1,5"/>
-                        </Style>
-                    </GroupBox.Resources>
-
-                    <StackPanel HorizontalAlignment="Left">
-                        <CheckBox Content="Collapse progress automatically" ToolTip="progress bar automatically collapsing , if messages count more than maximum"
+                <StackPanel HorizontalAlignment="Left">
+                    <CheckBox Content="Collapse progress automatically" ToolTip="progress bar automatically collapsing , if messages count more than maximum"
                                                       IsChecked="{Binding CollapseProgressIfMoreRows, UpdateSourceTrigger=PropertyChanged}"/>
-                        <GroupBox>
-                            <GroupBox.HeaderTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock>
+                    <GroupBox>
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock>
                                         <Run Text="Notification max count " />
                                         <Run
                                             Text="{Binding DataContext.MaxItems,Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" FontWeight="Bold"/>
-                                        </TextBlock>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GroupBox.HeaderTemplate>
-                            <Slider Minimum="1" Maximum="20" Value="{Binding MaxItems, UpdateSourceTrigger=PropertyChanged}" />
-                        </GroupBox>
-                        <GroupBox Header="Message position, when new stack" >
-                            <ComboBox ItemsSource="{helpers:EnumValues {x:Type controls:NotificationPosition}}"
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <Slider Minimum="1" Maximum="20" Value="{Binding MaxItems, UpdateSourceTrigger=PropertyChanged}" />
+                    </GroupBox>
+                    <GroupBox Header="Message position, when new stack" >
+                        <ComboBox ItemsSource="{helpers:EnumValues {x:Type controls:NotificationPosition}}"
                                               SelectedItem="{Binding MessagePosition, UpdateSourceTrigger= PropertyChanged}"
                                               VerticalAlignment="Center"/>
-                        </GroupBox>
-                        <CheckBox Content="In window"
+                    </GroupBox>
+                    <CheckBox Content="In window"
                                   IsChecked="{Binding ShowInParentWindow, UpdateSourceTrigger= PropertyChanged}"/>
+                    <CheckBox Content="reverse panel" IsThreeState="True"
+                              IsChecked="{Binding IsReverse, UpdateSourceTrigger= PropertyChanged}"/>
 
-                    </StackPanel>
-                </GroupBox>
+                </StackPanel>
+            </GroupBox>
 
-            </StackPanel>
-            <GroupBox Header="Icon section" Grid.Row="0" Grid.Column="3">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox
+        </StackPanel>
+        <GroupBox Header="Icon section" Grid.Row="0" Grid.Column="3">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox
                                 IsChecked="{Binding ImageAsIcon}"
                                 Content="Use image as icon" 
                                 VerticalAlignment="Center"/>
-                        <fa5:SvgAwesome
+                    <fa5:SvgAwesome
                                     Icon="{Binding SelectedIcon,
                                 Converter={helpers:IconConverter}}"
                                     Height="20" Width="20"/>
 
-                    </StackPanel>
-                    <ListView x:Name="ListIcons" Height="242" 
+                </StackPanel>
+                <ListView x:Name="ListIcons" Height="242" 
                                       ItemsSource="{Binding Icons}"
                                       SelectedItem="{Binding SelectedIcon}"
                                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                       ScrollViewer.PanningMode="VerticalOnly">
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                    </ListView>
-                </StackPanel>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
+            </StackPanel>
 
-            </GroupBox>
+        </GroupBox>
 
-            <GroupBox Header="Notification" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+        <GroupBox Header="Notification" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
 
-                        <GroupBox Header="Notification type">
-                            <ComboBox ItemsSource="{helpers:EnumValues {x:Type wpf:NotificationType}}"
+                <GroupBox Header="Notification type">
+                    <ComboBox ItemsSource="{helpers:EnumValues {x:Type wpf:NotificationType}}"
                                   SelectedItem="{Binding SelectedNotificationType, UpdateSourceTrigger= PropertyChanged}"
                                   Width="100" VerticalAlignment="Center" />
-                        </GroupBox>
-                        <GroupBox Header="Trim type">
-                            <ComboBox ItemsSource="{helpers:EnumValues {x:Type wpf:NotificationTextTrimType}}"
+                </GroupBox>
+                <GroupBox Header="Trim type">
+                    <ComboBox ItemsSource="{helpers:EnumValues {x:Type wpf:NotificationTextTrimType}}"
                                       SelectedItem="{Binding SelectedTrimType, UpdateSourceTrigger= PropertyChanged}"
                                       VerticalAlignment="Top" Width="100"
                                       Height="25" />
-                        </GroupBox>
-                        <GroupBox>
-                            <GroupBox.HeaderTemplate>
-                                <DataTemplate>
-                                    <CheckBox Content="Left button" IsChecked="{Binding DataContext.ShowLeftButton, UpdateSourceTrigger= PropertyChanged , RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" />
-                                </DataTemplate>
-                            </GroupBox.HeaderTemplate>
-                            <TextBox
+                </GroupBox>
+                <GroupBox>
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="Left button" IsChecked="{Binding DataContext.ShowLeftButton, UpdateSourceTrigger= PropertyChanged , RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" />
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <TextBox
                                 Text="{Binding LeftButtonText,
                         UpdateSourceTrigger= PropertyChanged}"
                                 Width="100" />
-                        </GroupBox>
-                        <GroupBox>
-                            <GroupBox.HeaderTemplate>
-                                <DataTemplate>
-                                    <CheckBox Content="Right button" 
+                </GroupBox>
+                <GroupBox>
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="Right button" 
                                                   IsChecked="{Binding DataContext.ShowRightButton, UpdateSourceTrigger= PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" />
-                                </DataTemplate>
-                            </GroupBox.HeaderTemplate>
-                            <TextBox
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <TextBox
                                 Text="{Binding RightButtonText,
                         UpdateSourceTrigger= PropertyChanged}"
                                 Width="100" />
-                        </GroupBox>
-                        <GroupBox>
-                            <GroupBox.HeaderTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Rows count " />
-                                        <TextBlock Text="{Binding DataContext.RowCount, StringFormat={}{0:0.##}, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GroupBox.HeaderTemplate>
-                            <Slider Value="{Binding RowCount}" ToolTip="{Binding RowCount}" Minimum="1" Margin="5"/>
-                        </GroupBox>
+                </GroupBox>
+                <GroupBox>
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Rows count " />
+                                <TextBlock Text="{Binding DataContext.RowCount, StringFormat={}{0:0.##}, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <Slider Value="{Binding RowCount}" ToolTip="{Binding RowCount}" Minimum="1" Margin="5"/>
+                </GroupBox>
 
-                    </StackPanel>
-            </GroupBox>
-            <GroupBox Header="Progress" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Right">
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel>
-                            <CheckBox Content="Collapsed progress bar" IsChecked="{Binding ProgressCollapsed, UpdateSourceTrigger= PropertyChanged}" Margin="3,2" />
-                        <CheckBox Content="Title or Message when collapse" IsChecked="{Binding ProgressTitleOrMessage, UpdateSourceTrigger= PropertyChanged}" Margin="3,2" />
-                        <CheckBox Content="Show cancel button" IsChecked="{Binding ShowCancelButton, UpdateSourceTrigger= PropertyChanged}"  Margin="3,2"/>
-                        </StackPanel>
-                        <GroupBox>
-                            <GroupBox.HeaderTemplate>
-                                <DataTemplate>
-                                <CheckBox Content="Show calculation message" IsChecked="{Binding DataContext.UseWaitingMessage, UpdateSourceTrigger= PropertyChanged , RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" />
-                                </DataTemplate>
-                            </GroupBox.HeaderTemplate>
-                            <TextBox Text="{Binding BaseWaitingMessage, UpdateSourceTrigger= PropertyChanged}" VerticalAlignment="Top"
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Progress" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <CheckBox Content="Collapsed progress bar" IsChecked="{Binding ProgressCollapsed, UpdateSourceTrigger= PropertyChanged}" Margin="3,2" />
+                    <CheckBox Content="Title or Message when collapse" IsChecked="{Binding ProgressTitleOrMessage, UpdateSourceTrigger= PropertyChanged}" Margin="3,2" />
+                    <CheckBox Content="Show cancel button" IsChecked="{Binding ShowCancelButton, UpdateSourceTrigger= PropertyChanged}"  Margin="3,2"/>
+                </StackPanel>
+                <GroupBox>
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="Show calculation message" IsChecked="{Binding DataContext.UseWaitingMessage, UpdateSourceTrigger= PropertyChanged , RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" />
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <TextBox Text="{Binding BaseWaitingMessage, UpdateSourceTrigger= PropertyChanged}" VerticalAlignment="Top"
                                      Width="200"
                                      Visibility="{Binding UseWaitingMessage, Converter={Bool2Visibility Collapsed=False}}"/>
-                        </GroupBox>
+                </GroupBox>
                 <GroupBox ToolTip="Move to change progress">
-                            <GroupBox.HeaderTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" >
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
                                 <CheckBox Content="Show progress"
                                                   IsChecked="{Binding DataContext.ShowProgress, UpdateSourceTrigger= PropertyChanged , RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}" />
                                 <TextBlock VerticalAlignment="Center"
                                            Text="{Binding DataContext.ProgressValue, UpdateSourceTrigger= PropertyChanged , RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GroupBox.HeaderTemplate>
-                            <Slider Value="{Binding ProgressValue, UpdateSourceTrigger= PropertyChanged}"
+                            </StackPanel>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <Slider Value="{Binding ProgressValue, UpdateSourceTrigger= PropertyChanged}"
                                     Minimum="0" Maximum="100" Width="200" Cursor="Hand" IsSnapToTickEnabled="True" TickFrequency="1"
                                     Visibility="{Binding ShowProgress, Converter={Bool2Visibility Collapsed=False}}"/>
-                        </GroupBox>
+                </GroupBox>
 
-                        <StackPanel>
-                        </StackPanel>
-                    </StackPanel>
+                <StackPanel>
+                </StackPanel>
+            </StackPanel>
 
-            </GroupBox>
-            <GroupBox Header="Test" DockPanel.Dock="Right" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="3" >
-                <WrapPanel>
-                    <WrapPanel.Resources>
-                        <Style TargetType="Button">
-                            <Setter Property="Width" Value="100"/>
-                            <Setter Property="Margin" Value="5"/>
-                            <Setter Property="VerticalAlignment" Value="Center"/>
-                        </Style>
-                    </WrapPanel.Resources>
-                    <Button Content="Test message" Command="{Binding ShowTestMessageCommand}" />
-                    <Button Content="Timer message" Command="{Binding ShowTimerMessageCommand}"/>
-                    <Button Content="Show content" Command="{Binding ShowContentCommand}"/>
-                    <Button Content="Show Progress" Command="{Binding ShowProgressMessageCommand}"/>
-                </WrapPanel>
+        </GroupBox>
+        <GroupBox Header="Test" DockPanel.Dock="Right" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="3" >
+            <WrapPanel>
+                <WrapPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Width" Value="100"/>
+                        <Setter Property="Margin" Value="5"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Style>
+                </WrapPanel.Resources>
+                <Button Content="Test message" Command="{Binding ShowTestMessageCommand}" />
+                <Button Content="Timer message" Command="{Binding ShowTimerMessageCommand}"/>
+                <Button Content="Show content" Command="{Binding ShowContentCommand}"/>
+                <Button Content="Show Progress" Command="{Binding ShowProgressMessageCommand}"/>
+            </WrapPanel>
 
-            </GroupBox>
+        </GroupBox>
 
         <Expander Header="Color and Image " IsExpanded="True"  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">
             <DockPanel MaxHeight="340">
@@ -321,18 +322,49 @@
 
                     </DockPanel>
                 </GroupBox>
-                <Viewbox Height="20">
-                    <Path 
-                          Data="M464 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm0 394c0 3.3-2.7 6-6 6H54c-3.3 0-6-2.7-6-6V86c0-3.3 2.7-6 6-6h404c3.3 0 6 2.7 6 6v340zM356.5 194.6L295.1 256l61.4 61.4c4.6 4.6 4.6 12.1 0 16.8l-22.3 22.3c-4.6 4.6-12.1 4.6-16.8 0L256 295.1l-61.4 61.4c-4.6 4.6-12.1 4.6-16.8 0l-22.3-22.3c-4.6-4.6-4.6-12.1 0-16.8l61.4-61.4-61.4-61.4c-4.6-4.6-4.6-12.1 0-16.8l22.3-22.3c4.6-4.6 12.1-4.6 16.8 0l61.4 61.4 61.4-61.4c4.6-4.6 12.1-4.6 16.8 0l22.3 22.3c4.7 4.6 4.7 12.1 0 16.8z"
-                          Fill="Black" >
+                <GroupBox Header="Absolute" Width="200">
+                    <GroupBox.Style>
+                        <Style TargetType="GroupBox">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding MessagePosition, Converter={helpers:AbsolutePositionConverter}}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding MessagePosition, Converter={helpers:AbsolutePositionConverter}}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </GroupBox.Style>
+                    <StackPanel>
+                        <GroupBox Margin="0">
+                            <GroupBox.Header>
+                                <TextBlock HorizontalAlignment="Stretch">
+                                        <Run Text="Point X = "/>
+                                        <Run Text="{Binding AbsoluteX}"/>
+                                </TextBlock>
+                            </GroupBox.Header>
 
-                    </Path>
-                </Viewbox>
-                <Viewbox Height="20" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <Path 
-                          Data="M511.988 288.9c-.478 17.43-15.217 31.1-32.653 31.1H424v16c0 21.864-4.882 42.584-13.6 61.145l60.228 60.228c12.496 12.497 12.496 32.758 0 45.255-12.498 12.497-32.759 12.496-45.256 0l-54.736-54.736C345.886 467.965 314.351 480 280 480V236c0-6.627-5.373-12-12-12h-24c-6.627 0-12 5.373-12 12v244c-34.351 0-65.886-12.035-90.636-32.108l-54.736 54.736c-12.498 12.497-32.759 12.496-45.256 0-12.496-12.497-12.496-32.758 0-45.255l60.228-60.228C92.882 378.584 88 357.864 88 336v-16H32.666C15.23 320 .491 306.33.013 288.9-.484 270.816 14.028 256 32 256h56v-58.745l-46.628-46.628c-12.496-12.497-12.496-32.758 0-45.255 12.498-12.497 32.758-12.497 45.256 0L141.255 160h229.489l54.627-54.627c12.498-12.497 32.758-12.497 45.256 0 12.496 12.497 12.496 32.758 0 45.255L424 197.255V256h56c17.972 0 32.484 14.816 31.988 32.9zM257 0c-61.856 0-112 50.144-112 112h224C369 50.144 318.856 0 257 0z"
-                          Fill="Black" />
-                </Viewbox>
+                            <Slider Minimum="0" Maximum="{x:Static constants:NotificationConstants.AreaWidth}"
+                                        Value="{Binding AbsoluteX,UpdateSourceTrigger=PropertyChanged}"/>
+                        </GroupBox>
+                        <GroupBox Margin="0">
+                            <GroupBox.Header>
+                                <TextBlock HorizontalAlignment="Stretch">
+                                        <Run Text="Point Y = "/>
+                                        <Run Text="{Binding AbsoluteY}"/>
+                                </TextBlock>
+                            </GroupBox.Header>
+                            <Slider Minimum="0" Maximum="{x:Static constants:NotificationConstants.AreaHeight}"
+                                        Value="{Binding AbsoluteY,UpdateSourceTrigger=PropertyChanged}"/>
+                        </GroupBox>
+                            <GroupBox Header="Base corner">
+                                <ComboBox ItemsSource="{helpers:EnumValues {x:Type wpf:Corner}}"
+                                          SelectedItem="{Binding BaseCorner, UpdateSourceTrigger= PropertyChanged}"/>
+                            </GroupBox>
+
+                    </StackPanel>
+                </GroupBox>
+
 
 
                 <!--<TextBlock DataContext="{Binding DataContext.MessageSettingModel, RelativeSource={RelativeSource AncestorType={x:Type local:SampleWindow}}}"
@@ -367,31 +399,115 @@
 
         </Expander>
 
-            <CheckBox Grid.Row="3" Grid.Column="0" Content="Preview" x:Name="PreviewArea" IsChecked="True" Panel.ZIndex="10" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-            <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Header=" " BorderThickness="0">
+        <CheckBox Grid.Row="3" Grid.Column="0" Content="Preview" x:Name="PreviewArea" IsChecked="True" Panel.ZIndex="10" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Header=" " BorderThickness="0">
 
-                <TabControl Visibility="{Binding IsChecked, ElementName=PreviewArea ,Converter={Bool2Visibility Collapsed=False}}" >
-                    <TabItem Header="Message" >
-                    <ContentControl Content="{Binding Notification}" IsEnabled="False"
-                                        VerticalAlignment="{Binding MessagePosition, Converter={helpers:VerticalPositionConverter}}"
-                                        HorizontalAlignment="{Binding MessagePosition, Converter={helpers:HorizontalPositionConverter}}"/>
-                    </TabItem>
-                    <TabItem Header="Progress">
-                    <ContentControl Content="{Binding ProgressNotification}" IsEnabled="False"
-                                            VerticalAlignment="{Binding MessagePosition, Converter={helpers:VerticalPositionConverter}}"
-                                            HorizontalAlignment="{Binding MessagePosition, Converter={helpers:HorizontalPositionConverter}}"/>
-                    </TabItem>
-                    <TabItem Header="Image">
+            <TabControl Visibility="{Binding IsChecked, ElementName=PreviewArea ,Converter={Bool2Visibility Collapsed=False}}" >
+                <TabItem Header="Message" >
+                    <ContentControl Content="{Binding Notification}" IsEnabled="False">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding MessagePosition, Converter={helpers:AbsolutePositionConverter}}" Value="True"/>
+                                            <Condition Binding="{Binding BaseCorner}" Value="TopLeft"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="HorizontalAlignment" Value="{Binding AbsolutePos, Converter={helpers:CornerPositionHorAlignConverter}}"/>
+                                        <Setter Property="VerticalAlignment" Value="{Binding AbsolutePos, Converter={helpers:CornerPositionVertAlignConverter}}"/>
+                                        <Setter Property="Margin" Value="{Binding AbsolutePos, Converter={helpers:CornerPositionMarginConverter}}"/>
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding MessagePosition, Converter={helpers:AbsolutePositionConverter}}" Value="True"/>
+                                            <Condition Binding="{Binding BaseCorner}" Value="TopRight"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="HorizontalAlignment" Value="{Binding AbsolutePos, Converter={helpers:CornerPositionHorAlignConverter}}"/>
+                                        <Setter Property="VerticalAlignment" Value="{Binding AbsolutePos, Converter={helpers:CornerPositionVertAlignConverter}}"/>
+                                        <Setter Property="Margin" Value="{Binding AbsolutePos, Converter={helpers:CornerPositionMarginConverter}}"/>
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding MessagePosition, Converter={helpers:AbsolutePositionConverter}}" Value="True"/>
+                                            <Condition Binding="{Binding BaseCorner}" Value="BottomRight"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="HorizontalAlignment" Value="{Binding AbsolutePos, Converter={helpers:CornerPositionHorAlignConverter}}"/>
+                                        <Setter Property="VerticalAlignment" Value="{Binding AbsolutePos, Converter={helpers:CornerPositionVertAlignConverter}}"/>
+                                        <Setter Property="Margin" Value="{Binding AbsolutePos, Converter={helpers:CornerPositionMarginConverter}}"/>
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding MessagePosition, Converter={helpers:AbsolutePositionConverter}}" Value="True"/>
+                                            <Condition Binding="{Binding BaseCorner}" Value="BottomLeft"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="HorizontalAlignment" Value="{Binding AbsolutePos, Converter={helpers:CornerPositionHorAlignConverter}}"/>
+                                        <Setter Property="VerticalAlignment" Value="{Binding AbsolutePos, Converter={helpers:CornerPositionVertAlignConverter}}"/>
+                                        <Setter Property="Margin" Value="{Binding AbsolutePos, Converter={helpers:CornerPositionMarginConverter}}"/>
+                                    </MultiDataTrigger>
+                                    <DataTrigger Binding="{Binding MessagePosition, Converter={helpers:AbsolutePositionConverter}}" Value="False">
+                                        <Setter Property="VerticalAlignment"
+                                                Value="{Binding MessagePosition, Converter={helpers:VerticalPositionConverter}}" />
+                                        <Setter Property="HorizontalAlignment" 
+                                                Value="{Binding MessagePosition, Converter={helpers:HorizontalPositionConverter}}" />
+                                        <Setter Property="Margin" Value="0"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                </TabItem>
+                <TabItem Header="Progress">
+                    <ContentControl Content="{Binding ProgressNotification}" IsEnabled="False">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding MessagePosition, Converter={helpers:AbsolutePositionConverter}}" Value="True">
+                                        <Setter Property="VerticalAlignment"
+                                                Value="{Binding VertAlign, Source={x:Static constants:NotificationConstants.AbsolutePosition}}" />
+                                        <Setter Property="HorizontalAlignment" 
+                                                Value="{Binding HorAlign, Source={x:Static constants:NotificationConstants.AbsolutePosition}}" />
+                                        <Setter Property="Margin" Value="{Binding Margin, Source={x:Static constants:NotificationConstants.AbsolutePosition}}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding MessagePosition, Converter={helpers:AbsolutePositionConverter}}" Value="False">
+                                        <Setter Property="VerticalAlignment"
+                                                Value="{Binding MessagePosition, Converter={helpers:VerticalPositionConverter}}" />
+                                        <Setter Property="HorizontalAlignment" 
+                                                Value="{Binding MessagePosition, Converter={helpers:HorizontalPositionConverter}}" />
+                                        <Setter Property="Margin" Value="0"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                </TabItem>
+                <TabItem Header="Image">
                     <ContentControl Content="{Binding ImageNotification}" IsEnabled="False"
                                         MinWidth="{Binding AreaMinWidth}"
-                                        MaxWidth="{Binding AreaMaxWidth}"
+                                        MaxWidth="{Binding AreaMaxWidth}">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding MessagePosition, Converter={helpers:AbsolutePositionConverter}}" Value="True">
+                                        <Setter Property="VerticalAlignment"
+                                                Value="{Binding VertAlign, Source={x:Static constants:NotificationConstants.AbsolutePosition}}" />
+                                        <Setter Property="HorizontalAlignment" 
+                                                Value="{Binding HorAlign, Source={x:Static constants:NotificationConstants.AbsolutePosition}}" />
+                                        <Setter Property="Margin" Value="{Binding Margin, Source={x:Static constants:NotificationConstants.AbsolutePosition}}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding MessagePosition, Converter={helpers:AbsolutePositionConverter}}" Value="False">
+                                        <Setter Property="VerticalAlignment"
+                                                Value="{Binding MessagePosition, Converter={helpers:VerticalPositionConverter}}" />
+                                        <Setter Property="HorizontalAlignment" 
+                                                Value="{Binding MessagePosition, Converter={helpers:HorizontalPositionConverter}}" />
+                                        <Setter Property="Margin" Value="0"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
 
-                                        VerticalAlignment="{Binding MessagePosition, Converter={helpers:VerticalPositionConverter}}"
-                                        HorizontalAlignment="{Binding MessagePosition, Converter={helpers:HorizontalPositionConverter}}"
-                                        />
-
-                    </TabItem>
-                </TabControl>
-            </GroupBox>
-        </Grid>
+                </TabItem>
+            </TabControl>
+        </GroupBox>
+    </Grid>
 </Window>

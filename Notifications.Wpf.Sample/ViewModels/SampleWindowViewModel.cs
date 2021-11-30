@@ -381,6 +381,106 @@ namespace Notification.Wpf.Sample.ViewModels
         }
 
         #endregion
+
+        #region AbsoluteX : double - Point x to absolute position
+
+        /// <summary>Point x to absolute position</summary>
+        private double _AbsoluteX;
+
+        /// <summary>Point x to absolute position</summary>
+        public double AbsoluteX
+        {
+            get => _AbsoluteX;
+            set
+            {
+                Set(ref _AbsoluteX, value);
+                if(MessagePosition == NotificationPosition.Absolute)
+                {
+                    NotificationConstants.AbsolutePosition.X = value;
+                    AbsolutePos.X = value;
+                    OnPropertyChanged(nameof(AbsolutePos));
+                    SetContent();
+                }
+
+            }
+        }
+
+        #endregion
+
+        #region AbsoluteY : double - Point Y to absolute position
+
+        /// <summary>Point Y to absolute position</summary>
+        private double _AbsoluteY;
+
+        /// <summary>Point Y to absolute position</summary>
+        public double AbsoluteY
+        {
+            get => _AbsoluteY;
+            set
+            {
+                Set(ref _AbsoluteY, value);
+                if (MessagePosition == NotificationPosition.Absolute)
+                {
+                    NotificationConstants.AbsolutePosition.Y = value;
+                    AbsolutePos.Y = value;
+                    OnPropertyChanged(nameof(AbsolutePos));
+                    SetContent();
+                }
+
+            }
+        }
+
+        #endregion
+
+        #region IsReverse : bool - Reverse area
+
+        /// <summary>Reverse area</summary>
+        private bool? _IsReverse;
+
+        /// <summary>Reverse area</summary>
+        public bool? IsReverse
+        {
+            get => _IsReverse;
+            set
+            {
+                Set(ref _IsReverse, value);
+                NotificationConstants.IsReversedPanel = value;
+                SetContent();
+            }
+        }
+
+        #endregion
+
+        #region BaseCorner : Corner - Absolute base corner
+
+        /// <summary>Absolute base corner</summary>
+        private Corner _BaseCorner;
+
+        /// <summary>Absolute base corner</summary>
+        public Corner BaseCorner
+        {
+            get => _BaseCorner;
+            set
+            {
+                Set(ref _BaseCorner, value);
+                NotificationConstants.AbsolutePosition.BaseCorner = value;
+                AbsolutePos.BaseCorner = value;
+                OnPropertyChanged(nameof(AbsolutePos));
+                SetContent();
+            }
+        }
+
+        #endregion
+
+        #region AbsolutePos : AbsolutePosition - absolute position for preview window
+
+        /// <summary>absolute position for preview window</summary>
+        private AbsolutePosition _AbsolutePos = NotificationConstants.AbsolutePosition;
+
+        /// <summary>absolute position for preview window</summary>
+        public AbsolutePosition AbsolutePos { get => _AbsolutePos; set => Set(ref _AbsolutePos, value); }
+
+        #endregion
         #endregion
 
         #region Notification

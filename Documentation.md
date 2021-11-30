@@ -210,7 +210,24 @@ Will work when will start new message stack.
     //If messages count in overlay window will be more that maximum - progress bar will start collapsed (progress bar never closing automatically)
     NotificationConstants.CollapseProgressIfMoreRows = true;
 ``` 
-    
+
+- For `Absolute` message position:
+Set Message position as `Absolute`, and set `NotificationConstants.AbsolutePosition`
+
+but, You must set base corner for position margin.
+
+Sample:
+```
+NotificationConstants.AbsolutePosition.X = 50D;
+NotificationConstants.AbsolutePosition.Y = 100D;
+NotificationConstants.AbsolutePosition.BaseCorner= Corner.TopRight;
+```
+
+- Reverse message stack
+Decide what message will be from above
+Use `NotificationConstants.IsReversedPanel` to change stack orientation. Set as `null to default`.
+
+
 </details>   
 <details>	
   <br />

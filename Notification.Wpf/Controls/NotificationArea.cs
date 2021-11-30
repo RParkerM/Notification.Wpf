@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+
 using Notification.Wpf.Constants;
 using Notification.Wpf.View;
+
 using Notifications.Wpf.ViewModels;
 
 namespace Notification.Wpf.Controls
@@ -27,16 +30,34 @@ namespace Notification.Wpf.Controls
 
         #endregion
 
+        //public NotificationPosition Position
+        //{
+        //    get => (NotificationPosition)GetValue(PositionProperty);
+        //    set => SetValue(PositionProperty, value);
+        //}
+
+        //// Using a DependencyProperty as the backing store for Position.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty PositionProperty =
+        //    DependencyProperty.Register("Position", typeof(NotificationPosition), typeof(NotificationArea), new PropertyMetadata(NotificationPosition.BottomRight));
+
+        #region Position : NotificationPosition - Area position on overlay window
+
+        /// <summary>Area position on overlay window</summary>
+        public static readonly DependencyProperty PositionProperty =
+            DependencyProperty.Register(
+                nameof(Position),
+                typeof(NotificationPosition),
+                typeof(NotificationArea),
+                new PropertyMetadata(NotificationPosition.BottomRight));
+
+        /// <summary>Area position on overlay window</summary>
         public NotificationPosition Position
         {
             get => (NotificationPosition)GetValue(PositionProperty);
             set => SetValue(PositionProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for Position.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PositionProperty =
-            DependencyProperty.Register("Position", typeof(NotificationPosition), typeof(NotificationArea), new PropertyMetadata(NotificationPosition.BottomRight));
-
+        #endregion
 
         public int MaxItems
         {
@@ -46,6 +67,21 @@ namespace Notification.Wpf.Controls
 
         public static readonly DependencyProperty MaxItemsProperty =
             DependencyProperty.Register("MaxItems", typeof(int), typeof(NotificationArea), new PropertyMetadata(int.MaxValue));
+
+        #region IsReversed : bool - Are is reversed
+
+        /// <summary>Are is reversed</summary>
+        public static readonly DependencyProperty IsReversedProperty =
+            DependencyProperty.Register(
+                nameof(IsReversed),
+                typeof(bool),
+                typeof(NotificationArea),
+                new PropertyMetadata(default(bool)));
+
+        /// <summary>Are is reversed</summary>
+        public bool IsReversed { get => (bool)GetValue(IsReversedProperty); set => SetValue(IsReversedProperty, value); }
+
+        #endregion
 
         private IList _items;
 
@@ -65,6 +101,9 @@ namespace Notification.Wpf.Controls
             base.OnApplyTemplate();
             var itemsControl = GetTemplateChild("PART_Items") as Panel;
             _items = itemsControl?.Children;
+
+            IsReversed = NotificationConstants.IsReversedPanel is { } reverse ? reverse
+            : Position is NotificationPosition.BottomCenter or NotificationPosition.BottomLeft or NotificationPosition.BottomRight;
         }
 
 #if NET40

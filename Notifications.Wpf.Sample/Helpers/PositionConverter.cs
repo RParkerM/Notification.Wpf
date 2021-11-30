@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using MathCore.WPF.Converters;
+using Notification.Wpf.Classes;
+using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
 
 namespace Notification.Wpf.Sample.Helpers
@@ -26,6 +28,7 @@ namespace Notification.Wpf.Sample.Helpers
                 NotificationPosition.Center => VerticalAlignment.Center,
                 NotificationPosition.CenterLeft => VerticalAlignment.Center,
                 NotificationPosition.CenterRight => VerticalAlignment.Center,
+                NotificationPosition.Absolute=>NotificationConstants.AbsolutePosition.VertAlign,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -52,8 +55,61 @@ namespace Notification.Wpf.Sample.Helpers
                 NotificationPosition.Center => HorizontalAlignment.Center,
                 NotificationPosition.CenterLeft => HorizontalAlignment.Left,
                 NotificationPosition.CenterRight => HorizontalAlignment.Right,
+                NotificationPosition.Absolute => NotificationConstants.AbsolutePosition.HorAlign,
                 _ => throw new ArgumentOutOfRangeException()
             };
+        }
+
+        protected override object ConvertBack(object v, Type t, object p, CultureInfo c) => throw new NotSupportedException();
+
+    } 
+    [ValueConversion(typeof(NotificationPosition), typeof(bool)), MarkupExtensionReturnType(typeof(AbsolutePositionConverter))]
+    internal class AbsolutePositionConverter : ValueConverter
+    {
+        protected override object Convert(object v, Type t, object p, CultureInfo c)
+        {
+            if (v is not NotificationPosition pos)
+                return Binding.DoNothing;
+            return pos == NotificationPosition.Absolute;
+        }
+
+        protected override object ConvertBack(object v, Type t, object p, CultureInfo c) => throw new NotSupportedException();
+
+    }
+    [ValueConversion(typeof(AbsolutePosition), typeof(Thickness)), MarkupExtensionReturnType(typeof(CornerPositionMarginConverter))]
+    internal class CornerPositionMarginConverter : ValueConverter
+    {
+        protected override object Convert(object v, Type t, object p, CultureInfo c)
+        {
+            if (v is not AbsolutePosition pos)
+                return Binding.DoNothing;
+            return pos.Margin;
+        }
+
+        protected override object ConvertBack(object v, Type t, object p, CultureInfo c) => throw new NotSupportedException();
+
+    }
+    [ValueConversion(typeof(AbsolutePosition), typeof(HorizontalAlignment)), MarkupExtensionReturnType(typeof(CornerPositionHorAlignConverter))]
+    internal class CornerPositionHorAlignConverter : ValueConverter
+    {
+        protected override object Convert(object v, Type t, object p, CultureInfo c)
+        {
+            if (v is not AbsolutePosition pos)
+                return Binding.DoNothing;
+            return pos.HorAlign;
+        }
+
+        protected override object ConvertBack(object v, Type t, object p, CultureInfo c) => throw new NotSupportedException();
+
+    }
+    [ValueConversion(typeof(AbsolutePosition), typeof(VerticalAlignment)), MarkupExtensionReturnType(typeof(CornerPositionVertAlignConverter))]
+    internal class CornerPositionVertAlignConverter : ValueConverter
+    {
+        protected override object Convert(object v, Type t, object p, CultureInfo c)
+        {
+            if (v is not AbsolutePosition pos)
+                return Binding.DoNothing;
+            return pos.VertAlign;
         }
 
         protected override object ConvertBack(object v, Type t, object p, CultureInfo c) => throw new NotSupportedException();

@@ -10,6 +10,7 @@
         BottomCenter,
         CenterLeft,
         CenterRight,
-        Center
+        Center,
+        Absolute
     }
 }

@@ -1,4 +1,8 @@
 ### Update list
+`v6.1.0.0`
+*  Added stack control. Use `NotificationConstants.IsReversedPanel` to change stack orientation. Set as `null to default`.
+* Message position as `Absolute` with constant setting: `NotificationConstants.AbsolutePosition`
+
 `v6.0.0.0`
 * Added net6 supporting
 

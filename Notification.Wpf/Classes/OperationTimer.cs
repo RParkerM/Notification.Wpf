@@ -104,7 +104,7 @@ namespace Notifications.Wpf.Classes
             return time is null ? BaseWaitingMessage ?? "" :
                 time.Value.Days > 0 ? time.Value.ToString(@"d\.hh\:mm\:ss") :
                 time.Value.Hours > 0 ? time.Value.ToString(@"hh\:mm\:ss") :
-                time.Value.Minutes > 0 ? time.Value.ToString(@"mm\:ss") : $"{Math.Round(time.Value.TotalSeconds, 0)} c";
+                time.Value.Minutes > 0 ? time.Value.ToString(@"mm\:ss") : $"{Math.Round(time.Value.TotalSeconds, 0)} s";
         }
         #region IDisposable
 

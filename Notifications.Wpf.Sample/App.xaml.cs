@@ -81,11 +81,13 @@ namespace Notification.Wpf.Sample
 
         public App()
         {
-            if (!Debugger.IsAttached)
-            {
-                Debugger.Launch();
-                Debugger.Break();
-            }
+#if DEBUG
+			if (!Debugger.IsAttached)
+			{
+				Debugger.Launch();
+				Debugger.Break();
+			}
+#endif
 
             AppDomain.CurrentDomain.UnhandledException += OnExceptionUnhandled;
             DispatcherUnhandledException += OnDispatcherUnhandledException;

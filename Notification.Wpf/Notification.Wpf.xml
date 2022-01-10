@@ -422,59 +422,26 @@
             <param name="Image"></param>
             <returns></returns>
         </member>
-        <member name="T:Notification.Wpf.ImagePosition">
-            <summary> Image position in notification </summary>
+        <member name="T:Notification.Wpf.Classes.AbsolutePosition">
+            <summary> Are absolute position </summary>
         </member>
-        <member name="F:Notification.Wpf.ImagePosition.None">
-            <summary>
-            Visibility collapsed
-            </summary>
+        <member name="P:Notification.Wpf.Classes.AbsolutePosition.X">
+            <summary> X position </summary>
         </member>
-        <member name="F:Notification.Wpf.ImagePosition.Top">
-            <summary> Upper panel </summary>
+        <member name="P:Notification.Wpf.Classes.AbsolutePosition.Y">
+            <summary> Y position </summary>
         </member>
-        <member name="F:Notification.Wpf.ImagePosition.Bottom">
-            <summary> Under panel </summary>
+        <member name="P:Notification.Wpf.Classes.AbsolutePosition.BaseCorner">
+            <summary> Base corner </summary>
         </member>
-        <member name="T:Notification.Wpf.NotificationTextTrimType">
-            <summary>
-            Способ отображения текста в сообщении
-            </summary>
+        <member name="P:Notification.Wpf.Classes.AbsolutePosition.Margin">
+            <summary> position </summary>
         </member>
-        <member name="F:Notification.Wpf.NotificationTextTrimType.NoTrim">
-            <summary>No trim text </summary>
+        <member name="P:Notification.Wpf.Classes.AbsolutePosition.HorAlign">
+            <summary> Horizontal Alignment </summary>
         </member>
-        <member name="F:Notification.Wpf.NotificationTextTrimType.Trim">
-            <summary>Always trim text </summary>
-        </member>
-        <member name="F:Notification.Wpf.NotificationTextTrimType.Attach">
-            <summary>Attach long text and trim</summary>
-        </member>
-        <member name="F:Notification.Wpf.NotificationTextTrimType.AttachIfMoreRows">
-            <summary>Automatic attach if need trim</summary>
-        </member>
-        <member name="T:Notification.Wpf.NotificationType">
-            <summary>
-            Тип сообщения
-            </summary>
-        </member>
-        <member name="F:Notification.Wpf.NotificationType.None">
-            <summary> Default style type </summary>
-        </member>
-        <member name="F:Notification.Wpf.NotificationType.Information">
-            <summary> Information style type </summary>
-        </member>
-        <member name="F:Notification.Wpf.NotificationType.Success">
-            <summary> Success style type </summary>
-        </member>
-        <member name="F:Notification.Wpf.NotificationType.Warning">
-            <summary> Warning style type </summary>
-        </member>
-        <member name="F:Notification.Wpf.NotificationType.Error">
-            <summary> Error style type </summary>
-        </member>
-        <member name="F:Notification.Wpf.NotificationType.Notification">
-            <summary> Notification style type </summary>
+        <member name="P:Notification.Wpf.Classes.AbsolutePosition.VertAlign">
+            <summary> Horizontal Alignment </summary>
         </member>
         <member name="T:Notification.Wpf.Classes.NotificationImage">
             <summary> Image for notification message </summary>
@@ -538,6 +505,63 @@
         <member name="F:Notification.Wpf.Classes.SlowedProgress`1._UpdateTimeOut">
             <summary> Время задержки обновления данных в прогрессе </summary>
         </member>
+        <member name="T:Notification.Wpf.Corner">
+            <summary> corners in window </summary>
+        </member>
+        <member name="T:Notification.Wpf.ImagePosition">
+            <summary> Image position in notification </summary>
+        </member>
+        <member name="F:Notification.Wpf.ImagePosition.None">
+            <summary>
+            Visibility collapsed
+            </summary>
+        </member>
+        <member name="F:Notification.Wpf.ImagePosition.Top">
+            <summary> Upper panel </summary>
+        </member>
+        <member name="F:Notification.Wpf.ImagePosition.Bottom">
+            <summary> Under panel </summary>
+        </member>
+        <member name="T:Notification.Wpf.NotificationTextTrimType">
+            <summary>
+            Способ отображения текста в сообщении
+            </summary>
+        </member>
+        <member name="F:Notification.Wpf.NotificationTextTrimType.NoTrim">
+            <summary>No trim text </summary>
+        </member>
+        <member name="F:Notification.Wpf.NotificationTextTrimType.Trim">
+            <summary>Always trim text </summary>
+        </member>
+        <member name="F:Notification.Wpf.NotificationTextTrimType.Attach">
+            <summary>Attach long text and trim</summary>
+        </member>
+        <member name="F:Notification.Wpf.NotificationTextTrimType.AttachIfMoreRows">
+            <summary>Automatic attach if need trim</summary>
+        </member>
+        <member name="T:Notification.Wpf.NotificationType">
+            <summary>
+            Тип сообщения
+            </summary>
+        </member>
+        <member name="F:Notification.Wpf.NotificationType.None">
+            <summary> Default style type </summary>
+        </member>
+        <member name="F:Notification.Wpf.NotificationType.Information">
+            <summary> Information style type </summary>
+        </member>
+        <member name="F:Notification.Wpf.NotificationType.Success">
+            <summary> Success style type </summary>
+        </member>
+        <member name="F:Notification.Wpf.NotificationType.Warning">
+            <summary> Warning style type </summary>
+        </member>
+        <member name="F:Notification.Wpf.NotificationType.Error">
+            <summary> Error style type </summary>
+        </member>
+        <member name="F:Notification.Wpf.NotificationType.Notification">
+            <summary> Notification style type </summary>
+        </member>
         <member name="T:Notification.Wpf.Constants.NotificationConstants">
             <summary> Notification static settings </summary>
         </member>
@@ -549,6 +573,18 @@
         </member>
         <member name="P:Notification.Wpf.Constants.NotificationConstants.MessagePosition">
             <summary> Overlay message position </summary>
+        </member>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.IsReversedPanel">
+            <summary> Reverse are when absolute </summary>
+        </member>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.AbsolutePosition">
+            <summary> Default message position when position absolute </summary>
+        </member>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaultBackgroundColor">
+            <summary> base background color </summary>
+        </member>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaultForegroundColor">
+            <summary> base foreground color </summary>
         </member>
         <member name="P:Notification.Wpf.Constants.NotificationConstants.SuccessBackgroundColor">
             <summary> base background color </summary>
@@ -562,26 +598,17 @@
         <member name="P:Notification.Wpf.Constants.NotificationConstants.InformationBackgroundColor">
             <summary> base background color </summary>
         </member>
-        <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaultBackgroundColor">
-            <summary> base background color </summary>
-        </member>
-        <member name="P:Notification.Wpf.Constants.NotificationConstants.BaseTextSize">
-            <summary> Default text size </summary>
-        </member>
-        <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaultForegroundColor">
-            <summary> base foreground color </summary>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaultProgressColor">
+            <summary> default progress line foreground </summary>
         </member>
         <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaultRowCounts">
             <summary> visible rows count in message by default</summary>
         </member>
-        <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaultLeftButtonContent">
-            <summary>default Notification left button content </summary>
-        </member>
-        <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaultRightButtonContent">
-            <summary>default Notification right button content </summary>
-        </member>
         <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaulTextTrimType">
             <summary>default Notification text trim type </summary>
+        </member>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.BaseTextSize">
+            <summary> Default text size </summary>
         </member>
         <member name="P:Notification.Wpf.Constants.NotificationConstants.TitleSize">
             <summary> Default Title text size </summary>
@@ -598,14 +625,11 @@
         <member name="P:Notification.Wpf.Constants.NotificationConstants.MessageTextAlignment">
             <summary> Default Message text alignment </summary>
         </member>
-        <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaultProgressColor">
-            <summary> default progress line foreground </summary>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.TitleSettings">
+            <summary> Title text settings </summary>
         </member>
-        <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaultProgressIcon">
-            <summary> base progress icon </summary>
-        </member>
-        <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaultProgressButtonContent">
-            <summary> Cancel button content </summary>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.MessageSettings">
+            <summary> Message text settings </summary>
         </member>
         <member name="P:Notification.Wpf.Constants.NotificationConstants.MinWidth">
             <summary> Notification MinWidth (if MaxWidth less than MinWidth = MaxWidth) </summary>
@@ -622,11 +646,38 @@
         <member name="P:Notification.Wpf.Constants.NotificationConstants.OpenFolderMessage">
             <summary> Open folder button text </summary>
         </member>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaultLeftButtonContent">
+            <summary>default Notification left button content </summary>
+        </member>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaultRightButtonContent">
+            <summary>default Notification right button content </summary>
+        </member>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.DefaultProgressButtonContent">
+            <summary> Cancel button content </summary>
+        </member>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.AreaHeight">
+            <summary> work area height </summary>
+        </member>
+        <member name="P:Notification.Wpf.Constants.NotificationConstants.AreaWidth">
+            <summary> work area width </summary>
+        </member>
         <member name="F:Notification.Wpf.Controls.NotificationArea.CollapseProgressAutoProperty">
             <summary>Progress bar will automatically collapsed if items count more that max items</summary>
         </member>
         <member name="P:Notification.Wpf.Controls.NotificationArea.CollapseProgressAuto">
             <summary>Progress bar will automatically collapsed if items count more that max items</summary>
+        </member>
+        <member name="F:Notification.Wpf.Controls.NotificationArea.PositionProperty">
+            <summary>Area position on overlay window</summary>
+        </member>
+        <member name="P:Notification.Wpf.Controls.NotificationArea.Position">
+            <summary>Area position on overlay window</summary>
+        </member>
+        <member name="F:Notification.Wpf.Controls.NotificationArea.IsReversedProperty">
+            <summary>Are is reversed</summary>
+        </member>
+        <member name="P:Notification.Wpf.Controls.NotificationArea.IsReversed">
+            <summary>Are is reversed</summary>
         </member>
         <member name="M:Notification.Wpf.Controls.NotificationArea.Show(Notifications.Wpf.ViewModels.NotificationProgressViewModel,System.Boolean)">
             <summary>
@@ -1673,6 +1724,40 @@
             <summary>
             InitializeComponent
             </summary>
+        </member>
+        <member name="M:System.Windows.Forms.Taskbar.#cctor">
+            <summary>Static initializer of the <see cref="T:System.Windows.Forms.Taskbar" /> class.</summary>
+        </member>
+        <member name="P:System.Windows.Forms.Taskbar.AlwaysOnTop">
+            <summary>
+              Gets a value indicating whether the taskbar is always on top of other windows.
+            </summary>
+            <value><c>true</c> if the taskbar is always on top of other windows; otherwise, <c>false</c>.</value>
+            <remarks>This property always returns <c>false</c> on Windows 7 and newer.</remarks>
+        </member>
+        <member name="P:System.Windows.Forms.Taskbar.AutoHide">
+            <summary>
+              Gets a value indicating whether the taskbar is automatically hidden when inactive.
+            </summary>
+            <value><c>true</c> if the taskbar is set to auto-hide is enabled; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:System.Windows.Forms.Taskbar.CurrentBounds">
+            <summary>Gets the current display bounds of the taskbar.</summary>
+        </member>
+        <member name="P:System.Windows.Forms.Taskbar.DisplayBounds">
+            <summary>Gets the display bounds when the taskbar is fully visible.</summary>
+        </member>
+        <member name="P:System.Windows.Forms.Taskbar.Handle">
+            <summary>Gets the taskbar's window handle.</summary>
+        </member>
+        <member name="P:System.Windows.Forms.Taskbar.Position">
+            <summary>Gets the taskbar's position on the screen.</summary>
+        </member>
+        <member name="M:System.Windows.Forms.Taskbar.Hide">
+            <summary>Hides the taskbar.</summary>
+        </member>
+        <member name="M:System.Windows.Forms.Taskbar.Show">
+            <summary>Shows the taskbar.</summary>
         </member>
     </members>
 </doc>

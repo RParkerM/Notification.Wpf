@@ -94,7 +94,7 @@ public static void Show(...)
     
 <details>	
   <br />
-  <summary><h2>💤 Progress rar</h2></summary>
+  <summary><h2>💤 Progress bar</h2></summary>
 
 ```csharp
 using var progress = notificationManager.ShowProgressBar();

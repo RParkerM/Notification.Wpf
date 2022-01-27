@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing.Imaging;
+using System.Formats.Asn1;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -1197,6 +1198,26 @@ namespace Notification.Wpf.Sample.ViewModels
         public ICommand ShowProgressMessageCommand { get; }
         private async void Progress_Click()
         {
+            //using var progress1 = _notificationManager.ShowProgressBar("Get report", true, true, "", true, 1U, "");
+            //try
+            //{
+            //    progress1.Report((null, $"write to the file", $"Get report", true));
+            //    await Task.Delay(1000);
+            //    progress1.Report((0, $"write CFR Faults", $"Get report", true));
+            //    await Task.Delay(1000);
+            //    progress1.Report((25, $"write CFR Cas", $"Get report", true));
+            //    await Task.Delay(1000);
+            //    progress1.Report((50, $"write CLR Faults", $"Get report", true));
+            //    await Task.Delay(1000);
+            //    progress1.Report((75, $"write CLR Cas", $"Get report", true));
+            //    await Task.Delay(1000);
+            //}
+            //catch (OperationCanceledException)
+            //{
+            //    return;
+            //}
+            //return;
+
             #region First sample
 
             //using var progress = _notificationManager.ShowProgressBar(
@@ -1225,7 +1246,7 @@ namespace Notification.Wpf.Sample.ViewModels
             //    {
             //        await Task.Delay(100).ConfigureAwait(false);
             //    }
-                    
+
 
             //}
             //catch (Exception e)

@@ -9,7 +9,7 @@ namespace Notifications.Wpf.Classes
     public class OperationTimer : IDisposable
     {
         /// <summary> Base waiting message, will show when calculation </summary>
-        public string BaseWaitingMessage { get; set; } = "Calculation time";
+        public string BaseWaitingMessage { get; set; } = "Calculating time";
 
         /// <summary> timer </summary>
         private Stopwatch Watch

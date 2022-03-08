@@ -122,7 +122,7 @@ namespace Notification.Wpf.Constants
         public static TextContentSettings MessageSettings => new ()
         {
             FontFamily = new FontFamily(FontName),
-            FontSize = TitleSize,
+            FontSize = MessageSize,
             FontStyle = FontStyles.Normal,
             FontWeight = FontWeights.Normal,
             HorizontalAlignment = HorizontalAlignment.Stretch,

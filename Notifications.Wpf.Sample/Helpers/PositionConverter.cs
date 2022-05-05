@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using MathCore.WPF.Converters;
+using MathCore.WPF.Converters.Base;
 using Notification.Wpf.Classes;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;

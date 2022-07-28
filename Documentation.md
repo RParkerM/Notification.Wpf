@@ -151,7 +151,7 @@ public TextContentSettings TextSettings = new()
   <summary><b>2.     Default text</b></summary>   
 
 ```csharp=
-    NotificationConstants.NotificationConstants = "Operation was cancelled";
+    NotificationConstants.CancellationMessage = "Operation was cancelled";
     NotificationConstants.DefaultProgressButtonContent = "Cancel"; //object content
     
     NotificationConstants.OpenFileMessage = "Open File";

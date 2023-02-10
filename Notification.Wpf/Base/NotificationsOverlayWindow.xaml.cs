@@ -1,6 +1,10 @@
-﻿using System.Windows;
+﻿using System.Runtime.InteropServices;
+using System;
+using System.Windows;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
+using System.Windows.Interop;
+using Notification.Wpf.Extensions.Windows;
 
 namespace Notification.Wpf
 {
@@ -57,6 +61,20 @@ namespace Notification.Wpf
         {
             InitializeComponent();
         }
-        
+        /// <summary>
+        /// hide window from taskbar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NotificationsOverlayWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            WindowInteropHelper wndHelper = new WindowInteropHelper(this);
+
+            int exStyle = (int)wndHelper.Handle.GetWindowLong((int)WindowExtensions.GetWindowLongFields.GWL_EXSTYLE);
+
+            exStyle |= (int)WindowExtensions.ExtendedWindowStyles.WS_EX_TOOLWINDOW;
+
+            wndHelper.Handle.SetWindowLong((int)WindowExtensions.GetWindowLongFields.GWL_EXSTYLE, (IntPtr)exStyle);
+        }
     }
 }

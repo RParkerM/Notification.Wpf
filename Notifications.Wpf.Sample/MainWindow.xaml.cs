@@ -533,7 +533,7 @@ namespace Notification.Wpf.Sample
                 RightButtonAction = ShowRightButton ? ButtonClick("Right") : null,
                 LeftButtonContent = LeftButtonText,
                 RightButtonContent = RightButtonText,
-                RowsCount = RowCount,
+                //RowsCount = RowCount,
                 TrimType = SelectedTrimType,
                 CloseOnClick = CloseOnClick,
                 Icon = GetIcon(),

@@ -1,10 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Automation.Text;
-using System.Windows.Media;
-
-using Notification.Wpf.Base;
-using Notification.Wpf.Base.Interfaces.Options;
+﻿using Notification.Wpf.Base.Interfaces.Options;
 using Notification.Wpf.Constants;
+
+using System.Windows;
+using System.Windows.Media;
 
 namespace Notification.Wpf.Base.Options
 {
